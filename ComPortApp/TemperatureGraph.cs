@@ -29,7 +29,7 @@ namespace ComPortApp
             double Ymin = 0;
             double Ymax = 1;
 
-            pane.Title.Text = "Temperature";
+            pane.Title.Text = "Temperatures";
             pane.XAxis.Title.Text = "Time";
             pane.YAxis.Title.Text = "Temperature";
 

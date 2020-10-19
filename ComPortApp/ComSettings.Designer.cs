@@ -32,19 +32,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.SelectSettingsCom = new System.Windows.Forms.TabControl();
             this.SupplyTab = new System.Windows.Forms.TabPage();
-            this.MeterTab = new System.Windows.Forms.TabPage();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.ResetSettings = new System.Windows.Forms.Button();
+            this.TestComSupply = new System.Windows.Forms.Button();
             this.DataTerminalReady = new System.Windows.Forms.CheckBox();
-            this.OkSettings = new System.Windows.Forms.Button();
-            this.CancelSettings = new System.Windows.Forms.Button();
+            this.ResetSettings = new System.Windows.Forms.Button();
+            this.FlowControlSupply = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.StopBitsSupply = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ParityBitSupply = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.BaudRateSupply = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.MeterTab = new System.Windows.Forms.TabPage();
+            this.TestComMeter = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
@@ -57,8 +57,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.comboBox9 = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.TestComSupply = new System.Windows.Forms.Button();
-            this.TestComMeter = new System.Windows.Forms.Button();
+            this.OkSettings = new System.Windows.Forms.Button();
+            this.CancelSettings = new System.Windows.Forms.Button();
             this.SelectSettingsCom.SuspendLayout();
             this.SupplyTab.SuspendLayout();
             this.MeterTab.SuspendLayout();
@@ -97,13 +97,13 @@
             this.SupplyTab.Controls.Add(this.TestComSupply);
             this.SupplyTab.Controls.Add(this.DataTerminalReady);
             this.SupplyTab.Controls.Add(this.ResetSettings);
-            this.SupplyTab.Controls.Add(this.comboBox4);
+            this.SupplyTab.Controls.Add(this.FlowControlSupply);
             this.SupplyTab.Controls.Add(this.label5);
-            this.SupplyTab.Controls.Add(this.comboBox3);
+            this.SupplyTab.Controls.Add(this.StopBitsSupply);
             this.SupplyTab.Controls.Add(this.label4);
-            this.SupplyTab.Controls.Add(this.comboBox2);
+            this.SupplyTab.Controls.Add(this.ParityBitSupply);
             this.SupplyTab.Controls.Add(this.label3);
-            this.SupplyTab.Controls.Add(this.comboBox1);
+            this.SupplyTab.Controls.Add(this.BaudRateSupply);
             this.SupplyTab.Controls.Add(this.label2);
             this.SupplyTab.Controls.Add(this.CannelComSupply);
             this.SupplyTab.Controls.Add(this.label1);
@@ -114,6 +114,105 @@
             this.SupplyTab.TabIndex = 0;
             this.SupplyTab.Text = "Supply";
             this.SupplyTab.UseVisualStyleBackColor = true;
+            // 
+            // TestComSupply
+            // 
+            this.TestComSupply.Location = new System.Drawing.Point(118, 173);
+            this.TestComSupply.Name = "TestComSupply";
+            this.TestComSupply.Size = new System.Drawing.Size(38, 23);
+            this.TestComSupply.TabIndex = 14;
+            this.TestComSupply.Text = "Test";
+            this.TestComSupply.UseVisualStyleBackColor = true;
+            this.TestComSupply.Click += new System.EventHandler(this.TestComSupply_Click);
+            // 
+            // DataTerminalReady
+            // 
+            this.DataTerminalReady.AutoSize = true;
+            this.DataTerminalReady.Location = new System.Drawing.Point(7, 143);
+            this.DataTerminalReady.Name = "DataTerminalReady";
+            this.DataTerminalReady.Size = new System.Drawing.Size(149, 17);
+            this.DataTerminalReady.TabIndex = 13;
+            this.DataTerminalReady.Text = "Data terminal ready (DTR)";
+            this.DataTerminalReady.UseVisualStyleBackColor = true;
+            this.DataTerminalReady.CheckedChanged += new System.EventHandler(this.DataTerminalReady_CheckedChanged);
+            // 
+            // ResetSettings
+            // 
+            this.ResetSettings.Location = new System.Drawing.Point(6, 173);
+            this.ResetSettings.Name = "ResetSettings";
+            this.ResetSettings.Size = new System.Drawing.Size(90, 23);
+            this.ResetSettings.TabIndex = 12;
+            this.ResetSettings.Text = "Reset settings";
+            this.ResetSettings.UseVisualStyleBackColor = true;
+            this.ResetSettings.Click += new System.EventHandler(this.ResetSettings_Click);
+            // 
+            // FlowControlSupply
+            // 
+            this.FlowControlSupply.FormattingEnabled = true;
+            this.FlowControlSupply.Location = new System.Drawing.Point(6, 114);
+            this.FlowControlSupply.Name = "FlowControlSupply";
+            this.FlowControlSupply.Size = new System.Drawing.Size(79, 21);
+            this.FlowControlSupply.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(91, 117);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Flow control";
+            // 
+            // StopBitsSupply
+            // 
+            this.StopBitsSupply.FormattingEnabled = true;
+            this.StopBitsSupply.Location = new System.Drawing.Point(6, 87);
+            this.StopBitsSupply.Name = "StopBitsSupply";
+            this.StopBitsSupply.Size = new System.Drawing.Size(79, 21);
+            this.StopBitsSupply.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(91, 90);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(48, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Stop bits";
+            // 
+            // ParityBitSupply
+            // 
+            this.ParityBitSupply.FormattingEnabled = true;
+            this.ParityBitSupply.Location = new System.Drawing.Point(6, 60);
+            this.ParityBitSupply.Name = "ParityBitSupply";
+            this.ParityBitSupply.Size = new System.Drawing.Size(79, 21);
+            this.ParityBitSupply.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(91, 63);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Parity bit";
+            // 
+            // BaudRateSupply
+            // 
+            this.BaudRateSupply.FormattingEnabled = true;
+            this.BaudRateSupply.Location = new System.Drawing.Point(6, 33);
+            this.BaudRateSupply.Name = "BaudRateSupply";
+            this.BaudRateSupply.Size = new System.Drawing.Size(79, 21);
+            this.BaudRateSupply.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(91, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Baud rate";
             // 
             // MeterTab
             // 
@@ -138,110 +237,14 @@
             this.MeterTab.Text = "Meter";
             this.MeterTab.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // TestComMeter
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(6, 33);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(79, 21);
-            this.comboBox1.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(91, 36);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Baud rate";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(6, 60);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(79, 21);
-            this.comboBox2.TabIndex = 6;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(91, 63);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Parity bit";
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(6, 87);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(79, 21);
-            this.comboBox3.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(91, 90);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 13);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Stop bits";
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(6, 114);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(79, 21);
-            this.comboBox4.TabIndex = 10;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(91, 117);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Flow control";
-            // 
-            // ResetSettings
-            // 
-            this.ResetSettings.Location = new System.Drawing.Point(6, 173);
-            this.ResetSettings.Name = "ResetSettings";
-            this.ResetSettings.Size = new System.Drawing.Size(90, 23);
-            this.ResetSettings.TabIndex = 12;
-            this.ResetSettings.Text = "Reset settings";
-            this.ResetSettings.UseVisualStyleBackColor = true;
-            // 
-            // DataTerminalReady
-            // 
-            this.DataTerminalReady.AutoSize = true;
-            this.DataTerminalReady.Location = new System.Drawing.Point(7, 143);
-            this.DataTerminalReady.Name = "DataTerminalReady";
-            this.DataTerminalReady.Size = new System.Drawing.Size(149, 17);
-            this.DataTerminalReady.TabIndex = 13;
-            this.DataTerminalReady.Text = "Data terminal ready (DTR)";
-            this.DataTerminalReady.UseVisualStyleBackColor = true;
-            // 
-            // OkSettings
-            // 
-            this.OkSettings.Location = new System.Drawing.Point(6, 239);
-            this.OkSettings.Name = "OkSettings";
-            this.OkSettings.Size = new System.Drawing.Size(63, 23);
-            this.OkSettings.TabIndex = 14;
-            this.OkSettings.Text = "OK";
-            this.OkSettings.UseVisualStyleBackColor = true;
-            // 
-            // CancelSettings
-            // 
-            this.CancelSettings.Location = new System.Drawing.Point(115, 239);
-            this.CancelSettings.Name = "CancelSettings";
-            this.CancelSettings.Size = new System.Drawing.Size(63, 23);
-            this.CancelSettings.TabIndex = 15;
-            this.CancelSettings.Text = "Cancel";
-            this.CancelSettings.UseVisualStyleBackColor = true;
+            this.TestComMeter.Location = new System.Drawing.Point(118, 173);
+            this.TestComMeter.Name = "TestComMeter";
+            this.TestComMeter.Size = new System.Drawing.Size(38, 23);
+            this.TestComMeter.TabIndex = 26;
+            this.TestComMeter.Text = "Test";
+            this.TestComMeter.UseVisualStyleBackColor = true;
             // 
             // checkBox1
             // 
@@ -347,23 +350,24 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Cannel com";
             // 
-            // TestComSupply
+            // OkSettings
             // 
-            this.TestComSupply.Location = new System.Drawing.Point(118, 173);
-            this.TestComSupply.Name = "TestComSupply";
-            this.TestComSupply.Size = new System.Drawing.Size(38, 23);
-            this.TestComSupply.TabIndex = 14;
-            this.TestComSupply.Text = "Test";
-            this.TestComSupply.UseVisualStyleBackColor = true;
+            this.OkSettings.Location = new System.Drawing.Point(6, 239);
+            this.OkSettings.Name = "OkSettings";
+            this.OkSettings.Size = new System.Drawing.Size(63, 23);
+            this.OkSettings.TabIndex = 14;
+            this.OkSettings.Text = "OK";
+            this.OkSettings.UseVisualStyleBackColor = true;
+            this.OkSettings.Click += new System.EventHandler(this.OkSettings_Click);
             // 
-            // TestComMeter
+            // CancelSettings
             // 
-            this.TestComMeter.Location = new System.Drawing.Point(118, 173);
-            this.TestComMeter.Name = "TestComMeter";
-            this.TestComMeter.Size = new System.Drawing.Size(38, 23);
-            this.TestComMeter.TabIndex = 26;
-            this.TestComMeter.Text = "Test";
-            this.TestComMeter.UseVisualStyleBackColor = true;
+            this.CancelSettings.Location = new System.Drawing.Point(115, 239);
+            this.CancelSettings.Name = "CancelSettings";
+            this.CancelSettings.Size = new System.Drawing.Size(63, 23);
+            this.CancelSettings.TabIndex = 15;
+            this.CancelSettings.Text = "Cancel";
+            this.CancelSettings.UseVisualStyleBackColor = true;
             // 
             // ComSettings
             // 
@@ -396,13 +400,13 @@
         private System.Windows.Forms.TabPage MeterTab;
         private System.Windows.Forms.CheckBox DataTerminalReady;
         private System.Windows.Forms.Button ResetSettings;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox FlowControlSupply;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox StopBitsSupply;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox ParityBitSupply;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox BaudRateSupply;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button OkSettings;
         private System.Windows.Forms.Button CancelSettings;
