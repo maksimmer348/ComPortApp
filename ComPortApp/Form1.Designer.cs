@@ -1000,9 +1000,9 @@
             // 
             // StartMeasurements
             // 
-            this.StartMeasurements.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.StartMeasurements.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.StartMeasurements.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.StartMeasurements.Location = new System.Drawing.Point(94, 31);
+            this.StartMeasurements.Location = new System.Drawing.Point(9, 31);
             this.StartMeasurements.Name = "StartMeasurements";
             this.StartMeasurements.Size = new System.Drawing.Size(135, 27);
             this.StartMeasurements.TabIndex = 26;

@@ -65,8 +65,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MeasurementControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SupplyControl.cs" />
     <Compile Include="TemperatureGraph.cs" />
     <EmbeddedResource Include="ComSettings.resx">
       <DependentUpon>ComSettings.cs</DependentUpon>
