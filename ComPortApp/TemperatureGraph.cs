@@ -19,6 +19,7 @@ namespace ComPortApp
 
         public void Graph()
         {
+
             GraphPane pane = GraphPanel.GraphPane;
             pane.CurveList.Clear();
 
