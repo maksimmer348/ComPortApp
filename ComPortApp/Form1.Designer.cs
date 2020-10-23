@@ -64,7 +64,7 @@
             this.MeasurementControl = new System.Windows.Forms.GroupBox();
             this.ThermocoupleDelta = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Delta = new System.Windows.Forms.TextBox();
             this.GraphTemperature = new ZedGraph.ZedGraphControl();
             this.ThermocoupleTemperatures = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -115,24 +115,24 @@
             this.SettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ComMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TestParameter = new System.Windows.Forms.GroupBox();
-            this.StartMeasurements = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.TestTimer = new System.Windows.Forms.CheckBox();
             this.SelectMeasurement = new System.Windows.Forms.TabControl();
             this.ByTime = new System.Windows.Forms.TabPage();
+            this.label24 = new System.Windows.Forms.Label();
+            this.TestTimer = new System.Windows.Forms.CheckBox();
+            this.Hours = new System.Windows.Forms.TextBox();
+            this.Minutes = new System.Windows.Forms.TextBox();
+            this.Seconds = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.ByTemperature = new System.Windows.Forms.TabPage();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.MaxTemperature = new System.Windows.Forms.TextBox();
+            this.MinTemperature = new System.Windows.Forms.TextBox();
             this.TestTemperature = new System.Windows.Forms.CheckBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
+            this.StartMeasurements = new System.Windows.Forms.Button();
             this.SelectLoad.SuspendLayout();
             this.SelectTransistor.SuspendLayout();
             this.SelectResistor.SuspendLayout();
@@ -262,7 +262,7 @@
             // 
             // RestsnaceValue
             // 
-            this.RestsnaceValue.Location = new System.Drawing.Point(7, 23);
+            this.RestsnaceValue.Location = new System.Drawing.Point(7, 22);
             this.RestsnaceValue.Name = "RestsnaceValue";
             this.RestsnaceValue.Size = new System.Drawing.Size(119, 20);
             this.RestsnaceValue.TabIndex = 1;
@@ -353,6 +353,7 @@
             this.VoltageValueWrite.Name = "VoltageValueWrite";
             this.VoltageValueWrite.Size = new System.Drawing.Size(94, 20);
             this.VoltageValueWrite.TabIndex = 8;
+            this.VoltageValueWrite.TextChanged += new System.EventHandler(this.VoltageValueWrite_TextChanged);
             // 
             // PowerSupplyWrite
             // 
@@ -414,6 +415,7 @@
             this.Output.TabIndex = 21;
             this.Output.Text = "Output";
             this.Output.UseVisualStyleBackColor = false;
+            this.Output.Click += new System.EventHandler(this.Output_Click);
             // 
             // PowerSupplyControl
             // 
@@ -486,7 +488,7 @@
             // ThermocoupleDelta
             // 
             this.ThermocoupleDelta.Controls.Add(this.label21);
-            this.ThermocoupleDelta.Controls.Add(this.textBox1);
+            this.ThermocoupleDelta.Controls.Add(this.Delta);
             this.ThermocoupleDelta.Location = new System.Drawing.Point(6, 19);
             this.ThermocoupleDelta.Name = "ThermocoupleDelta";
             this.ThermocoupleDelta.Size = new System.Drawing.Size(177, 74);
@@ -504,15 +506,15 @@
             this.label21.TabIndex = 66;
             this.label21.Text = "°C";
             // 
-            // textBox1
+            // Delta
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBox1.Location = new System.Drawing.Point(29, 23);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(102, 38);
-            this.textBox1.TabIndex = 65;
+            this.Delta.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Delta.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.Delta.Location = new System.Drawing.Point(29, 23);
+            this.Delta.Name = "Delta";
+            this.Delta.ReadOnly = true;
+            this.Delta.Size = new System.Drawing.Size(102, 38);
+            this.Delta.TabIndex = 65;
             // 
             // GraphTemperature
             // 
@@ -960,7 +962,7 @@
             this.SettingsMenu});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(972, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(974, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1019,37 +1021,72 @@
             this.TestParameter.TabStop = false;
             this.TestParameter.Text = "Test parameter";
             // 
-            // StartMeasurements
+            // SelectMeasurement
             // 
-            this.StartMeasurements.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.StartMeasurements.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.StartMeasurements.Location = new System.Drawing.Point(7, 26);
-            this.StartMeasurements.Name = "StartMeasurements";
-            this.StartMeasurements.Size = new System.Drawing.Size(86, 52);
-            this.StartMeasurements.TabIndex = 26;
-            this.StartMeasurements.Text = "Start measurements";
-            this.StartMeasurements.UseVisualStyleBackColor = false;
+            this.SelectMeasurement.Controls.Add(this.ByTime);
+            this.SelectMeasurement.Controls.Add(this.ByTemperature);
+            this.SelectMeasurement.Location = new System.Drawing.Point(99, 5);
+            this.SelectMeasurement.Name = "SelectMeasurement";
+            this.SelectMeasurement.SelectedIndex = 0;
+            this.SelectMeasurement.Size = new System.Drawing.Size(252, 88);
+            this.SelectMeasurement.TabIndex = 67;
             // 
-            // textBox2
+            // ByTime
             // 
-            this.textBox2.Location = new System.Drawing.Point(84, 19);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(33, 20);
-            this.textBox2.TabIndex = 26;
+            this.ByTime.Controls.Add(this.label24);
+            this.ByTime.Controls.Add(this.TestTimer);
+            this.ByTime.Controls.Add(this.Hours);
+            this.ByTime.Controls.Add(this.Minutes);
+            this.ByTime.Controls.Add(this.Seconds);
+            this.ByTime.Controls.Add(this.label22);
+            this.ByTime.Controls.Add(this.label23);
+            this.ByTime.Location = new System.Drawing.Point(4, 22);
+            this.ByTime.Name = "ByTime";
+            this.ByTime.Padding = new System.Windows.Forms.Padding(3);
+            this.ByTime.Size = new System.Drawing.Size(244, 62);
+            this.ByTime.TabIndex = 0;
+            this.ByTime.Text = "By time";
+            this.ByTime.UseVisualStyleBackColor = true;
             // 
-            // textBox3
+            // label24
             // 
-            this.textBox3.Location = new System.Drawing.Point(136, 19);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(33, 20);
-            this.textBox3.TabIndex = 27;
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(224, 22);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(14, 13);
+            this.label24.TabIndex = 30;
+            this.label24.Text = "S";
             // 
-            // textBox4
+            // TestTimer
             // 
-            this.textBox4.Location = new System.Drawing.Point(188, 19);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(33, 20);
-            this.textBox4.TabIndex = 28;
+            this.TestTimer.AutoSize = true;
+            this.TestTimer.Location = new System.Drawing.Point(6, 9);
+            this.TestTimer.Name = "TestTimer";
+            this.TestTimer.Size = new System.Drawing.Size(72, 17);
+            this.TestTimer.TabIndex = 14;
+            this.TestTimer.Text = "Test timer";
+            this.TestTimer.UseVisualStyleBackColor = true;
+            // 
+            // Hours
+            // 
+            this.Hours.Location = new System.Drawing.Point(84, 19);
+            this.Hours.Name = "Hours";
+            this.Hours.Size = new System.Drawing.Size(33, 20);
+            this.Hours.TabIndex = 26;
+            // 
+            // Minutes
+            // 
+            this.Minutes.Location = new System.Drawing.Point(136, 19);
+            this.Minutes.Name = "Minutes";
+            this.Minutes.Size = new System.Drawing.Size(33, 20);
+            this.Minutes.TabIndex = 27;
+            // 
+            // Seconds
+            // 
+            this.Seconds.Location = new System.Drawing.Point(188, 19);
+            this.Seconds.Name = "Seconds";
+            this.Seconds.Size = new System.Drawing.Size(33, 20);
+            this.Seconds.TabIndex = 28;
             // 
             // label22
             // 
@@ -1069,60 +1106,14 @@
             this.label23.TabIndex = 29;
             this.label23.Text = "M";
             // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(224, 22);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(14, 13);
-            this.label24.TabIndex = 30;
-            this.label24.Text = "S";
-            // 
-            // TestTimer
-            // 
-            this.TestTimer.AutoSize = true;
-            this.TestTimer.Location = new System.Drawing.Point(8, 21);
-            this.TestTimer.Name = "TestTimer";
-            this.TestTimer.Size = new System.Drawing.Size(72, 17);
-            this.TestTimer.TabIndex = 14;
-            this.TestTimer.Text = "Test timer";
-            this.TestTimer.UseVisualStyleBackColor = true;
-            // 
-            // SelectMeasurement
-            // 
-            this.SelectMeasurement.Controls.Add(this.ByTime);
-            this.SelectMeasurement.Controls.Add(this.ByTemperature);
-            this.SelectMeasurement.Location = new System.Drawing.Point(99, 5);
-            this.SelectMeasurement.Name = "SelectMeasurement";
-            this.SelectMeasurement.SelectedIndex = 0;
-            this.SelectMeasurement.Size = new System.Drawing.Size(252, 88);
-            this.SelectMeasurement.TabIndex = 67;
-            // 
-            // ByTime
-            // 
-            this.ByTime.Controls.Add(this.label24);
-            this.ByTime.Controls.Add(this.TestTimer);
-            this.ByTime.Controls.Add(this.textBox2);
-            this.ByTime.Controls.Add(this.textBox3);
-            this.ByTime.Controls.Add(this.textBox4);
-            this.ByTime.Controls.Add(this.label22);
-            this.ByTime.Controls.Add(this.label23);
-            this.ByTime.Location = new System.Drawing.Point(4, 22);
-            this.ByTime.Name = "ByTime";
-            this.ByTime.Padding = new System.Windows.Forms.Padding(3);
-            this.ByTime.Size = new System.Drawing.Size(244, 62);
-            this.ByTime.TabIndex = 0;
-            this.ByTime.Text = "By time";
-            this.ByTime.UseVisualStyleBackColor = true;
-            // 
             // ByTemperature
             // 
             this.ByTemperature.Controls.Add(this.label28);
             this.ByTemperature.Controls.Add(this.label27);
             this.ByTemperature.Controls.Add(this.label26);
             this.ByTemperature.Controls.Add(this.label25);
-            this.ByTemperature.Controls.Add(this.textBox6);
-            this.ByTemperature.Controls.Add(this.textBox5);
+            this.ByTemperature.Controls.Add(this.MaxTemperature);
+            this.ByTemperature.Controls.Add(this.MinTemperature);
             this.ByTemperature.Controls.Add(this.TestTemperature);
             this.ByTemperature.Location = new System.Drawing.Point(4, 22);
             this.ByTemperature.Name = "ByTemperature";
@@ -1131,6 +1122,24 @@
             this.ByTemperature.TabIndex = 1;
             this.ByTemperature.Text = "By temperature";
             this.ByTemperature.UseVisualStyleBackColor = true;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(167, 42);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(37, 13);
+            this.label28.TabIndex = 73;
+            this.label28.Text = "Max T";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(98, 42);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(34, 13);
+            this.label27.TabIndex = 72;
+            this.label27.Text = "Min T";
             // 
             // label26
             // 
@@ -1150,19 +1159,19 @@
             this.label25.TabIndex = 70;
             this.label25.Text = "°C";
             // 
-            // textBox6
+            // MaxTemperature
             // 
-            this.textBox6.Location = new System.Drawing.Point(166, 19);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(33, 20);
-            this.textBox6.TabIndex = 69;
+            this.MaxTemperature.Location = new System.Drawing.Point(166, 19);
+            this.MaxTemperature.Name = "MaxTemperature";
+            this.MaxTemperature.Size = new System.Drawing.Size(33, 20);
+            this.MaxTemperature.TabIndex = 69;
             // 
-            // textBox5
+            // MinTemperature
             // 
-            this.textBox5.Location = new System.Drawing.Point(99, 19);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(33, 20);
-            this.textBox5.TabIndex = 68;
+            this.MinTemperature.Location = new System.Drawing.Point(99, 19);
+            this.MinTemperature.Name = "MinTemperature";
+            this.MinTemperature.Size = new System.Drawing.Size(33, 20);
+            this.MinTemperature.TabIndex = 68;
             // 
             // TestTemperature
             // 
@@ -1174,29 +1183,22 @@
             this.TestTemperature.Text = "Test\r\nTemperature";
             this.TestTemperature.UseVisualStyleBackColor = true;
             // 
-            // label27
+            // StartMeasurements
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(98, 42);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(34, 13);
-            this.label27.TabIndex = 72;
-            this.label27.Text = "Min T";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(167, 42);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(37, 13);
-            this.label28.TabIndex = 73;
-            this.label28.Text = "Max T";
+            this.StartMeasurements.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.StartMeasurements.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.StartMeasurements.Location = new System.Drawing.Point(7, 26);
+            this.StartMeasurements.Name = "StartMeasurements";
+            this.StartMeasurements.Size = new System.Drawing.Size(86, 52);
+            this.StartMeasurements.TabIndex = 26;
+            this.StartMeasurements.Text = "Start measurements";
+            this.StartMeasurements.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(972, 387);
+            this.ClientSize = new System.Drawing.Size(974, 391);
             this.Controls.Add(this.TestParameter);
             this.Controls.Add(this.MeasurementControl);
             this.Controls.Add(this.PowerSupplyControl);
@@ -1303,7 +1305,7 @@
         private System.Windows.Forms.ToolStripMenuItem SettingsMenu;
         private System.Windows.Forms.ToolStripMenuItem ComMenu;
         private System.Windows.Forms.GroupBox ThermocoupleDelta;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Delta;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label15;
@@ -1322,9 +1324,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox Seconds;
+        private System.Windows.Forms.TextBox Minutes;
+        private System.Windows.Forms.TextBox Hours;
         private System.Windows.Forms.CheckBox TestTimer;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label23;
@@ -1333,8 +1335,8 @@
         private System.Windows.Forms.TabPage ByTemperature;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox MaxTemperature;
+        private System.Windows.Forms.TextBox MinTemperature;
         private System.Windows.Forms.CheckBox TestTemperature;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;

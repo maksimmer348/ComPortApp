@@ -52,7 +52,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnciiInOut.cs" />
     <Compile Include="ComCommunication.cs" />
+    <Compile Include="ComConfig.cs" />
     <Compile Include="ComSettings.cs">
       <SubType>Form</SubType>
     </Compile>

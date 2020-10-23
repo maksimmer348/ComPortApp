@@ -12,9 +12,10 @@ namespace ComPortApp
     {
         public void ComInit()
         {
+
             ASCIIEncoding ascii = new ASCIIEncoding();
 
-            Console.Write("input serialport number(only 0-9):");
+            //Console.Write("input serialport number(only 0-9):");
             string read = Console.ReadLine();
             bool flag = uint.TryParse(read, out uint num);
             if (!flag)

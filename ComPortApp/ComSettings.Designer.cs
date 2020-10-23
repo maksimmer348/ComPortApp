@@ -170,6 +170,7 @@
             this.StopBitsSupply.Name = "StopBitsSupply";
             this.StopBitsSupply.Size = new System.Drawing.Size(79, 21);
             this.StopBitsSupply.TabIndex = 8;
+            this.StopBitsSupply.SelectedIndexChanged += new System.EventHandler(this.StopBitsSupply_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -204,6 +205,7 @@
             this.BaudRateSupply.Name = "BaudRateSupply";
             this.BaudRateSupply.Size = new System.Drawing.Size(79, 21);
             this.BaudRateSupply.TabIndex = 4;
+            this.BaudRateSupply.SelectedIndexChanged += new System.EventHandler(this.BaudRateSupply_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -368,6 +370,7 @@
             this.CancelSettings.TabIndex = 15;
             this.CancelSettings.Text = "Cancel";
             this.CancelSettings.UseVisualStyleBackColor = true;
+            this.CancelSettings.Click += new System.EventHandler(this.CancelSettings_Click);
             // 
             // ComSettings
             // 
@@ -395,7 +398,7 @@
 
         private System.Windows.Forms.ComboBox CannelComSupply;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabControl SelectSettingsCom;
+        public System.Windows.Forms.TabControl SelectSettingsCom;
         private System.Windows.Forms.TabPage SupplyTab;
         private System.Windows.Forms.TabPage MeterTab;
         private System.Windows.Forms.CheckBox DataTerminalReady;
