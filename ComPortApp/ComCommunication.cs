@@ -8,23 +8,27 @@ using GodSharp.SerialPort;
 
 namespace ComPortApp
 {
-    class ComCommunication
+    public class ComCommunication
     {
+        public string NumPort;
+        public int BaudRate;
+        public int Parity;
+        public bool Dtr;
         public void ComInit()
         {
 
             ASCIIEncoding ascii = new ASCIIEncoding();
 
             //Console.Write("input serialport number(only 0-9):");
-            string read = Console.ReadLine();
-            bool flag = uint.TryParse(read, out uint num);
+            
+            bool flag = uint.TryParse(NumPort, out uint num);
             if (!flag)
             {
                 Exit();
             }
 
-            GodSerialPort gsp = new GodSerialPort("COM" + num, 9600, 0);
-            gsp.DtrEnable = true;
+            GodSerialPort gsp = new GodSerialPort("COM" + num, BaudRate, Parity);
+            gsp.DtrEnable = Dtr;
             gsp.UseDataReceived(true, (sp, bytes) =>
             {
                 //string buffer = string.Join(" ", bytes);

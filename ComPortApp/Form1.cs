@@ -24,6 +24,7 @@ namespace ComPortApp
             TG = new TemperatureGraph(GraphTemperature);
             comSettings = new ComSettings();
             comSettings.ShowDialog();
+            
         }
 
        
@@ -32,6 +33,7 @@ namespace ComPortApp
         private void Form1_Load(object sender, EventArgs e)
         {
             TG.Graph();
+            this.Close();
         }
 
         private void PowerSupplyControl_Enter(object sender, EventArgs e)

@@ -34,7 +34,7 @@
             this.SupplyTab = new System.Windows.Forms.TabPage();
             this.TestComSupply = new System.Windows.Forms.Button();
             this.DataTerminalReady = new System.Windows.Forms.CheckBox();
-            this.ResetSettings = new System.Windows.Forms.Button();
+            this.ResetSettingsSupply = new System.Windows.Forms.Button();
             this.FlowControlSupply = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.StopBitsSupply = new System.Windows.Forms.ComboBox();
@@ -46,16 +46,16 @@
             this.MeterTab = new System.Windows.Forms.TabPage();
             this.TestComMeter = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.ResetSettingsMeter = new System.Windows.Forms.Button();
+            this.FlowControlMeter = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.StopBitsMeter = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.ParityBitMeter = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
+            this.BaudRateMeter = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.CannelComMeter = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.OkSettings = new System.Windows.Forms.Button();
             this.CancelSettings = new System.Windows.Forms.Button();
@@ -96,7 +96,7 @@
             // 
             this.SupplyTab.Controls.Add(this.TestComSupply);
             this.SupplyTab.Controls.Add(this.DataTerminalReady);
-            this.SupplyTab.Controls.Add(this.ResetSettings);
+            this.SupplyTab.Controls.Add(this.ResetSettingsSupply);
             this.SupplyTab.Controls.Add(this.FlowControlSupply);
             this.SupplyTab.Controls.Add(this.label5);
             this.SupplyTab.Controls.Add(this.StopBitsSupply);
@@ -136,15 +136,15 @@
             this.DataTerminalReady.UseVisualStyleBackColor = true;
             this.DataTerminalReady.CheckedChanged += new System.EventHandler(this.DataTerminalReady_CheckedChanged);
             // 
-            // ResetSettings
+            // ResetSettingsSupply
             // 
-            this.ResetSettings.Location = new System.Drawing.Point(6, 173);
-            this.ResetSettings.Name = "ResetSettings";
-            this.ResetSettings.Size = new System.Drawing.Size(90, 23);
-            this.ResetSettings.TabIndex = 12;
-            this.ResetSettings.Text = "Reset settings";
-            this.ResetSettings.UseVisualStyleBackColor = true;
-            this.ResetSettings.Click += new System.EventHandler(this.ResetSettings_Click);
+            this.ResetSettingsSupply.Location = new System.Drawing.Point(6, 173);
+            this.ResetSettingsSupply.Name = "ResetSettingsSupply";
+            this.ResetSettingsSupply.Size = new System.Drawing.Size(90, 23);
+            this.ResetSettingsSupply.TabIndex = 12;
+            this.ResetSettingsSupply.Text = "Reset settings";
+            this.ResetSettingsSupply.UseVisualStyleBackColor = true;
+            this.ResetSettingsSupply.Click += new System.EventHandler(this.ResetSettingsSupply_Click);
             // 
             // FlowControlSupply
             // 
@@ -220,16 +220,16 @@
             // 
             this.MeterTab.Controls.Add(this.TestComMeter);
             this.MeterTab.Controls.Add(this.checkBox1);
-            this.MeterTab.Controls.Add(this.button1);
-            this.MeterTab.Controls.Add(this.comboBox5);
+            this.MeterTab.Controls.Add(this.ResetSettingsMeter);
+            this.MeterTab.Controls.Add(this.FlowControlMeter);
             this.MeterTab.Controls.Add(this.label6);
-            this.MeterTab.Controls.Add(this.comboBox6);
+            this.MeterTab.Controls.Add(this.StopBitsMeter);
             this.MeterTab.Controls.Add(this.label7);
-            this.MeterTab.Controls.Add(this.comboBox7);
+            this.MeterTab.Controls.Add(this.ParityBitMeter);
             this.MeterTab.Controls.Add(this.label8);
-            this.MeterTab.Controls.Add(this.comboBox8);
+            this.MeterTab.Controls.Add(this.BaudRateMeter);
             this.MeterTab.Controls.Add(this.label9);
-            this.MeterTab.Controls.Add(this.comboBox9);
+            this.MeterTab.Controls.Add(this.CannelComMeter);
             this.MeterTab.Controls.Add(this.label10);
             this.MeterTab.Location = new System.Drawing.Point(4, 22);
             this.MeterTab.Name = "MeterTab";
@@ -257,23 +257,26 @@
             this.checkBox1.TabIndex = 25;
             this.checkBox1.Text = "Data terminal ready (DTR)";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // button1
+            // ResetSettingsMeter
             // 
-            this.button1.Location = new System.Drawing.Point(6, 173);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 23);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "Reset settings";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ResetSettingsMeter.Location = new System.Drawing.Point(6, 173);
+            this.ResetSettingsMeter.Name = "ResetSettingsMeter";
+            this.ResetSettingsMeter.Size = new System.Drawing.Size(90, 23);
+            this.ResetSettingsMeter.TabIndex = 24;
+            this.ResetSettingsMeter.Text = "Reset settings";
+            this.ResetSettingsMeter.UseVisualStyleBackColor = true;
+            this.ResetSettingsMeter.Click += new System.EventHandler(this.ResetSettingsMeter_Click);
             // 
-            // comboBox5
+            // FlowControlMeter
             // 
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(6, 114);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(79, 21);
-            this.comboBox5.TabIndex = 22;
+            this.FlowControlMeter.FormattingEnabled = true;
+            this.FlowControlMeter.Location = new System.Drawing.Point(6, 114);
+            this.FlowControlMeter.Name = "FlowControlMeter";
+            this.FlowControlMeter.Size = new System.Drawing.Size(79, 21);
+            this.FlowControlMeter.TabIndex = 22;
+            this.FlowControlMeter.SelectedIndexChanged += new System.EventHandler(this.FlowControlMeter_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -284,13 +287,14 @@
             this.label6.TabIndex = 23;
             this.label6.Text = "Flow control";
             // 
-            // comboBox6
+            // StopBitsMeter
             // 
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(6, 87);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(79, 21);
-            this.comboBox6.TabIndex = 20;
+            this.StopBitsMeter.FormattingEnabled = true;
+            this.StopBitsMeter.Location = new System.Drawing.Point(6, 87);
+            this.StopBitsMeter.Name = "StopBitsMeter";
+            this.StopBitsMeter.Size = new System.Drawing.Size(79, 21);
+            this.StopBitsMeter.TabIndex = 20;
+            this.StopBitsMeter.SelectedIndexChanged += new System.EventHandler(this.StopBitsMeter_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -301,13 +305,14 @@
             this.label7.TabIndex = 21;
             this.label7.Text = "Stop bits";
             // 
-            // comboBox7
+            // ParityBitMeter
             // 
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(6, 60);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(79, 21);
-            this.comboBox7.TabIndex = 18;
+            this.ParityBitMeter.FormattingEnabled = true;
+            this.ParityBitMeter.Location = new System.Drawing.Point(6, 60);
+            this.ParityBitMeter.Name = "ParityBitMeter";
+            this.ParityBitMeter.Size = new System.Drawing.Size(79, 21);
+            this.ParityBitMeter.TabIndex = 18;
+            this.ParityBitMeter.SelectedIndexChanged += new System.EventHandler(this.ParityBitMeter_SelectedIndexChanged);
             // 
             // label8
             // 
@@ -318,13 +323,14 @@
             this.label8.TabIndex = 19;
             this.label8.Text = "Parity bit";
             // 
-            // comboBox8
+            // BaudRateMeter
             // 
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Location = new System.Drawing.Point(6, 33);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(79, 21);
-            this.comboBox8.TabIndex = 16;
+            this.BaudRateMeter.FormattingEnabled = true;
+            this.BaudRateMeter.Location = new System.Drawing.Point(6, 33);
+            this.BaudRateMeter.Name = "BaudRateMeter";
+            this.BaudRateMeter.Size = new System.Drawing.Size(79, 21);
+            this.BaudRateMeter.TabIndex = 16;
+            this.BaudRateMeter.SelectedIndexChanged += new System.EventHandler(this.BaudRateMeter_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -335,13 +341,14 @@
             this.label9.TabIndex = 17;
             this.label9.Text = "Baud rate";
             // 
-            // comboBox9
+            // CannelComMeter
             // 
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(6, 6);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(79, 21);
-            this.comboBox9.TabIndex = 14;
+            this.CannelComMeter.FormattingEnabled = true;
+            this.CannelComMeter.Location = new System.Drawing.Point(6, 6);
+            this.CannelComMeter.Name = "CannelComMeter";
+            this.CannelComMeter.Size = new System.Drawing.Size(79, 21);
+            this.CannelComMeter.TabIndex = 14;
+            this.CannelComMeter.SelectedIndexChanged += new System.EventHandler(this.CannelComMeter_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -402,7 +409,7 @@
         private System.Windows.Forms.TabPage SupplyTab;
         private System.Windows.Forms.TabPage MeterTab;
         private System.Windows.Forms.CheckBox DataTerminalReady;
-        private System.Windows.Forms.Button ResetSettings;
+        private System.Windows.Forms.Button ResetSettingsSupply;
         private System.Windows.Forms.ComboBox FlowControlSupply;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox StopBitsSupply;
@@ -414,16 +421,16 @@
         private System.Windows.Forms.Button OkSettings;
         private System.Windows.Forms.Button CancelSettings;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.Button ResetSettingsMeter;
+        private System.Windows.Forms.ComboBox FlowControlMeter;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.ComboBox StopBitsMeter;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.ComboBox ParityBitMeter;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.ComboBox BaudRateMeter;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.ComboBox CannelComMeter;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button TestComSupply;
         private System.Windows.Forms.Button TestComMeter;

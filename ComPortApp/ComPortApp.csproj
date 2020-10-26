@@ -61,6 +61,7 @@
     <Compile Include="ComSettings.Designer.cs">
       <DependentUpon>ComSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="DefaultSettings.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

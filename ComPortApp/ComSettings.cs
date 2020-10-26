@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,33 +13,24 @@ namespace ComPortApp
 {
     public partial class ComSettings : Form
     {
-        private string[] cannelNum = new[] {"1", "2", "3", "4"};
 
-        private string[] baudRate = new[] {"2400", "9600"};
+        ComConfig CSS = new ComConfig("Supply");
+        ComConfig CSM = new ComConfig("Meter");
 
-        //private int[] parityBit = new[] {0, 1};
-        private string[] stopBits = new[] {"0", "1"};
-
-        //private bool flowContr = false;
-        private bool dtrEnable;
-
-    public ComSettings()
+        public ComSettings()
         {
             InitializeComponent();
            
-            ConfigTab();
-            AddCountSettings(CannelComSupply,cannelNum);
-            AddCountSettings(BaudRateSupply, baudRate);
-            AddCountSettings(StopBitsSupply, stopBits);
-            
-
+           
+            CSS.RestoreForm(CannelComSupply, BaudRateSupply, StopBitsSupply);
+            CSM.RestoreForm(CannelComMeter, BaudRateMeter, StopBitsMeter);
         }
 
         void ConfigTab()
         {
             if (SelectSettingsCom.SelectedTab.Name == "SupplyTab")
             {
-                
+              
             }
 
             if (SelectSettingsCom.SelectedTab.Name == "MeterTab")
@@ -47,12 +39,7 @@ namespace ComPortApp
             }
         }
 
-        void AddCountSettings(ComboBox box, string[] adds)
-        {
-            box.Items.AddRange(adds);
-            box.Text = adds[0];
-           // dtrEnable = DataTerminalReady.Checked;
-        }
+       
         private void CannelComSupply_SelectedIndexChanged(object sender, EventArgs e)
         {
            
@@ -63,9 +50,11 @@ namespace ComPortApp
 
         }
 
-        private void ResetSettings_Click(object sender, EventArgs e)
+        private void ResetSettingsSupply_Click(object sender, EventArgs e)
         {
-
+            var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
+            if (dialogResult != DialogResult.Yes) return; 
+            CSS.DefaultConfCom();
         }
 
         private void TestComSupply_Click(object sender, EventArgs e)
@@ -93,6 +82,43 @@ namespace ComPortApp
         private void CancelSettings_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void CannelComMeter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BaudRateMeter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ParityBitMeter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StopBitsMeter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FlowControlMeter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ResetSettingsMeter_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
+            if (dialogResult != DialogResult.Yes) return;
+            CSM.DefaultConfCom();
         }
     }
 }
