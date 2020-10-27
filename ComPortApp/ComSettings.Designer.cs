@@ -33,7 +33,7 @@
             this.SelectSettingsCom = new System.Windows.Forms.TabControl();
             this.SupplyTab = new System.Windows.Forms.TabPage();
             this.TestComSupply = new System.Windows.Forms.Button();
-            this.DataTerminalReady = new System.Windows.Forms.CheckBox();
+            this.DtrSupply = new System.Windows.Forms.CheckBox();
             this.ResetSettingsSupply = new System.Windows.Forms.Button();
             this.FlowControlSupply = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -45,7 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.MeterTab = new System.Windows.Forms.TabPage();
             this.TestComMeter = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.DtrMeter = new System.Windows.Forms.CheckBox();
             this.ResetSettingsMeter = new System.Windows.Forms.Button();
             this.FlowControlMeter = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -59,6 +59,9 @@
             this.label10 = new System.Windows.Forms.Label();
             this.OkSettings = new System.Windows.Forms.Button();
             this.CancelSettings = new System.Windows.Forms.Button();
+            this.SendToCom = new System.Windows.Forms.TextBox();
+            this.ReceivingInformation = new System.Windows.Forms.RichTextBox();
+            this.Recieve = new System.Windows.Forms.Button();
             this.SelectSettingsCom.SuspendLayout();
             this.SupplyTab.SuspendLayout();
             this.MeterTab.SuspendLayout();
@@ -95,7 +98,7 @@
             // SupplyTab
             // 
             this.SupplyTab.Controls.Add(this.TestComSupply);
-            this.SupplyTab.Controls.Add(this.DataTerminalReady);
+            this.SupplyTab.Controls.Add(this.DtrSupply);
             this.SupplyTab.Controls.Add(this.ResetSettingsSupply);
             this.SupplyTab.Controls.Add(this.FlowControlSupply);
             this.SupplyTab.Controls.Add(this.label5);
@@ -125,16 +128,16 @@
             this.TestComSupply.UseVisualStyleBackColor = true;
             this.TestComSupply.Click += new System.EventHandler(this.TestComSupply_Click);
             // 
-            // DataTerminalReady
+            // DtrSupply
             // 
-            this.DataTerminalReady.AutoSize = true;
-            this.DataTerminalReady.Location = new System.Drawing.Point(7, 143);
-            this.DataTerminalReady.Name = "DataTerminalReady";
-            this.DataTerminalReady.Size = new System.Drawing.Size(149, 17);
-            this.DataTerminalReady.TabIndex = 13;
-            this.DataTerminalReady.Text = "Data terminal ready (DTR)";
-            this.DataTerminalReady.UseVisualStyleBackColor = true;
-            this.DataTerminalReady.CheckedChanged += new System.EventHandler(this.DataTerminalReady_CheckedChanged);
+            this.DtrSupply.AutoSize = true;
+            this.DtrSupply.Location = new System.Drawing.Point(7, 143);
+            this.DtrSupply.Name = "DtrSupply";
+            this.DtrSupply.Size = new System.Drawing.Size(149, 17);
+            this.DtrSupply.TabIndex = 13;
+            this.DtrSupply.Text = "Data terminal ready (DTR)";
+            this.DtrSupply.UseVisualStyleBackColor = true;
+            this.DtrSupply.CheckedChanged += new System.EventHandler(this.DtrSupply_CheckedChanged);
             // 
             // ResetSettingsSupply
             // 
@@ -188,6 +191,7 @@
             this.ParityBitSupply.Name = "ParityBitSupply";
             this.ParityBitSupply.Size = new System.Drawing.Size(79, 21);
             this.ParityBitSupply.TabIndex = 6;
+            this.ParityBitSupply.SelectedIndexChanged += new System.EventHandler(this.ParityBitSupply_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -219,7 +223,7 @@
             // MeterTab
             // 
             this.MeterTab.Controls.Add(this.TestComMeter);
-            this.MeterTab.Controls.Add(this.checkBox1);
+            this.MeterTab.Controls.Add(this.DtrMeter);
             this.MeterTab.Controls.Add(this.ResetSettingsMeter);
             this.MeterTab.Controls.Add(this.FlowControlMeter);
             this.MeterTab.Controls.Add(this.label6);
@@ -248,16 +252,16 @@
             this.TestComMeter.Text = "Test";
             this.TestComMeter.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // DtrMeter
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(7, 143);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(149, 17);
-            this.checkBox1.TabIndex = 25;
-            this.checkBox1.Text = "Data terminal ready (DTR)";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.DtrMeter.AutoSize = true;
+            this.DtrMeter.Location = new System.Drawing.Point(7, 143);
+            this.DtrMeter.Name = "DtrMeter";
+            this.DtrMeter.Size = new System.Drawing.Size(149, 17);
+            this.DtrMeter.TabIndex = 25;
+            this.DtrMeter.Text = "Data terminal ready (DTR)";
+            this.DtrMeter.UseVisualStyleBackColor = true;
+            this.DtrMeter.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // ResetSettingsMeter
             // 
@@ -379,11 +383,42 @@
             this.CancelSettings.UseVisualStyleBackColor = true;
             this.CancelSettings.Click += new System.EventHandler(this.CancelSettings_Click);
             // 
+            // SendToCom
+            // 
+            this.SendToCom.Location = new System.Drawing.Point(2, 369);
+            this.SendToCom.Name = "SendToCom";
+            this.SendToCom.Size = new System.Drawing.Size(176, 20);
+            this.SendToCom.TabIndex = 16;
+            this.SendToCom.TextChanged += new System.EventHandler(this.SendToCom_TextChanged);
+            // 
+            // ReceivingInformation
+            // 
+            this.ReceivingInformation.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ReceivingInformation.Location = new System.Drawing.Point(2, 278);
+            this.ReceivingInformation.Name = "ReceivingInformation";
+            this.ReceivingInformation.Size = new System.Drawing.Size(176, 85);
+            this.ReceivingInformation.TabIndex = 17;
+            this.ReceivingInformation.Text = "";
+            this.ReceivingInformation.TextChanged += new System.EventHandler(this.ReceivingInformation_TextChanged);
+            // 
+            // Recieve
+            // 
+            this.Recieve.Location = new System.Drawing.Point(2, 395);
+            this.Recieve.Name = "Recieve";
+            this.Recieve.Size = new System.Drawing.Size(63, 23);
+            this.Recieve.TabIndex = 18;
+            this.Recieve.Text = "Recieve";
+            this.Recieve.UseVisualStyleBackColor = true;
+            this.Recieve.Click += new System.EventHandler(this.Recieve_Click);
+            // 
             // ComSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 271);
+            this.ClientSize = new System.Drawing.Size(184, 461);
+            this.Controls.Add(this.Recieve);
+            this.Controls.Add(this.ReceivingInformation);
+            this.Controls.Add(this.SendToCom);
             this.Controls.Add(this.CancelSettings);
             this.Controls.Add(this.OkSettings);
             this.Controls.Add(this.SelectSettingsCom);
@@ -398,6 +433,7 @@
             this.MeterTab.ResumeLayout(false);
             this.MeterTab.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -408,7 +444,7 @@
         public System.Windows.Forms.TabControl SelectSettingsCom;
         private System.Windows.Forms.TabPage SupplyTab;
         private System.Windows.Forms.TabPage MeterTab;
-        private System.Windows.Forms.CheckBox DataTerminalReady;
+        private System.Windows.Forms.CheckBox DtrSupply;
         private System.Windows.Forms.Button ResetSettingsSupply;
         private System.Windows.Forms.ComboBox FlowControlSupply;
         private System.Windows.Forms.Label label5;
@@ -420,7 +456,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button OkSettings;
         private System.Windows.Forms.Button CancelSettings;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox DtrMeter;
         private System.Windows.Forms.Button ResetSettingsMeter;
         private System.Windows.Forms.ComboBox FlowControlMeter;
         private System.Windows.Forms.Label label6;
@@ -434,5 +470,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button TestComSupply;
         private System.Windows.Forms.Button TestComMeter;
+        private System.Windows.Forms.TextBox SendToCom;
+        private System.Windows.Forms.RichTextBox ReceivingInformation;
+        private System.Windows.Forms.Button Recieve;
     }
 }

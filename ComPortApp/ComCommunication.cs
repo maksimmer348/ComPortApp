@@ -4,71 +4,54 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GodSharp.SerialPort;
 
 namespace ComPortApp
 {
     public class ComCommunication
     {
-        public string NumPort;
+        ASCIIEncoding ascii = new ASCIIEncoding();
+        private GodSerialPort gsp;
+        public int NumPort;
         public int BaudRate;
         public int Parity;
         public bool Dtr;
+        public string Buffer;
+        public string Data;
+
         public void ComInit()
         {
 
-            ASCIIEncoding ascii = new ASCIIEncoding();
+            //bool flag = uint.TryParse(NumPort, out uint num);
 
-            //Console.Write("input serialport number(only 0-9):");
-            
-            bool flag = uint.TryParse(NumPort, out uint num);
-            if (!flag)
-            {
-                Exit();
-            }
+            //if (!flag)
+            //{
+            //    Exit();
+            //}
 
-            GodSerialPort gsp = new GodSerialPort("COM" + num, BaudRate, Parity);
-            gsp.DtrEnable = Dtr;
-            gsp.UseDataReceived(true, (sp, bytes) =>
-            {
-                //string buffer = string.Join(" ", bytes);
-                string buffer = ascii.GetString(bytes);
-                Console.WriteLine("receive data:" + buffer);
-            });
-            //byte[] bytes = gsp.Read();
-            //string AOAAO = gsp.ReadString();
-            //Console.WriteLine(AOAAO);
+            GodSerialPort gsp = new GodSerialPort("COM" + NumPort, BaudRate, Parity) {DtrEnable = Dtr};
+            gsp.Open();
 
-            flag = gsp.Open();
+            //if (!flag)
+            //{
+            //    Exit();
+            //}
 
+            //if (!string.IsNullOrEmpty(Data))
+            //{
+            gsp.WriteAsciiString(Data + "\r\n");
+            //} 
 
-            if (!flag)
-            {
-                Exit();
-            }
-
-            Console.WriteLine("serialport opend");
-
-            Console.WriteLine("press any thing as data to send,press key 'q' to quit.");
-
-            string data = null;
-            while (data == null || data.ToLower() != "q")
-            {
-                if (!string.IsNullOrEmpty(data))
-                {
-                    Console.WriteLine("send data:" + data);
-                    gsp.WriteAsciiString(data + "\r\n");
-                }
-
-                data = Console.ReadLine().ToUpper();
-            }
-
+            byte[] byt = gsp.Read();
+            string buffer = ascii.GetString(byt);
+            Buffer = buffer;
         }
+
+       
 
         static void Exit()
         {
-            Console.WriteLine("press any key to quit.");
-            Console.ReadKey();
             Environment.Exit(0);
         }
     }
