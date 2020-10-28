@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GodSharp.SerialPort;
+using System.Timers;
 
 namespace ComPortApp
 {
@@ -17,43 +19,52 @@ namespace ComPortApp
         public int BaudRate;
         public int Parity;
         public bool Dtr;
-        public string Buffer;
-        public string Data;
+        public string WriteCom;
+        public string ReadCom;
+        
 
         public void ComInit()
         {
-
-            //bool flag = uint.TryParse(NumPort, out uint num);
-
-            //if (!flag)
-            //{
-            //    Exit();
-            //}
-
-            GodSerialPort gsp = new GodSerialPort("COM" + NumPort, BaudRate, Parity) {DtrEnable = Dtr};
-            gsp.Open();
-
-            //if (!flag)
-            //{
-            //    Exit();
-            //}
-
-            //if (!string.IsNullOrEmpty(Data))
-            //{
-            gsp.WriteAsciiString(Data + "\r\n");
-            //} 
-
-            byte[] byt = gsp.Read();
-            string buffer = ascii.GetString(byt);
-            Buffer = buffer;
+            GodSerialPort serialPortInit = new GodSerialPort("COM" + NumPort, BaudRate, Parity) {DtrEnable = Dtr};
+            serialPortInit.Open();
+            gsp = serialPortInit;
         }
 
-       
-
-        static void Exit()
+        public void ComWrite(string write)
         {
-            Environment.Exit(0);
+            if (!string.IsNullOrEmpty(write))
+            {
+                gsp.WriteAsciiString(write + "\r\n");
+                WriteCom = write;
+
+                ComRead();
+            }
+        }
+
+        public void ComRead()
+        {
+            Thread.Sleep(1000); //временная мера чтобы ответ успел сформироватся ИСПРАВИТЬ
+
+            byte[] byt = gsp.Read();
+            if (byt == null)
+            {
+                ReadCom = "null";
+            }
+
+            else
+            {
+                string read = ascii.GetString(byt);
+
+                if (read[0] == '?')
+                {
+                    var buff = read.Substring(1);
+                    ReadCom = buff;
+                }
+                else
+                {
+                    ReadCom = read;
+                }
+            }
         }
     }
 }
-

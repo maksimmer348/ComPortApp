@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.SelectSettingsCom = new System.Windows.Forms.TabControl();
             this.SupplyTab = new System.Windows.Forms.TabPage();
+            this.TestCheckSup = new System.Windows.Forms.Button();
             this.TestComSupply = new System.Windows.Forms.Button();
             this.DtrSupply = new System.Windows.Forms.CheckBox();
             this.ResetSettingsSupply = new System.Windows.Forms.Button();
@@ -44,6 +45,7 @@
             this.BaudRateSupply = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.MeterTab = new System.Windows.Forms.TabPage();
+            this.TestCheckMet = new System.Windows.Forms.Button();
             this.TestComMeter = new System.Windows.Forms.Button();
             this.DtrMeter = new System.Windows.Forms.CheckBox();
             this.ResetSettingsMeter = new System.Windows.Forms.Button();
@@ -59,9 +61,10 @@
             this.label10 = new System.Windows.Forms.Label();
             this.OkSettings = new System.Windows.Forms.Button();
             this.CancelSettings = new System.Windows.Forms.Button();
-            this.SendToCom = new System.Windows.Forms.TextBox();
+            this.SendToComMet = new System.Windows.Forms.TextBox();
             this.ReceivingInformation = new System.Windows.Forms.RichTextBox();
             this.Recieve = new System.Windows.Forms.Button();
+            this.SendToComSup = new System.Windows.Forms.TextBox();
             this.SelectSettingsCom.SuspendLayout();
             this.SupplyTab.SuspendLayout();
             this.MeterTab.SuspendLayout();
@@ -97,6 +100,7 @@
             // 
             // SupplyTab
             // 
+            this.SupplyTab.Controls.Add(this.TestCheckSup);
             this.SupplyTab.Controls.Add(this.TestComSupply);
             this.SupplyTab.Controls.Add(this.DtrSupply);
             this.SupplyTab.Controls.Add(this.ResetSettingsSupply);
@@ -118,9 +122,21 @@
             this.SupplyTab.Text = "Supply";
             this.SupplyTab.UseVisualStyleBackColor = true;
             // 
+            // TestCheckSup
+            // 
+            this.TestCheckSup.Enabled = false;
+            this.TestCheckSup.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TestCheckSup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.TestCheckSup.Location = new System.Drawing.Point(110, 179);
+            this.TestCheckSup.Name = "TestCheckSup";
+            this.TestCheckSup.Size = new System.Drawing.Size(10, 10);
+            this.TestCheckSup.TabIndex = 15;
+            this.TestCheckSup.UseVisualStyleBackColor = false;
+            this.TestCheckSup.Click += new System.EventHandler(this.TestCheckSup_Click);
+            // 
             // TestComSupply
             // 
-            this.TestComSupply.Location = new System.Drawing.Point(118, 173);
+            this.TestComSupply.Location = new System.Drawing.Point(126, 173);
             this.TestComSupply.Name = "TestComSupply";
             this.TestComSupply.Size = new System.Drawing.Size(38, 23);
             this.TestComSupply.TabIndex = 14;
@@ -222,6 +238,7 @@
             // 
             // MeterTab
             // 
+            this.MeterTab.Controls.Add(this.TestCheckMet);
             this.MeterTab.Controls.Add(this.TestComMeter);
             this.MeterTab.Controls.Add(this.DtrMeter);
             this.MeterTab.Controls.Add(this.ResetSettingsMeter);
@@ -243,14 +260,26 @@
             this.MeterTab.Text = "Meter";
             this.MeterTab.UseVisualStyleBackColor = true;
             // 
+            // TestCheckMet
+            // 
+            this.TestCheckMet.Enabled = false;
+            this.TestCheckMet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TestCheckMet.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.TestCheckMet.Location = new System.Drawing.Point(110, 179);
+            this.TestCheckMet.Name = "TestCheckMet";
+            this.TestCheckMet.Size = new System.Drawing.Size(10, 10);
+            this.TestCheckMet.TabIndex = 27;
+            this.TestCheckMet.UseVisualStyleBackColor = false;
+            // 
             // TestComMeter
             // 
-            this.TestComMeter.Location = new System.Drawing.Point(118, 173);
+            this.TestComMeter.Location = new System.Drawing.Point(126, 173);
             this.TestComMeter.Name = "TestComMeter";
             this.TestComMeter.Size = new System.Drawing.Size(38, 23);
             this.TestComMeter.TabIndex = 26;
             this.TestComMeter.Text = "Test";
             this.TestComMeter.UseVisualStyleBackColor = true;
+            this.TestComMeter.Click += new System.EventHandler(this.TestComMeter_Click);
             // 
             // DtrMeter
             // 
@@ -383,13 +412,13 @@
             this.CancelSettings.UseVisualStyleBackColor = true;
             this.CancelSettings.Click += new System.EventHandler(this.CancelSettings_Click);
             // 
-            // SendToCom
+            // SendToComMet
             // 
-            this.SendToCom.Location = new System.Drawing.Point(2, 369);
-            this.SendToCom.Name = "SendToCom";
-            this.SendToCom.Size = new System.Drawing.Size(176, 20);
-            this.SendToCom.TabIndex = 16;
-            this.SendToCom.TextChanged += new System.EventHandler(this.SendToCom_TextChanged);
+            this.SendToComMet.Location = new System.Drawing.Point(115, 369);
+            this.SendToComMet.Name = "SendToComMet";
+            this.SendToComMet.Size = new System.Drawing.Size(63, 20);
+            this.SendToComMet.TabIndex = 16;
+            this.SendToComMet.TextChanged += new System.EventHandler(this.SendToComMet_TextChanged);
             // 
             // ReceivingInformation
             // 
@@ -411,14 +440,23 @@
             this.Recieve.UseVisualStyleBackColor = true;
             this.Recieve.Click += new System.EventHandler(this.Recieve_Click);
             // 
+            // SendToComSup
+            // 
+            this.SendToComSup.Location = new System.Drawing.Point(2, 369);
+            this.SendToComSup.Name = "SendToComSup";
+            this.SendToComSup.Size = new System.Drawing.Size(63, 20);
+            this.SendToComSup.TabIndex = 19;
+            this.SendToComSup.TextChanged += new System.EventHandler(this.SendToComSup_TextChanged_1);
+            // 
             // ComSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 461);
+            this.ClientSize = new System.Drawing.Size(184, 421);
+            this.Controls.Add(this.SendToComSup);
             this.Controls.Add(this.Recieve);
             this.Controls.Add(this.ReceivingInformation);
-            this.Controls.Add(this.SendToCom);
+            this.Controls.Add(this.SendToComMet);
             this.Controls.Add(this.CancelSettings);
             this.Controls.Add(this.OkSettings);
             this.Controls.Add(this.SelectSettingsCom);
@@ -470,8 +508,11 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button TestComSupply;
         private System.Windows.Forms.Button TestComMeter;
-        private System.Windows.Forms.TextBox SendToCom;
+        private System.Windows.Forms.TextBox SendToComMet;
         private System.Windows.Forms.RichTextBox ReceivingInformation;
         private System.Windows.Forms.Button Recieve;
+        private System.Windows.Forms.TextBox SendToComSup;
+        private System.Windows.Forms.Button TestCheckSup;
+        private System.Windows.Forms.Button TestCheckMet;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ComPortApp
@@ -8,11 +9,14 @@ namespace ComPortApp
         public ComCommunication CC = new ComCommunication();
 
         private string Name;
+
         public ComConfig(string name)
         {
+            //хорошее ли решение с экземплярами для supply и meter?
             Name = name;
         }
 
+        //может в структуру?
         private ComboBox CannelComBox;
         private ComboBox BaudRateBox;
         private ComboBox ParityBitbox;
@@ -24,12 +28,14 @@ namespace ComPortApp
         private string[] baudRate = new[] {"2400", "9600"};
         private string[] parityBit = new[] {"0", "1"};
         private string[] stopBits = new[] {"0", "1"};
-        private string[] flovControl = new[] { "on", "off" };
+        private string[] flovControl = new[] {"on", "off"};
+        //может в структуру?
 
-        public void RestoreForm(ComboBox cannelComBox, ComboBox baudRateBox, ComboBox parityBitbox, ComboBox stopBitsBox, ComboBox flovControlBox, CheckBox dtr)
+        public void RestoreForm(ComboBox cannelComBox, ComboBox baudRateBox, ComboBox parityBitbox,
+            ComboBox stopBitsBox, ComboBox flovControlBox, CheckBox dtr)
         {
             CannelComBox = cannelComBox;
-            BaudRateBox =  baudRateBox;
+            BaudRateBox = baudRateBox;
             ParityBitbox = parityBitbox;
             StopBitsBox = stopBitsBox;
             FlovControl = flovControlBox;
@@ -47,9 +53,10 @@ namespace ComPortApp
             box.Items.AddRange(adds);
             box.Text = adds[0];
         }
-       
-            public void DefaultConfCom()
+
+        public void DefaultConfCom()
         {
+            //хорошее ли решение с экземплярами для supply и meter?
             if (Name == "Supply")
             {
                 CannelComBox.SelectedIndex = (int) DefaultSettings.defCanSup;
@@ -61,12 +68,13 @@ namespace ComPortApp
 
 
             }
+
             if (Name == "Meter")
             {
-                CannelComBox.SelectedIndex = (int)DefaultSettings.defCanMet;
-                BaudRateBox.SelectedIndex = (int)DefaultSettings.defBRMet;
-                ParityBitbox.SelectedIndex = (int)DefaultSettings.defParMet;
-                StopBitsBox.SelectedIndex = (int)DefaultSettings.defStopMet;
+                CannelComBox.SelectedIndex = (int) DefaultSettings.defCanMet;
+                BaudRateBox.SelectedIndex = (int) DefaultSettings.defBRMet;
+                ParityBitbox.SelectedIndex = (int) DefaultSettings.defParMet;
+                StopBitsBox.SelectedIndex = (int) DefaultSettings.defStopMet;
                 DtrBox.CheckState = CheckState.Unchecked;
                 ApplySettings();
             }
@@ -77,24 +85,44 @@ namespace ComPortApp
             CC.NumPort = Int32.Parse(CannelComBox.Text);
             CC.BaudRate = Int32.Parse(BaudRateBox.Text);
             CC.Dtr = DtrBox.Checked;
-
+            CC.ComInit();
         }
+
         public void CancelSettings()
         {
             CannelComBox.Text = CC.NumPort.ToString();
             BaudRateBox.Text = CC.BaudRate.ToString();
             DtrBox.Checked = CC.Dtr;
         }
-        public void TestSettings(TextBox send, RichTextBox recieve)
+
+        public void TestCommunication(Button bt)
         {
-            CC.Data = send.Text;
-            CC.ComInit();
-            recieve.Text = CC.Buffer;
+            //переделать под два класса и чтобы кнопка блочилась на время выполнения ком врайта
+            CC.ComWrite("L");
+            //вожномжно переделать пока провожу тесты меня это утсраивает 
+            if (CC.ReadCom.Contains("V"))
+            {
+                bt.BackColor = Color.Green;
+            }
+            else
+            {
+                bt.BackColor = Color.Red;
+            }
         }
 
-        // CC.data = SendToCom.Text;
-        //CSM.CC.ComInit();
-        //ReceivingInformation.Text = CSM.CC.Buffer;
+        //возможно удалить ненужн функционал
+        //void ConfigTab()
+        //{
+        //    if (SelectSettingsCom.SelectedTab.Name == "SupplyTab")
+        //    {
+
+        //    }
+
+        //    if (SelectSettingsCom.SelectedTab.Name == "MeterTab")
+        //    {
+
+        //    }
+        //}
 
     }
 }

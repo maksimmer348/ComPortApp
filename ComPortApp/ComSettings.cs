@@ -13,7 +13,7 @@ namespace ComPortApp
 {
     public partial class ComSettings : Form
     {
-
+        //хорошее ли решение с экземплярами для supply и meter?
         ComConfig CSS = new ComConfig("Supply");
         ComConfig CSM = new ComConfig("Meter");
 
@@ -22,38 +22,34 @@ namespace ComPortApp
             InitializeComponent();
             CSS.RestoreForm(CannelComSupply, BaudRateSupply, ParityBitSupply, StopBitsSupply,FlowControlSupply, DtrSupply);
             CSM.RestoreForm(CannelComMeter, BaudRateMeter, ParityBitMeter, StopBitsMeter,FlowControlMeter, DtrMeter);
+            CSS.DefaultConfCom();
             CSM.DefaultConfCom();
-            SendToCom.Text = "V00";
+
+            //временно потом удалить
+            SendToComSup.Text = "L";
+            SendToComMet.Text = "V00";
+
         }
-        //void ConfigTab()
-        //{
-        //    if (SelectSettingsCom.SelectedTab.Name == "SupplyTab")
-        //    {
 
-        //    }
-
-        //    if (SelectSettingsCom.SelectedTab.Name == "MeterTab")
-        //    {
-
-        //    }
-        //}
-
+        //временно удалить после создания библиот команд, пока для тестов команд
         private void Recieve_Click(object sender, EventArgs e)
         {
-            CSM.CC.Data = SendToCom.Text;
-            CSM.CC.ComInit();
-            ReceivingInformation.Text = CSM.CC.Buffer;
-            // CSM.TestSettings(SendToCom, ReceivingInformation);
+            CSS.CC.ComWrite(SendToComSup.Text);
+            ReceivingInformation.Text += CSS.CC.ReadCom;
+            CSM.CC.ComWrite(SendToComMet.Text);
+            ReceivingInformation.Text += CSM.CC.ReadCom;
         }
 
         private void ResetSettingsSupply_Click(object sender, EventArgs e)
         {
+            //потом сделать один методом ResetSettings в ComConfig
             var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
             if (dialogResult != DialogResult.Yes) return; 
             CSS.DefaultConfCom();
         }
         private void ResetSettingsMeter_Click(object sender, EventArgs e)
         {
+            //потом сделать один методом ResetSettings в ComConfig
             var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
             if (dialogResult != DialogResult.Yes) return;
             CSM.DefaultConfCom();
@@ -63,7 +59,7 @@ namespace ComPortApp
         {
             CSS.ApplySettings();
             CSM.ApplySettings();
-            //this.Close();
+            this.Close();
         }
 
         private void CancelSettings_Click(object sender, EventArgs e)
@@ -71,6 +67,17 @@ namespace ComPortApp
             CSS.CancelSettings();
             CSM.CancelSettings();
             this.Close();
+        }
+
+        private void TestComSupply_Click(object sender, EventArgs e)
+        {
+            //добавить функционал и  для meter
+            CSS.TestCommunication(TestCheckSup);
+        }
+
+        private void TestComMeter_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void CannelComSupply_SelectedIndexChanged(object sender, EventArgs e)
@@ -82,12 +89,7 @@ namespace ComPortApp
         {
 
         }
-
-        private void TestComSupply_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private void BaudRateSupply_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -138,14 +140,22 @@ namespace ComPortApp
 
         }
 
-        private void SendToCom_TextChanged(object sender, EventArgs e)
+        private void SendToComMet_TextChanged(object sender, EventArgs e)
         {
            
         }
 
-      
-
         private void ReceivingInformation_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SendToComSup_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TestCheckSup_Click(object sender, EventArgs e)
         {
 
         }
