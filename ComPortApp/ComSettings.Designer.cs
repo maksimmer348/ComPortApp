@@ -65,6 +65,7 @@
             this.ReceivingInformation = new System.Windows.Forms.RichTextBox();
             this.Recieve = new System.Windows.Forms.Button();
             this.SendToComSup = new System.Windows.Forms.TextBox();
+            this.Clear = new System.Windows.Forms.Button();
             this.SelectSettingsCom.SuspendLayout();
             this.SupplyTab.SuspendLayout();
             this.MeterTab.SuspendLayout();
@@ -448,11 +449,22 @@
             this.SendToComSup.TabIndex = 19;
             this.SendToComSup.TextChanged += new System.EventHandler(this.SendToComSup_TextChanged_1);
             // 
+            // Clear
+            // 
+            this.Clear.Location = new System.Drawing.Point(115, 395);
+            this.Clear.Name = "Clear";
+            this.Clear.Size = new System.Drawing.Size(63, 23);
+            this.Clear.TabIndex = 20;
+            this.Clear.Text = "Clear";
+            this.Clear.UseVisualStyleBackColor = true;
+            this.Clear.Click += new System.EventHandler(this.Clear_Click);
+            // 
             // ComSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(184, 421);
+            this.Controls.Add(this.Clear);
             this.Controls.Add(this.SendToComSup);
             this.Controls.Add(this.Recieve);
             this.Controls.Add(this.ReceivingInformation);
@@ -514,5 +526,6 @@
         private System.Windows.Forms.TextBox SendToComSup;
         private System.Windows.Forms.Button TestCheckSup;
         private System.Windows.Forms.Button TestCheckMet;
+        private System.Windows.Forms.Button Clear;
     }
 }

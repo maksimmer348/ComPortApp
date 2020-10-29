@@ -35,20 +35,21 @@ namespace ComPortApp
         private void Recieve_Click(object sender, EventArgs e)
         {
             CSS.CC.ComWrite(SendToComSup.Text);
-            ReceivingInformation.Text += CSS.CC.ReadCom;
+            ReceivingInformation.Text += CSS.CC.ReadCom + "\n";
             CSM.CC.ComWrite(SendToComMet.Text);
             ReceivingInformation.Text += CSM.CC.ReadCom;
         }
 
         private void ResetSettingsSupply_Click(object sender, EventArgs e)
         {
-            //потом сделать один методом ResetSettings в ComConfig
+            //TODO:потом сделать один методом ResetSettings в ComConfig
             var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
             if (dialogResult != DialogResult.Yes) return; 
             CSS.DefaultConfCom();
         }
         private void ResetSettingsMeter_Click(object sender, EventArgs e)
         {
+            
             //потом сделать один методом ResetSettings в ComConfig
             var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
             if (dialogResult != DialogResult.Yes) return;
@@ -59,6 +60,8 @@ namespace ComPortApp
         {
             CSS.ApplySettings();
             CSM.ApplySettings();
+            CSS.SaveSettings();
+            //CSM.SaveSettings();
             this.Close();
         }
 
@@ -73,11 +76,12 @@ namespace ComPortApp
         {
             //добавить функционал и  для meter
             CSS.TestCommunication(TestCheckSup);
+
         }
 
         private void TestComMeter_Click(object sender, EventArgs e)
         {
-
+            CSM.TestCommunication(TestCheckMet);
         }
 
         private void CannelComSupply_SelectedIndexChanged(object sender, EventArgs e)
@@ -158,6 +162,11 @@ namespace ComPortApp
         private void TestCheckSup_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            ReceivingInformation.Text = String.Empty;
         }
     }
 }

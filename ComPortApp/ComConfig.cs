@@ -7,8 +7,9 @@ namespace ComPortApp
     public class ComConfig
     {
         public ComCommunication CC = new ComCommunication();
+        SerDeser serDeser = new SerDeser();
 
-        private string Name;
+        public string Name;
 
         public ComConfig(string name)
         {
@@ -28,6 +29,7 @@ namespace ComPortApp
         private string[] baudRate = new[] {"2400", "9600"};
         private string[] parityBit = new[] {"0", "1"};
         private string[] stopBits = new[] {"0", "1"};
+
         private string[] flovControl = new[] {"on", "off"};
         //может в структуру?
 
@@ -65,8 +67,6 @@ namespace ComPortApp
                 StopBitsBox.SelectedIndex = (int) DefaultSettings.defStopSup;
                 DtrBox.CheckState = CheckState.Checked;
                 ApplySettings();
-
-
             }
 
             if (Name == "Meter")
@@ -97,32 +97,39 @@ namespace ComPortApp
 
         public void TestCommunication(Button bt)
         {
-            //переделать под два класса и чтобы кнопка блочилась на время выполнения ком врайта
-            CC.ComWrite("L");
-            //вожномжно переделать пока провожу тесты меня это утсраивает 
-            if (CC.ReadCom.Contains("V"))
+            if (Name == "Supply")
             {
-                bt.BackColor = Color.Green;
+                //переделать под два класса и чтобы кнопка блочилась на время выполнения ком врайта
+                CC.ComWrite("L");
+                //вожномжно переделать пока провожу тесты меня это утсраивает 
+                if (CC.ReadCom.Contains("V"))
+                {
+                    bt.BackColor = Color.Green;
+                }
+                else
+                {
+                    bt.BackColor = Color.Red;
+                }
             }
-            else
+            else if (Name == "Meter")
             {
-                bt.BackColor = Color.Red;
+                //переделать под два класса и чтобы кнопка блочилась на время выполнения ком врайта
+                CC.ComWrite("V00");
+                //вожномжно переделать пока провожу тесты меня это утсраивает 
+                if (CC.ReadCom.Contains("E"))
+                {
+                    bt.BackColor = Color.Green;
+                }
+                else
+                {
+                    bt.BackColor = Color.Red;
+                }
             }
         }
 
-        //возможно удалить ненужн функционал
-        //void ConfigTab()
-        //{
-        //    if (SelectSettingsCom.SelectedTab.Name == "SupplyTab")
-        //    {
-
-        //    }
-
-        //    if (SelectSettingsCom.SelectedTab.Name == "MeterTab")
-        //    {
-
-        //    }
-        //}
-
+        public void SaveSettings()
+        {
+            serDeser.Serialize();
+        }
     }
 }

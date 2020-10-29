@@ -36,21 +36,19 @@ namespace ComPortApp
             {
                 gsp.WriteAsciiString(write + "\r\n");
                 WriteCom = write;
-
-                ComRead();
+                ReadCom = ComRead();
             }
         }
 
-        public void ComRead()
+        public string ComRead()
         {
-            Thread.Sleep(1000); //временная мера чтобы ответ успел сформироватся ИСПРАВИТЬ
+            Thread.Sleep(1000); //BUG:временная мера чтобы ответ успел сформироватся ИСПРАВИТЬ
 
             byte[] byt = gsp.Read();
             if (byt == null)
             {
-                ReadCom = "null";
+                return "null";
             }
-
             else
             {
                 string read = ascii.GetString(byt);
@@ -58,11 +56,11 @@ namespace ComPortApp
                 if (read[0] == '?')
                 {
                     var buff = read.Substring(1);
-                    ReadCom = buff;
+                    return  buff;
                 }
                 else
                 {
-                    ReadCom = read;
+                    return read;
                 }
             }
         }
