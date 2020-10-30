@@ -34,9 +34,13 @@ namespace ComPortApp
         {
             if (!string.IsNullOrEmpty(write))
             {
-                gsp.WriteAsciiString(write + "\r\n");
-                WriteCom = write;
-                ReadCom = ComRead();
+                if (gsp.Open())
+                {
+                    gsp.WriteAsciiString(write + "\r\n");
+                    WriteCom = write;
+                    ReadCom = ComRead();
+                }
+               
             }
         }
 
