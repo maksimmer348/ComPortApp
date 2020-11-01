@@ -18,16 +18,15 @@ namespace ComPortApp
         //хорошее ли решение с экземплярами для supply и meter?
         ComConfig CSS = new ComConfig("Supply");
         ComConfig CSM = new ComConfig("Meter");
-        List<ComConfig> comConfigs = new List<ComConfig>();
+        
         public ComSettings()
         {
             InitializeComponent();
-            comConfigs.Add(CSS);
-            comConfigs.Add(CSM);
-            comConfigs[0].RestoreForm(CannelComSupply, BaudRateSupply, ParityBitSupply, StopBitsSupply, FlowControlSupply, DtrSupply);
-            comConfigs[1].RestoreForm(CannelComMeter, BaudRateMeter, ParityBitMeter, StopBitsMeter,FlowControlMeter, DtrMeter);
-            comConfigs[0].DefaultConfCom();
-            comConfigs[1].DefaultConfCom();
+
+            CSS.RestoreForm(CannelComSupply, BaudRateSupply, ParityBitSupply, StopBitsSupply, FlowControlSupply, DtrSupply);
+            CSM.RestoreForm(CannelComMeter, BaudRateMeter, ParityBitMeter, StopBitsMeter,FlowControlMeter, DtrMeter);
+            CSS.DefaultConfCom();
+            CSM.DefaultConfCom();
             
             Deserialize();
             //временно потом удалить
@@ -40,9 +39,9 @@ namespace ComPortApp
         private void Recieve_Click(object sender, EventArgs e)
         {
             CSS.CC.ComWrite(SendToComSup.Text);
-            ReceivingInformation.Text += comConfigs[0].CC.ReadCom + "\n";
-            comConfigs[1].CC.ComWrite(SendToComMet.Text);
-            ReceivingInformation.Text += comConfigs[1].CC.ReadCom;
+            ReceivingInformation.Text += CSS.CC.ReadCom + "\n";
+            CSM.CC.ComWrite(SendToComMet.Text);
+            ReceivingInformation.Text += CSM.CC.ReadCom;
         }
 
         private void ResetSettingsSupply_Click(object sender, EventArgs e)
@@ -50,7 +49,7 @@ namespace ComPortApp
             //TODO:потом сделать один методом ResetSettings в ComConfig
             var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
             if (dialogResult != DialogResult.Yes) return; 
-            comConfigs[0].DefaultConfCom();
+            CSS.DefaultConfCom();
         }
         private void ResetSettingsMeter_Click(object sender, EventArgs e)
         {
@@ -58,30 +57,31 @@ namespace ComPortApp
             //потом сделать один методом ResetSettings в ComConfig
             var dialogResult = MessageBox.Show("Усановить настройки по умолчанию?", "По умолчанию", MessageBoxButtons.YesNo);
             if (dialogResult != DialogResult.Yes) return;
-            comConfigs[1].DefaultConfCom();
+            CSM.DefaultConfCom();
            
         }
 
         private void OkSettings_Click(object sender, EventArgs e)
         {
-            comConfigs[0].ApplySettings();
-            comConfigs[1].ApplySettings();
-            //comConfigs[0].SaveSettings();
-            //comConfigs[1].SaveSettings();
+            CSS.ApplySettings();
+            CSM.ApplySettings();
+            //CSS.SaveSettings();
+            //CSM.SaveSettings();
             Serialize();
             // this.Close();
         }
 
         private void CancelSettings_Click(object sender, EventArgs e)
         {
-            comConfigs[0].CancelSettings();
-            comConfigs[1].CancelSettings();
+            CSS.CancelSettings();
+            CSM.CancelSettings();
             Deserialize();
             //this.Close();
 
         }
         public void Serialize()
         {
+            List<ComConfig> comConfigs = new List<ComConfig> {CSS, CSM};
             string json = JsonConvert.SerializeObject(comConfigs, Formatting.Indented);//, new JsonSerializerSettings()
             //{
             //    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -92,20 +92,24 @@ namespace ComPortApp
         private void Deserialize()
         {
             var ss = JsonConvert.DeserializeObject<List<ComConfig>>(File.ReadAllText("Settings.json"));
-            comConfigs[0].CannelComBox.Text = ss[0].CC.NumPort.ToString();
-            comConfigs[1].CannelComBox.Text = ss[1].CC.NumPort.ToString();
+
+            CSS = ss[0];
+            CSM = ss[1];
+
+            CSS.CannelComBox.Text = ss[0].CC.NumPort.ToString();
+            CSM.CannelComBox.Text = ss[1].CC.NumPort.ToString();
         }
 
         private void TestComSupply_Click(object sender, EventArgs e)
         {
             //добавить функционал и  для meter
-            comConfigs[0].TestCommunication(TestCheckSup);
+            CSS.TestCommunication(TestCheckSup);
 
         }
 
         private void TestComMeter_Click(object sender, EventArgs e)
         {
-            comConfigs[1].TestCommunication(TestCheckMet);
+            CSM.TestCommunication(TestCheckMet);
         }
 
         private void CannelComSupply_SelectedIndexChanged(object sender, EventArgs e)
