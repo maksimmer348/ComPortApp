@@ -1,4 +1,4 @@
-﻿namespace ComPortApp
+﻿namespace ComPortSettings
 {
     partial class ComSettings
     {
@@ -78,7 +78,6 @@
             this.CannelComSupply.Name = "CannelComSupply";
             this.CannelComSupply.Size = new System.Drawing.Size(79, 21);
             this.CannelComSupply.TabIndex = 1;
-            this.CannelComSupply.SelectedIndexChanged += new System.EventHandler(this.CannelComSupply_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -133,7 +132,6 @@
             this.TestCheckSup.Size = new System.Drawing.Size(10, 10);
             this.TestCheckSup.TabIndex = 15;
             this.TestCheckSup.UseVisualStyleBackColor = false;
-            this.TestCheckSup.Click += new System.EventHandler(this.TestCheckSup_Click);
             // 
             // TestComSupply
             // 
@@ -143,7 +141,6 @@
             this.TestComSupply.TabIndex = 14;
             this.TestComSupply.Text = "Test";
             this.TestComSupply.UseVisualStyleBackColor = true;
-            this.TestComSupply.Click += new System.EventHandler(this.TestComSupply_Click);
             // 
             // DtrSupply
             // 
@@ -154,7 +151,6 @@
             this.DtrSupply.TabIndex = 13;
             this.DtrSupply.Text = "Data terminal ready (DTR)";
             this.DtrSupply.UseVisualStyleBackColor = true;
-            this.DtrSupply.CheckedChanged += new System.EventHandler(this.DtrSupply_CheckedChanged);
             // 
             // ResetSettingsSupply
             // 
@@ -164,7 +160,6 @@
             this.ResetSettingsSupply.TabIndex = 12;
             this.ResetSettingsSupply.Text = "Reset settings";
             this.ResetSettingsSupply.UseVisualStyleBackColor = true;
-            this.ResetSettingsSupply.Click += new System.EventHandler(this.ResetSettingsSupply_Click);
             // 
             // FlowControlSupply
             // 
@@ -190,7 +185,6 @@
             this.StopBitsSupply.Name = "StopBitsSupply";
             this.StopBitsSupply.Size = new System.Drawing.Size(79, 21);
             this.StopBitsSupply.TabIndex = 8;
-            this.StopBitsSupply.SelectedIndexChanged += new System.EventHandler(this.StopBitsSupply_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -208,7 +202,6 @@
             this.ParityBitSupply.Name = "ParityBitSupply";
             this.ParityBitSupply.Size = new System.Drawing.Size(79, 21);
             this.ParityBitSupply.TabIndex = 6;
-            this.ParityBitSupply.SelectedIndexChanged += new System.EventHandler(this.ParityBitSupply_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -226,7 +219,6 @@
             this.BaudRateSupply.Name = "BaudRateSupply";
             this.BaudRateSupply.Size = new System.Drawing.Size(79, 21);
             this.BaudRateSupply.TabIndex = 4;
-            this.BaudRateSupply.SelectedIndexChanged += new System.EventHandler(this.BaudRateSupply_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -280,7 +272,6 @@
             this.TestComMeter.TabIndex = 26;
             this.TestComMeter.Text = "Test";
             this.TestComMeter.UseVisualStyleBackColor = true;
-            this.TestComMeter.Click += new System.EventHandler(this.TestComMeter_Click);
             // 
             // DtrMeter
             // 
@@ -291,7 +282,6 @@
             this.DtrMeter.TabIndex = 25;
             this.DtrMeter.Text = "Data terminal ready (DTR)";
             this.DtrMeter.UseVisualStyleBackColor = true;
-            this.DtrMeter.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // ResetSettingsMeter
             // 
@@ -301,7 +291,6 @@
             this.ResetSettingsMeter.TabIndex = 24;
             this.ResetSettingsMeter.Text = "Reset settings";
             this.ResetSettingsMeter.UseVisualStyleBackColor = true;
-            this.ResetSettingsMeter.Click += new System.EventHandler(this.ResetSettingsMeter_Click);
             // 
             // FlowControlMeter
             // 
@@ -310,7 +299,6 @@
             this.FlowControlMeter.Name = "FlowControlMeter";
             this.FlowControlMeter.Size = new System.Drawing.Size(79, 21);
             this.FlowControlMeter.TabIndex = 22;
-            this.FlowControlMeter.SelectedIndexChanged += new System.EventHandler(this.FlowControlMeter_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -328,7 +316,6 @@
             this.StopBitsMeter.Name = "StopBitsMeter";
             this.StopBitsMeter.Size = new System.Drawing.Size(79, 21);
             this.StopBitsMeter.TabIndex = 20;
-            this.StopBitsMeter.SelectedIndexChanged += new System.EventHandler(this.StopBitsMeter_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -346,7 +333,6 @@
             this.ParityBitMeter.Name = "ParityBitMeter";
             this.ParityBitMeter.Size = new System.Drawing.Size(79, 21);
             this.ParityBitMeter.TabIndex = 18;
-            this.ParityBitMeter.SelectedIndexChanged += new System.EventHandler(this.ParityBitMeter_SelectedIndexChanged);
             // 
             // label8
             // 
@@ -364,7 +350,6 @@
             this.BaudRateMeter.Name = "BaudRateMeter";
             this.BaudRateMeter.Size = new System.Drawing.Size(79, 21);
             this.BaudRateMeter.TabIndex = 16;
-            this.BaudRateMeter.SelectedIndexChanged += new System.EventHandler(this.BaudRateMeter_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -382,7 +367,6 @@
             this.CannelComMeter.Name = "CannelComMeter";
             this.CannelComMeter.Size = new System.Drawing.Size(79, 21);
             this.CannelComMeter.TabIndex = 14;
-            this.CannelComMeter.SelectedIndexChanged += new System.EventHandler(this.CannelComMeter_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -401,7 +385,6 @@
             this.OkSettings.TabIndex = 14;
             this.OkSettings.Text = "OK";
             this.OkSettings.UseVisualStyleBackColor = true;
-            this.OkSettings.Click += new System.EventHandler(this.OkSettings_Click);
             // 
             // CancelSettings
             // 
@@ -411,7 +394,6 @@
             this.CancelSettings.TabIndex = 15;
             this.CancelSettings.Text = "Cancel";
             this.CancelSettings.UseVisualStyleBackColor = true;
-            this.CancelSettings.Click += new System.EventHandler(this.CancelSettings_Click);
             // 
             // SendToComMet
             // 
@@ -419,7 +401,6 @@
             this.SendToComMet.Name = "SendToComMet";
             this.SendToComMet.Size = new System.Drawing.Size(63, 20);
             this.SendToComMet.TabIndex = 16;
-            this.SendToComMet.TextChanged += new System.EventHandler(this.SendToComMet_TextChanged);
             // 
             // ReceivingInformation
             // 
@@ -429,7 +410,6 @@
             this.ReceivingInformation.Size = new System.Drawing.Size(176, 85);
             this.ReceivingInformation.TabIndex = 17;
             this.ReceivingInformation.Text = "";
-            this.ReceivingInformation.TextChanged += new System.EventHandler(this.ReceivingInformation_TextChanged);
             // 
             // Recieve
             // 
@@ -439,7 +419,6 @@
             this.Recieve.TabIndex = 18;
             this.Recieve.Text = "Recieve";
             this.Recieve.UseVisualStyleBackColor = true;
-            this.Recieve.Click += new System.EventHandler(this.Recieve_Click);
             // 
             // SendToComSup
             // 
@@ -447,7 +426,6 @@
             this.SendToComSup.Name = "SendToComSup";
             this.SendToComSup.Size = new System.Drawing.Size(63, 20);
             this.SendToComSup.TabIndex = 19;
-            this.SendToComSup.TextChanged += new System.EventHandler(this.SendToComSup_TextChanged_1);
             // 
             // Clear
             // 
@@ -457,7 +435,6 @@
             this.Clear.TabIndex = 20;
             this.Clear.Text = "Clear";
             this.Clear.UseVisualStyleBackColor = true;
-            this.Clear.Click += new System.EventHandler(this.Clear_Click);
             // 
             // ComSettings
             // 

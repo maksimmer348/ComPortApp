@@ -1,31 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using GodSharp.SerialPort;
-using System.Timers;
-
-namespace ComPortApp
+﻿namespace ComPortSettings
 {
     public class ComCommunication
     {
-        ASCIIEncoding ascii = new ASCIIEncoding();
-        private GodSerialPort gsp;
-        public int NumPort;
-        public int BaudRate;
-        public int Parity;
-        public bool Dtr;
-        public string WriteCom;
-        public string ReadCom;
-        
 
         public void ComInit()
         {
-            GodSerialPort serialPortInit = new GodSerialPort("COM" + NumPort, BaudRate, Parity) {DtrEnable = Dtr};
+            GodSerialPort serialPortInit = new GodSerialPort("COM" + NumPort, BaudRate, Parity) { DtrEnable = Dtr };
             serialPortInit.Open();
             gsp = serialPortInit;
         }
@@ -40,7 +20,7 @@ namespace ComPortApp
                     WriteCom = write;
                     ReadCom = ComRead();
                 }
-               
+
             }
         }
 
@@ -60,7 +40,7 @@ namespace ComPortApp
                 if (read[0] == '?')
                 {
                     var buff = read.Substring(1);
-                    return  buff;
+                    return buff;
                 }
                 else
                 {
@@ -68,5 +48,7 @@ namespace ComPortApp
                 }
             }
         }
+    }
+}
     }
 }
