@@ -1,6 +1,6 @@
 ﻿namespace ComPortSettings
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,19 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.openSettingsBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // Form1
+            // openSettingsBtn
+            // 
+            this.openSettingsBtn.Location = new System.Drawing.Point(25, 41);
+            this.openSettingsBtn.Name = "openSettingsBtn";
+            this.openSettingsBtn.Size = new System.Drawing.Size(125, 23);
+            this.openSettingsBtn.TabIndex = 0;
+            this.openSettingsBtn.Text = "Open Settings";
+            this.openSettingsBtn.UseVisualStyleBackColor = true;
+            this.openSettingsBtn.Click += new System.EventHandler(this.openSettingsBtn_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Controls.Add(this.openSettingsBtn);
+            this.Name = "MainForm";
+            this.Text = "MainForm";
             this.ResumeLayout(false);
-
         }
+
+        private System.Windows.Forms.Button openSettingsBtn;
 
         #endregion
     }
