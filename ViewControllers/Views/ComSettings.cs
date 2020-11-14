@@ -8,5 +8,10 @@ namespace ComPortSettings
         {
             InitializeComponent();
         }
+
+        private void BaudRateSupply_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

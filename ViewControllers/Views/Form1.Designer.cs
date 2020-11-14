@@ -1,4 +1,4 @@
-﻿namespace ComPortApp
+﻿namespace ComPortSettings
 {
     partial class Form1
     {
@@ -997,8 +997,9 @@
             // ComMenu
             // 
             this.ComMenu.Name = "ComMenu";
-            this.ComMenu.Size = new System.Drawing.Size(100, 22);
+            this.ComMenu.Size = new System.Drawing.Size(180, 22);
             this.ComMenu.Text = "Com";
+            this.ComMenu.Click += new System.EventHandler(this.ComMenu_Click);
             // 
             // TestParameter
             // 
@@ -1198,7 +1199,6 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.SelectLoad.ResumeLayout(false);
             this.SelectTransistor.ResumeLayout(false);
             this.SelectTransistor.PerformLayout();

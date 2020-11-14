@@ -13,9 +13,8 @@ namespace ComPortSettings
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            var controller = new MainFormController(new MainForm());
-            Application.Run(controller.View);
+            var form = new MainFormController(new Form1());
+            Application.Run(form.View);
         }
     }
 }

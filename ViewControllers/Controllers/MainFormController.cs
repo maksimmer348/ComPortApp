@@ -2,10 +2,10 @@
 
 namespace ComPortSettings
 {
-    public class MainFormController : Controller<MainForm>
+    public class MainFormController : Controller<Form1>
     {
         
-        public MainFormController(MainForm view) : base(view)
+        public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += OpenSettings;
         }

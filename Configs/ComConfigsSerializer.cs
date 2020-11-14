@@ -12,7 +12,6 @@ namespace ComPortSettings
             var writer = new StreamWriter(stream);
             writer.Write(json);
             writer.Flush();
-            writer.Close();
         }
 
         public ComConfig[] Deserialize(Stream stream)
@@ -20,6 +19,7 @@ namespace ComPortSettings
             var reader = new StreamReader(stream);
             
             var config = JsonConvert.DeserializeObject<ComConfig[]>(reader.ReadToEnd());
+            reader.ReadToEnd();
             return config;
         }
     }

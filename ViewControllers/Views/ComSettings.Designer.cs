@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CannelComSupply = new System.Windows.Forms.ComboBox();
+            this.ChannelComSupply = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SelectSettingsCom = new System.Windows.Forms.TabControl();
             this.SupplyTab = new System.Windows.Forms.TabPage();
@@ -57,7 +57,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.BaudRateMeter = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.CannelComMeter = new System.Windows.Forms.ComboBox();
+            this.ChannelComMeter = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.OkSettings = new System.Windows.Forms.Button();
             this.CancelSettings = new System.Windows.Forms.Button();
@@ -71,22 +71,27 @@
             this.MeterTab.SuspendLayout();
             this.SuspendLayout();
             // 
-            // CannelComSupply
+            // ChannelComSupply
             // 
-            this.CannelComSupply.FormattingEnabled = true;
-            this.CannelComSupply.Location = new System.Drawing.Point(6, 6);
-            this.CannelComSupply.Name = "CannelComSupply";
-            this.CannelComSupply.Size = new System.Drawing.Size(79, 21);
-            this.CannelComSupply.TabIndex = 1;
+            this.ChannelComSupply.FormattingEnabled = true;
+            this.ChannelComSupply.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4"});
+            this.ChannelComSupply.Location = new System.Drawing.Point(6, 6);
+            this.ChannelComSupply.Name = "ChannelComSupply";
+            this.ChannelComSupply.Size = new System.Drawing.Size(79, 21);
+            this.ChannelComSupply.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(91, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Cannel com";
+            this.label1.Text = "Channel com";
             // 
             // SelectSettingsCom
             // 
@@ -112,7 +117,7 @@
             this.SupplyTab.Controls.Add(this.label3);
             this.SupplyTab.Controls.Add(this.BaudRateSupply);
             this.SupplyTab.Controls.Add(this.label2);
-            this.SupplyTab.Controls.Add(this.CannelComSupply);
+            this.SupplyTab.Controls.Add(this.ChannelComSupply);
             this.SupplyTab.Controls.Add(this.label1);
             this.SupplyTab.Location = new System.Drawing.Point(4, 22);
             this.SupplyTab.Name = "SupplyTab";
@@ -164,6 +169,9 @@
             // FlowControlSupply
             // 
             this.FlowControlSupply.FormattingEnabled = true;
+            this.FlowControlSupply.Items.AddRange(new object[] {
+            "on",
+            "off"});
             this.FlowControlSupply.Location = new System.Drawing.Point(6, 114);
             this.FlowControlSupply.Name = "FlowControlSupply";
             this.FlowControlSupply.Size = new System.Drawing.Size(79, 21);
@@ -181,6 +189,9 @@
             // StopBitsSupply
             // 
             this.StopBitsSupply.FormattingEnabled = true;
+            this.StopBitsSupply.Items.AddRange(new object[] {
+            "0",
+            "1"});
             this.StopBitsSupply.Location = new System.Drawing.Point(6, 87);
             this.StopBitsSupply.Name = "StopBitsSupply";
             this.StopBitsSupply.Size = new System.Drawing.Size(79, 21);
@@ -198,6 +209,9 @@
             // ParityBitSupply
             // 
             this.ParityBitSupply.FormattingEnabled = true;
+            this.ParityBitSupply.Items.AddRange(new object[] {
+            "0",
+            "1"});
             this.ParityBitSupply.Location = new System.Drawing.Point(6, 60);
             this.ParityBitSupply.Name = "ParityBitSupply";
             this.ParityBitSupply.Size = new System.Drawing.Size(79, 21);
@@ -215,10 +229,14 @@
             // BaudRateSupply
             // 
             this.BaudRateSupply.FormattingEnabled = true;
+            this.BaudRateSupply.Items.AddRange(new object[] {
+            "2400",
+            "9600"});
             this.BaudRateSupply.Location = new System.Drawing.Point(6, 33);
             this.BaudRateSupply.Name = "BaudRateSupply";
             this.BaudRateSupply.Size = new System.Drawing.Size(79, 21);
             this.BaudRateSupply.TabIndex = 4;
+            this.BaudRateSupply.SelectedIndexChanged += new System.EventHandler(this.BaudRateSupply_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -243,7 +261,7 @@
             this.MeterTab.Controls.Add(this.label8);
             this.MeterTab.Controls.Add(this.BaudRateMeter);
             this.MeterTab.Controls.Add(this.label9);
-            this.MeterTab.Controls.Add(this.CannelComMeter);
+            this.MeterTab.Controls.Add(this.ChannelComMeter);
             this.MeterTab.Controls.Add(this.label10);
             this.MeterTab.Location = new System.Drawing.Point(4, 22);
             this.MeterTab.Name = "MeterTab";
@@ -295,6 +313,9 @@
             // FlowControlMeter
             // 
             this.FlowControlMeter.FormattingEnabled = true;
+            this.FlowControlMeter.Items.AddRange(new object[] {
+            "on",
+            "off"});
             this.FlowControlMeter.Location = new System.Drawing.Point(6, 114);
             this.FlowControlMeter.Name = "FlowControlMeter";
             this.FlowControlMeter.Size = new System.Drawing.Size(79, 21);
@@ -312,6 +333,9 @@
             // StopBitsMeter
             // 
             this.StopBitsMeter.FormattingEnabled = true;
+            this.StopBitsMeter.Items.AddRange(new object[] {
+            "0",
+            "1"});
             this.StopBitsMeter.Location = new System.Drawing.Point(6, 87);
             this.StopBitsMeter.Name = "StopBitsMeter";
             this.StopBitsMeter.Size = new System.Drawing.Size(79, 21);
@@ -329,6 +353,9 @@
             // ParityBitMeter
             // 
             this.ParityBitMeter.FormattingEnabled = true;
+            this.ParityBitMeter.Items.AddRange(new object[] {
+            "0",
+            "1"});
             this.ParityBitMeter.Location = new System.Drawing.Point(6, 60);
             this.ParityBitMeter.Name = "ParityBitMeter";
             this.ParityBitMeter.Size = new System.Drawing.Size(79, 21);
@@ -346,6 +373,9 @@
             // BaudRateMeter
             // 
             this.BaudRateMeter.FormattingEnabled = true;
+            this.BaudRateMeter.Items.AddRange(new object[] {
+            "2400",
+            "9600"});
             this.BaudRateMeter.Location = new System.Drawing.Point(6, 33);
             this.BaudRateMeter.Name = "BaudRateMeter";
             this.BaudRateMeter.Size = new System.Drawing.Size(79, 21);
@@ -360,22 +390,27 @@
             this.label9.TabIndex = 17;
             this.label9.Text = "Baud rate";
             // 
-            // CannelComMeter
+            // ChannelComMeter
             // 
-            this.CannelComMeter.FormattingEnabled = true;
-            this.CannelComMeter.Location = new System.Drawing.Point(6, 6);
-            this.CannelComMeter.Name = "CannelComMeter";
-            this.CannelComMeter.Size = new System.Drawing.Size(79, 21);
-            this.CannelComMeter.TabIndex = 14;
+            this.ChannelComMeter.FormattingEnabled = true;
+            this.ChannelComMeter.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4"});
+            this.ChannelComMeter.Location = new System.Drawing.Point(6, 6);
+            this.ChannelComMeter.Name = "ChannelComMeter";
+            this.ChannelComMeter.Size = new System.Drawing.Size(79, 21);
+            this.ChannelComMeter.TabIndex = 14;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(91, 9);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.Size = new System.Drawing.Size(69, 13);
             this.label10.TabIndex = 15;
-            this.label10.Text = "Cannel com";
+            this.label10.Text = "Channel com";
             // 
             // OkSettings
             // 
@@ -465,35 +500,22 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox CannelComSupply;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TabControl SelectSettingsCom;
         private System.Windows.Forms.TabPage SupplyTab;
         private System.Windows.Forms.TabPage MeterTab;
-        private System.Windows.Forms.CheckBox DtrSupply;
         private System.Windows.Forms.Button ResetSettingsSupply;
-        private System.Windows.Forms.ComboBox FlowControlSupply;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox StopBitsSupply;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox ParityBitSupply;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox BaudRateSupply;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button OkSettings;
         private System.Windows.Forms.Button CancelSettings;
-        private System.Windows.Forms.CheckBox DtrMeter;
         private System.Windows.Forms.Button ResetSettingsMeter;
-        private System.Windows.Forms.ComboBox FlowControlMeter;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox StopBitsMeter;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox ParityBitMeter;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox BaudRateMeter;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox CannelComMeter;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button TestComSupply;
         private System.Windows.Forms.Button TestComMeter;
@@ -504,5 +526,17 @@
         private System.Windows.Forms.Button TestCheckSup;
         private System.Windows.Forms.Button TestCheckMet;
         private System.Windows.Forms.Button Clear;
+        public System.Windows.Forms.ComboBox ChannelComSupply;
+        public System.Windows.Forms.CheckBox DtrSupply;
+        public System.Windows.Forms.ComboBox FlowControlSupply;
+        public System.Windows.Forms.ComboBox StopBitsSupply;
+        public System.Windows.Forms.ComboBox ParityBitSupply;
+        public System.Windows.Forms.ComboBox BaudRateSupply;
+        public System.Windows.Forms.CheckBox DtrMeter;
+        public System.Windows.Forms.ComboBox FlowControlMeter;
+        public System.Windows.Forms.ComboBox StopBitsMeter;
+        public System.Windows.Forms.ComboBox ParityBitMeter;
+        public System.Windows.Forms.ComboBox BaudRateMeter;
+        public System.Windows.Forms.ComboBox ChannelComMeter;
     }
 }
