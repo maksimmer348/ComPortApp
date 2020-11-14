@@ -61,6 +61,12 @@
     <Compile Include="ViewControllers\Views\ComSettings.designer.cs">
       <DependentUpon>ComSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Views\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewControllers\Views\Form1.designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     </Compile>
     <EmbeddedResource Include="ViewControllers\Views\ComSettings.resx">
       <DependentUpon>ComSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewControllers\Views\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewControllers\Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -98,6 +107,12 @@
   <ItemGroup>
     <PackageReference Include="GodSharp.SerialPort" Version="1.2.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="ZedGraph">
+      <Version>5.1.7</Version>
+    </PackageReference>
+    <PackageReference Include="ZedGraph.Web">
+      <Version>5.1.5</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
