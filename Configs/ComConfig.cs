@@ -11,7 +11,7 @@
         public static ComConfig[] Default = 
         {
             new ComConfig {ChannelNum = 1, BaudRate = 2400, ParityBit = 0, StopBits = 0, DTR = true},
-            new ComConfig {ChannelNum = 1, BaudRate = 9600, ParityBit = 1, StopBits = 1, DTR = false},
+            new ComConfig {ChannelNum = 2, BaudRate = 9600, ParityBit = 1, StopBits = 0, DTR = false},
         };
     }
 }

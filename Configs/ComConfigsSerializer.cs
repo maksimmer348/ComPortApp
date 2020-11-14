@@ -12,9 +12,10 @@ namespace ComPortSettings
             var writer = new StreamWriter(stream);
             writer.Write(json);
             writer.Flush();
+            writer.Close();
         }
 
-        private ComConfig[] Deserialize(Stream stream)
+        public ComConfig[] Deserialize(Stream stream)
         {
             var reader = new StreamReader(stream);
             
