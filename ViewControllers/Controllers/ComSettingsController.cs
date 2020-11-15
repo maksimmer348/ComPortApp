@@ -1,86 +1,78 @@
 ﻿using System;
 using System.IO;
 using System.Net.Security;
+using System.Windows.Forms;
 using ComPortSettings.MVC;
 
 namespace ComPortSettings
 {
     public class ComSettingsController : Controller<ComSettings>
     {
-        
+
         public ComSettingsController(ComSettings view) : base(view)
         {
+            View.ResetSupply += DefaultSettingsSupply;
+            View.ResetMeter  += DefaultSettingsMeter;
+            View.TestSupply += TestSupply;
+            View.TestMeter += TestMeter;
+            View.Ok += OkSettings;
+            View.Cancel += CancelSettings;
         }
+
+      
+
 
         protected override void OnShown()
         {
             var serializer = new ComConfigsSerializer();
 
+
             if (File.Exists("Settings.json"))
             {
-                var configs = serializer.Deserialize(File.OpenRead("Settings.json"));
+                var configs = serializer.Deserialize();
 
-                WriteSupply(configs[0]);
-                WriteMeter(configs[1]);
+                View.WriteSupply(configs[0]);
+                View.WriteMeter(configs[1]);
 
             }
-            
-        }
 
-        void WriteSupply(ComConfig cfg)
-        {
-            View.ChannelComSupply.Text = cfg.ChannelNum.ToString();
-            View.BaudRateSupply.Text   = cfg.BaudRate.ToString();
-            View.ParityBitSupply.Text  = cfg.ParityBit.ToString();
-            View.StopBitsSupply.Text   = cfg.StopBits.ToString();
-            View.DtrSupply.Checked     = cfg.DTR;
         }
-
-        void WriteMeter(ComConfig cfg)
-        {
-            View.ChannelComMeter.Text = cfg.ChannelNum.ToString();
-            View.BaudRateMeter.Text   = cfg.BaudRate.ToString();
-            View.ParityBitMeter.Text  = cfg.ParityBit.ToString();
-            View.StopBitsMeter.Text   = cfg.StopBits.ToString();
-            View.DtrMeter.Checked     = cfg.DTR;
-        }
-
-        ComConfig ReadSupply()
-        {
-            return new ComConfig()
-            {
-                ChannelNum = int.Parse((string)View.ChannelComSupply.SelectedItem),
-                BaudRate   = int.Parse((string)View.BaudRateSupply.SelectedItem),
-                ParityBit  = int.Parse((string)View.ParityBitSupply.SelectedItem),
-                StopBits   = int.Parse((string)View.StopBitsSupply.SelectedItem), 
-                DTR        = View.DtrSupply.Checked,
-            };
-            
-        }
-
-        ComConfig ReadMeter()
-        {
-            return new ComConfig()
-            {
-                ChannelNum = int.Parse((string)View.ChannelComMeter.SelectedItem),
-                BaudRate   = int.Parse((string)View.BaudRateMeter.SelectedItem),
-                ParityBit  = int.Parse((string)View.ParityBitMeter.SelectedItem),
-                StopBits   = int.Parse((string)View.StopBitsMeter.SelectedItem),
-                DTR        = View.DtrMeter.Checked,
-            };
-        }
-
         protected override void OnClosed()
         {
-            ComConfig[] configs = {ReadSupply(), ReadMeter()};
+            ComConfig[] configs = { View.ReadSupply(), View.ReadMeter() };
 
             var serializer = new ComConfigsSerializer();
+            serializer.Serialize(configs);
+            OnShown();
+        }
 
-            if (File.Exists("Settings.json"))
-            {
-                serializer.Serialize(File.OpenWrite("Settings.json"),configs);
-            }
+        void DefaultSettingsSupply()
+        {
+            View.WriteSupply(ComConfig.DefaultSupply);
+        }
+
+        void DefaultSettingsMeter()
+        {
+            View.WriteMeter(ComConfig.DefaultMeter);
+        }
+
+        void TestSupply()
+        {
 
         }
+        void TestMeter()
+        {
+
+        }
+        private void CancelSettings()
+        {
+            
+        }
+
+        private void OkSettings()
+        {
+            
+        }
+
     }
 }

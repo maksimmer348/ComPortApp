@@ -5,21 +5,21 @@ namespace ComPortSettings
 {
     public class ComConfigsSerializer
     {
-        public void Serialize(Stream stream, ComConfig[] config)
+        public void Serialize(ComConfig[] config)
         {
             string json = JsonConvert.SerializeObject(config, Formatting.Indented);
             
-            var writer = new StreamWriter(stream);
-            writer.Write(json);
-            writer.Flush();
+            File.WriteAllText("Settings.json", json);
+            
+          
         }
 
-        public ComConfig[] Deserialize(Stream stream)
+        public ComConfig[] Deserialize()
         {
-            var reader = new StreamReader(stream);
+          
+
+            var config = JsonConvert.DeserializeObject<ComConfig[]>(File.ReadAllText("Settings.json"));
             
-            var config = JsonConvert.DeserializeObject<ComConfig[]>(reader.ReadToEnd());
-            reader.ReadToEnd();
             return config;
         }
     }

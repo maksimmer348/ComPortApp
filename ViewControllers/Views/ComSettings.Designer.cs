@@ -146,6 +146,7 @@
             this.TestComSupply.TabIndex = 14;
             this.TestComSupply.Text = "Test";
             this.TestComSupply.UseVisualStyleBackColor = true;
+            this.TestComSupply.Click += new System.EventHandler(this.TestComSupply_Click);
             // 
             // DtrSupply
             // 
@@ -165,6 +166,7 @@
             this.ResetSettingsSupply.TabIndex = 12;
             this.ResetSettingsSupply.Text = "Reset settings";
             this.ResetSettingsSupply.UseVisualStyleBackColor = true;
+            this.ResetSettingsSupply.Click += new System.EventHandler(this.ResetSettingsSupply_Click);
             // 
             // FlowControlSupply
             // 
@@ -236,7 +238,6 @@
             this.BaudRateSupply.Name = "BaudRateSupply";
             this.BaudRateSupply.Size = new System.Drawing.Size(79, 21);
             this.BaudRateSupply.TabIndex = 4;
-            this.BaudRateSupply.SelectedIndexChanged += new System.EventHandler(this.BaudRateSupply_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -290,6 +291,7 @@
             this.TestComMeter.TabIndex = 26;
             this.TestComMeter.Text = "Test";
             this.TestComMeter.UseVisualStyleBackColor = true;
+            this.TestComMeter.Click += new System.EventHandler(this.TestComMeter_Click);
             // 
             // DtrMeter
             // 
@@ -309,6 +311,7 @@
             this.ResetSettingsMeter.TabIndex = 24;
             this.ResetSettingsMeter.Text = "Reset settings";
             this.ResetSettingsMeter.UseVisualStyleBackColor = true;
+            this.ResetSettingsMeter.Click += new System.EventHandler(this.ResetSettingsMeter_Click);
             // 
             // FlowControlMeter
             // 
@@ -420,6 +423,7 @@
             this.OkSettings.TabIndex = 14;
             this.OkSettings.Text = "OK";
             this.OkSettings.UseVisualStyleBackColor = true;
+            this.OkSettings.Click += new System.EventHandler(this.OkSettings_Click);
             // 
             // CancelSettings
             // 
@@ -429,6 +433,7 @@
             this.CancelSettings.TabIndex = 15;
             this.CancelSettings.Text = "Cancel";
             this.CancelSettings.UseVisualStyleBackColor = true;
+            this.CancelSettings.Click += new System.EventHandler(this.CancelSettings_Click);
             // 
             // SendToComMet
             // 
@@ -504,27 +509,19 @@
         public System.Windows.Forms.TabControl SelectSettingsCom;
         private System.Windows.Forms.TabPage SupplyTab;
         private System.Windows.Forms.TabPage MeterTab;
-        private System.Windows.Forms.Button ResetSettingsSupply;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button OkSettings;
-        private System.Windows.Forms.Button CancelSettings;
-        private System.Windows.Forms.Button ResetSettingsMeter;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button TestComSupply;
-        private System.Windows.Forms.Button TestComMeter;
         private System.Windows.Forms.TextBox SendToComMet;
         private System.Windows.Forms.RichTextBox ReceivingInformation;
         private System.Windows.Forms.Button Recieve;
         private System.Windows.Forms.TextBox SendToComSup;
-        private System.Windows.Forms.Button TestCheckSup;
-        private System.Windows.Forms.Button TestCheckMet;
         private System.Windows.Forms.Button Clear;
         public System.Windows.Forms.ComboBox ChannelComSupply;
         public System.Windows.Forms.CheckBox DtrSupply;
@@ -538,5 +535,13 @@
         public System.Windows.Forms.ComboBox ParityBitMeter;
         public System.Windows.Forms.ComboBox BaudRateMeter;
         public System.Windows.Forms.ComboBox ChannelComMeter;
+        public System.Windows.Forms.Button ResetSettingsSupply;
+        public System.Windows.Forms.Button OkSettings;
+        public System.Windows.Forms.Button CancelSettings;
+        public System.Windows.Forms.Button ResetSettingsMeter;
+        public System.Windows.Forms.Button TestComSupply;
+        public System.Windows.Forms.Button TestComMeter;
+        public System.Windows.Forms.Button TestCheckSup;
+        public System.Windows.Forms.Button TestCheckMet;
     }
 }
