@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using View = ComPortSettings.MVC.View;
 
 namespace ComPortSettings
@@ -46,7 +47,6 @@ namespace ComPortSettings
         {
             Cancel?.Invoke();
         }
-
 
     }
 }

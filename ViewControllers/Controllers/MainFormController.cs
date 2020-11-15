@@ -1,4 +1,5 @@
-﻿using ComPortSettings.MVC;
+﻿using ComPortSettings.ComPort;
+using ComPortSettings.MVC;
 
 namespace ComPortSettings
 {

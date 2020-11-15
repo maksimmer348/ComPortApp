@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComPort\ComCommunication.cs" />
+    <Compile Include="ComPort\ComPorts.cs" />
+    <Compile Include="ComPort\Service.cs" />
     <Compile Include="Configs\ComConfigsSerializer.cs" />
     <Compile Include="Configs\ComConfig.cs" />
     <Compile Include="ViewControllers\Controllers\ComSettingsController.cs" />

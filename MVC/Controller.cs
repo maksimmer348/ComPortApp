@@ -36,6 +36,7 @@ namespace ComPortSettings.MVC
 
         protected virtual void OnShown()
         {
+
         }
         
         protected virtual void OnLoad()

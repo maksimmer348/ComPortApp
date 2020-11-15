@@ -6,18 +6,28 @@ namespace ComPortSettings
 {
     public class ComCommunication
     {
-        private ComConfig config;
+   
         private GodSerialPort port;
 
-        public ComCommunication(ComConfig cfg)
+
+        public void Open(ComConfig cfg)
         {
-            config = cfg;
+            //TODO проверить на живом com
+            //Close();
+            if (port == null || port.IsOpen == false)
+            {
+                port = new GodSerialPort("COM" + cfg.ChannelNum, cfg.BaudRate, cfg.ParityBit) { DtrEnable = cfg.DTR };
+                port.Open();
+            }
         }
 
-        public void Open()
+        public void Close()
         {
-            port = new GodSerialPort("COM" + config.ChannelNum, config.BaudRate, config.ParityBit) { DtrEnable = config.DTR };
-            port.Open();
+            //TODO проверить на живом com
+            if (port != null && port.IsOpen)
+            {
+                port.Close();
+            }
         }
 
         public string Write(string write)
@@ -38,7 +48,7 @@ namespace ComPortSettings
             return null;
         }
 
-        private string Read()
+        public string Read()
         {
             byte[] buffer = port.Read();
             if (buffer == null)

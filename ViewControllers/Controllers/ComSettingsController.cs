@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Net.Security;
 using System.Windows.Forms;
+using ComPortSettings.ComPort;
 using ComPortSettings.MVC;
 
 namespace ComPortSettings
 {
     public class ComSettingsController : Controller<ComSettings>
     {
+        ComCommunication comCommSupply = new ComCommunication();
+        ComCommunication comCommMeter = new ComCommunication();
 
         public ComSettingsController(ComSettings view) : base(view)
         {
@@ -37,14 +41,6 @@ namespace ComPortSettings
             }
 
         }
-        protected override void OnClosed()
-        {
-            ComConfig[] configs = { View.ReadSupply(), View.ReadMeter() };
-
-            var serializer = new ComConfigsSerializer();
-            serializer.Serialize(configs);
-            OnShown();
-        }
 
         void DefaultSettingsSupply()
         {
@@ -56,22 +52,47 @@ namespace ComPortSettings
             View.WriteMeter(ComConfig.DefaultMeter);
         }
 
-        void TestSupply()
+        public void TestSupply()
         {
+            Service<ComPorts>.Get().Supply.Write("L");
 
+            if (Service<ComPorts>.Get().Supply.Read().Contains("V"))
+            { 
+                View.TestCheckSup.ForeColor = Color.Green;
+            }
+            else
+            {
+                View.TestCheckSup.ForeColor = Color.Red;
+            }
         }
+
         void TestMeter()
         {
+            Service<ComPorts>.Get().Meter.Write("L");
 
+            if (Service<ComPorts>.Get().Supply.Read().Contains("V"))
+            {
+                View.TestCheckSup.ForeColor = Color.Green;
+            }
+            else
+            {
+                View.TestCheckSup.ForeColor = Color.Red;
+            }
         }
         private void CancelSettings()
         {
-            
+            View.Close();
         }
 
         private void OkSettings()
         {
+            ComConfig[] configs = { View.ReadSupply(), View.ReadMeter() };
+
+            var serializer = new ComConfigsSerializer();
+            serializer.Serialize(configs);
+            //OnShown();
             
+            View.Close();
         }
 
     }
