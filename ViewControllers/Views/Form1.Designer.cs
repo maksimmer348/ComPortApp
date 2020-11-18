@@ -57,6 +57,7 @@
             this.PowerValueWrite = new System.Windows.Forms.TextBox();
             this.Output = new System.Windows.Forms.Button();
             this.PowerSupplyControl = new System.Windows.Forms.GroupBox();
+            this.SetValue = new System.Windows.Forms.Button();
             this.PowerValueReadings = new System.Windows.Forms.TextBox();
             this.CurrentValueReadings = new System.Windows.Forms.TextBox();
             this.VoltageValueReadings = new System.Windows.Forms.TextBox();
@@ -353,6 +354,7 @@
             this.VoltageValueWrite.Name = "VoltageValueWrite";
             this.VoltageValueWrite.Size = new System.Drawing.Size(94, 20);
             this.VoltageValueWrite.TabIndex = 8;
+            this.VoltageValueWrite.TextChanged += new System.EventHandler(this.VoltageValueWrite_TextChanged);
             // 
             // PowerSupplyWrite
             // 
@@ -387,6 +389,7 @@
             this.CurrentValueWrite.Name = "CurrentValueWrite";
             this.CurrentValueWrite.Size = new System.Drawing.Size(94, 20);
             this.CurrentValueWrite.TabIndex = 18;
+            this.CurrentValueWrite.TextChanged += new System.EventHandler(this.CurrentValueWrite_TextChanged);
             // 
             // Power
             // 
@@ -412,13 +415,14 @@
             this.Output.Name = "Output";
             this.Output.Size = new System.Drawing.Size(135, 27);
             this.Output.TabIndex = 21;
-            this.Output.Tag = "Outpt";
+            this.Output.Tag = "Output Load";
             this.Output.Text = "Output";
             this.Output.UseVisualStyleBackColor = false;
             this.Output.Click += new System.EventHandler(this.Output_Click);
             // 
             // PowerSupplyControl
             // 
+            this.PowerSupplyControl.Controls.Add(this.SetValue);
             this.PowerSupplyControl.Controls.Add(this.PowerValueReadings);
             this.PowerSupplyControl.Controls.Add(this.CurrentValueReadings);
             this.PowerSupplyControl.Controls.Add(this.VoltageValueReadings);
@@ -438,6 +442,17 @@
             this.PowerSupplyControl.TabIndex = 4;
             this.PowerSupplyControl.TabStop = false;
             this.PowerSupplyControl.Text = "Power supply control";
+            // 
+            // SetValue
+            // 
+            this.SetValue.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.SetValue.Location = new System.Drawing.Point(6, 220);
+            this.SetValue.Name = "SetValue";
+            this.SetValue.Size = new System.Drawing.Size(95, 27);
+            this.SetValue.TabIndex = 26;
+            this.SetValue.Tag = "Output Load";
+            this.SetValue.Text = "Set Value";
+            this.SetValue.UseVisualStyleBackColor = false;
             // 
             // PowerValueReadings
             // 
@@ -1186,6 +1201,7 @@
             this.StartMeasurements.TabIndex = 26;
             this.StartMeasurements.Text = "Start measurements";
             this.StartMeasurements.UseVisualStyleBackColor = false;
+            this.StartMeasurements.Click += new System.EventHandler(this.StartMeasurements_Click);
             // 
             // Form1
             // 
@@ -1247,30 +1263,13 @@
         private System.Windows.Forms.Button ResetValue;
         private System.Windows.Forms.Button SaveValue;
         private System.Windows.Forms.Button DeleteValue;
-        private System.Windows.Forms.TextBox VoltageValueWrite;
         private System.Windows.Forms.Label PowerSupplyWrite;
         private System.Windows.Forms.Label Voltage;
         private System.Windows.Forms.Label Current;
-        private System.Windows.Forms.TextBox CurrentValueWrite;
         private System.Windows.Forms.Label Power;
-        private System.Windows.Forms.TextBox PowerValueWrite;
-        private System.Windows.Forms.Button Output;
         private System.Windows.Forms.GroupBox PowerSupplyControl;
-        private System.Windows.Forms.TextBox PowerValueReadings;
-        private System.Windows.Forms.TextBox CurrentValueReadings;
-        private System.Windows.Forms.TextBox VoltageValueReadings;
         private System.Windows.Forms.Label PowerSupplyReadings;
         private System.Windows.Forms.GroupBox MeasurementControl;
-        private System.Windows.Forms.TextBox TemperatureTen;
-        private System.Windows.Forms.TextBox TemperatureNine;
-        private System.Windows.Forms.TextBox TemperatureEight;
-        private System.Windows.Forms.TextBox TemperatureSeven;
-        private System.Windows.Forms.TextBox TemperatureSix;
-        private System.Windows.Forms.TextBox TemperatureFive;
-        private System.Windows.Forms.TextBox TemperatureFour;
-        private System.Windows.Forms.TextBox TemperatureThree;
-        private System.Windows.Forms.TextBox TemperatureTwo;
-        private System.Windows.Forms.TextBox TemperatureOne;
         private System.Windows.Forms.GroupBox ThermocoupleTemperatures;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -1282,22 +1281,11 @@
         public System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox DeltaOne;
-        private System.Windows.Forms.CheckBox DeltaTen;
-        private System.Windows.Forms.CheckBox DeltaNine;
-        private System.Windows.Forms.CheckBox DeltaEight;
-        private System.Windows.Forms.CheckBox DeltaSeven;
-        private System.Windows.Forms.CheckBox DeltaSix;
-        private System.Windows.Forms.CheckBox DeltaFive;
-        private System.Windows.Forms.CheckBox DeltaFour;
-        private System.Windows.Forms.CheckBox DeltaThree;
-        private System.Windows.Forms.CheckBox DeltaTwo;
         public ZedGraph.ZedGraphControl GraphTemperature;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem SettingsMenu;
         private System.Windows.Forms.ToolStripMenuItem ComMenu;
         private System.Windows.Forms.GroupBox ThermocoupleDelta;
-        private System.Windows.Forms.TextBox Delta;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label15;
@@ -1309,7 +1297,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.GroupBox TestParameter;
-        private System.Windows.Forms.Button StartMeasurements;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -1332,6 +1319,36 @@
         private System.Windows.Forms.CheckBox TestTemperature;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;
+        public System.Windows.Forms.TextBox VoltageValueWrite;
+        public System.Windows.Forms.TextBox CurrentValueWrite;
+        public System.Windows.Forms.TextBox PowerValueWrite;
+        public System.Windows.Forms.Button Output;
+        public System.Windows.Forms.TextBox PowerValueReadings;
+        public System.Windows.Forms.TextBox CurrentValueReadings;
+        public System.Windows.Forms.TextBox VoltageValueReadings;
+        public System.Windows.Forms.TextBox TemperatureTen;
+        public System.Windows.Forms.TextBox TemperatureNine;
+        public System.Windows.Forms.TextBox TemperatureEight;
+        public System.Windows.Forms.TextBox TemperatureSeven;
+        public System.Windows.Forms.TextBox TemperatureSix;
+        public System.Windows.Forms.TextBox TemperatureFive;
+        public System.Windows.Forms.TextBox TemperatureFour;
+        public System.Windows.Forms.TextBox TemperatureThree;
+        public System.Windows.Forms.TextBox TemperatureTwo;
+        public System.Windows.Forms.TextBox TemperatureOne;
+        public System.Windows.Forms.CheckBox DeltaOne;
+        public System.Windows.Forms.CheckBox DeltaTen;
+        public System.Windows.Forms.CheckBox DeltaNine;
+        public System.Windows.Forms.CheckBox DeltaEight;
+        public System.Windows.Forms.CheckBox DeltaSeven;
+        public System.Windows.Forms.CheckBox DeltaSix;
+        public System.Windows.Forms.CheckBox DeltaFive;
+        public System.Windows.Forms.CheckBox DeltaFour;
+        public System.Windows.Forms.CheckBox DeltaThree;
+        public System.Windows.Forms.CheckBox DeltaTwo;
+        public System.Windows.Forms.TextBox Delta;
+        public System.Windows.Forms.Button StartMeasurements;
+        public System.Windows.Forms.Button SetValue;
     }
 }
 

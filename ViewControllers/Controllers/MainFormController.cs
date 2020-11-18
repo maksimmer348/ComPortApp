@@ -11,7 +11,14 @@ namespace ComPortSettings
         public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += OpenSettings;
-            View.OO += Output;
+            View.OutputLoad += Output;
+            View.SetVoltage += SetVoltage;
+            //View.SetCurrent += 
+        }
+
+        private void SetVoltage()
+        {
+            
         }
 
         protected override void OnClosed()
@@ -31,11 +38,21 @@ namespace ComPortSettings
             Service<ComPorts>.Get().Meter.Open(CCS.Deserialize()[1]);
         }
 
-        public void Output()
+        public async void Output()
         {
             try
             {
-                Service<ComPorts>.Get().Supply.Write("vv");
+               await Service<ComPorts>.Get().Supply.Write(Service<MeterLib>.Get().GetCommand(View.Output.Tag.ToString()));
+               
+                   if ((await Service<ComPorts>.Get().Supply.Read()).Contains("R"))
+                   {
+                       View.ButtonConected();
+                   }
+                   else 
+                   {
+                       View.ButtonDisconected();
+                   }
+              
             }
             catch (Exception e)
             {

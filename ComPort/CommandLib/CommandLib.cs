@@ -10,6 +10,7 @@ namespace ComPortSettings.ComPort
 
         public CommandLib()
         {
+            CreateCommands();
         }
 
         public virtual void CreateCommands()
@@ -22,9 +23,9 @@ namespace ComPortSettings.ComPort
             Commands.Add(key, value);
         }
 
-        public string GetCommand(string key)
+        public string GetCommand(string key, string param = null)
         {
-            return Commands[key];
+          return string.Format(Commands[key], param);
         }
     }
 }
