@@ -48,5 +48,13 @@ namespace ComPortSettings
             Cancel?.Invoke();
         }
 
+        public void ButtonConected()
+        {
+            TestCheckSup.BackColor = Color.Green;
+        }
+        public void ButtonDisconected()
+        {
+            TestCheckSup.BackColor = Color.Red;
+        }
     }
 }

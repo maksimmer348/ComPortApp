@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComPort\ComCommunication.cs" />
+    <Compile Include="ComPort\CommandLib\CommandLib.cs" />
+    <Compile Include="ComPort\CommandLib\MeterLib.cs" />
+    <Compile Include="ComPort\CommandLib\SupplyLib.cs" />
     <Compile Include="ComPort\ComPorts.cs" />
     <Compile Include="ComPort\Service.cs" />
     <Compile Include="Configs\ComConfigsSerializer.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewControllers\Controllers\MainFormController.cs" />
     <Compile Include="ViewControllers\Controllers\ReadWriteUtils.cs" />
+    <Compile Include="ViewControllers\Controllers\DescriptionСalculations.cs" />
     <Compile Include="ViewControllers\Views\ComSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,5 +114,6 @@
       <Version>5.1.5</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

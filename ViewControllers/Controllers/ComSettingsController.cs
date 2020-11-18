@@ -10,20 +10,19 @@ namespace ComPortSettings
 {
     public class ComSettingsController : Controller<ComSettings>
     {
-        ComCommunication comCommSupply = new ComCommunication();
-        ComCommunication comCommMeter = new ComCommunication();
+
 
         public ComSettingsController(ComSettings view) : base(view)
         {
             View.ResetSupply += DefaultSettingsSupply;
-            View.ResetMeter  += DefaultSettingsMeter;
+            View.ResetMeter += DefaultSettingsMeter;
             View.TestSupply += TestSupply;
             View.TestMeter += TestMeter;
             View.Ok += OkSettings;
             View.Cancel += CancelSettings;
         }
 
-      
+
 
 
         protected override void OnShown()
@@ -52,33 +51,45 @@ namespace ComPortSettings
             View.WriteMeter(ComConfig.DefaultMeter);
         }
 
-        public void TestSupply()
+        public async void TestSupply()
         {
-            Service<ComPorts>.Get().Supply.Write("L");
-
-            if (Service<ComPorts>.Get().Supply.Read().Contains("V"))
-            { 
-                View.TestCheckSup.ForeColor = Color.Green;
-            }
-            else
+            try
             {
-                View.TestCheckSup.ForeColor = Color.Red;
+                if ((await Service<ComPorts>.Get().Supply.Write("L")).Contains("V"))
+                {
+                    View.ButtonConected();
+                }
+                else
+                {
+                    View.ButtonDisconected();
+                }
+            }
+
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        void TestMeter()
+        public async void TestMeter()
         {
-            Service<ComPorts>.Get().Meter.Write("L");
-
-            if (Service<ComPorts>.Get().Supply.Read().Contains("V"))
+            try
             {
-                View.TestCheckSup.ForeColor = Color.Green;
+                if ((await Service<ComPorts>.Get().Supply.Write("V00")).Contains("R"))
+                {
+                   View.ButtonConected();
+                }
+                else
+                {
+                    View.ButtonDisconected();
+                }
             }
-            else
+            catch (Exception e)
             {
-                View.TestCheckSup.ForeColor = Color.Red;
+                MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void CancelSettings()
         {
             View.Close();
@@ -86,12 +97,12 @@ namespace ComPortSettings
 
         private void OkSettings()
         {
-            ComConfig[] configs = { View.ReadSupply(), View.ReadMeter() };
+            ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
 
             var serializer = new ComConfigsSerializer();
             serializer.Serialize(configs);
             //OnShown();
-            
+
             View.Close();
         }
 

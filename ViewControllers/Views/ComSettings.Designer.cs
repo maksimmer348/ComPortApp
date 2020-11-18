@@ -131,7 +131,6 @@
             // 
             this.TestCheckSup.Enabled = false;
             this.TestCheckSup.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TestCheckSup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.TestCheckSup.Location = new System.Drawing.Point(110, 179);
             this.TestCheckSup.Name = "TestCheckSup";
             this.TestCheckSup.Size = new System.Drawing.Size(10, 10);

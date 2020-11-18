@@ -412,8 +412,10 @@
             this.Output.Name = "Output";
             this.Output.Size = new System.Drawing.Size(135, 27);
             this.Output.TabIndex = 21;
+            this.Output.Tag = "Outpt";
             this.Output.Text = "Output";
             this.Output.UseVisualStyleBackColor = false;
+            this.Output.Click += new System.EventHandler(this.Output_Click);
             // 
             // PowerSupplyControl
             // 
@@ -997,7 +999,7 @@
             // ComMenu
             // 
             this.ComMenu.Name = "ComMenu";
-            this.ComMenu.Size = new System.Drawing.Size(180, 22);
+            this.ComMenu.Size = new System.Drawing.Size(100, 22);
             this.ComMenu.Text = "Com";
             this.ComMenu.Click += new System.EventHandler(this.ComMenu_Click);
             // 
