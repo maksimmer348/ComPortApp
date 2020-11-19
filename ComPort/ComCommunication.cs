@@ -31,7 +31,9 @@ namespace ComPortSettings
             if (port != null && port.IsOpen)
             {
                 port.Close();
+               
             }
+
         }
 
         public async Task<string> Write(string write)

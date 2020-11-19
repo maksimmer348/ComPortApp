@@ -449,6 +449,7 @@
             this.ReceivingInformation.Size = new System.Drawing.Size(176, 85);
             this.ReceivingInformation.TabIndex = 17;
             this.ReceivingInformation.Text = "";
+            this.ReceivingInformation.TextChanged += new System.EventHandler(this.ReceivingInformation_TextChanged);
             // 
             // Recieve
             // 
@@ -518,7 +519,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox SendToComMet;
-        private System.Windows.Forms.RichTextBox ReceivingInformation;
         private System.Windows.Forms.Button Recieve;
         private System.Windows.Forms.TextBox SendToComSup;
         private System.Windows.Forms.Button Clear;
@@ -542,5 +542,6 @@
         public System.Windows.Forms.Button TestComMeter;
         public System.Windows.Forms.Button TestCheckSup;
         public System.Windows.Forms.Button TestCheckMet;
+        public System.Windows.Forms.RichTextBox ReceivingInformation;
     }
 }

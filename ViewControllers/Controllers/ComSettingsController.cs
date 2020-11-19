@@ -27,6 +27,7 @@ namespace ComPortSettings
 
         protected override void OnShown()
         {
+            
             var serializer = new ComConfigsSerializer();
 
 
@@ -39,6 +40,7 @@ namespace ComPortSettings
 
             }
 
+          
         }
 
         void DefaultSettingsSupply()
@@ -55,7 +57,8 @@ namespace ComPortSettings
         {
             try
             {
-                if ((await Service<ComPorts>.Get().Supply.Write("L")).Contains("V"))
+                View.WriteSupply(View.ReadSupply());
+                if ((await Service<ComPorts>.Get().Supply.Write("V00")).Contains("E"))
                 {
                     View.ButtonConected();
                 }
@@ -63,6 +66,10 @@ namespace ComPortSettings
                 {
                     View.ButtonDisconected();
                 }
+                //TODO сделать для Supply
+                //string ss = await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?");
+                // char MyChar = '\n';
+                // View.ReceivingInformation.Text += ss.Trim(MyChar);
             }
 
             catch (Exception e)
@@ -75,13 +82,14 @@ namespace ComPortSettings
         {
             try
             {
-                if ((await Service<ComPorts>.Get().Supply.Write("V00")).Contains("R"))
+                //View.WriteMeter(View.ReadMeter());
+                if ((await Service<ComPorts>.Get().Meter.Write("V00")).Contains("E"))
                 {
-                   View.ButtonConected();
+                   View.ButtonConectedMeter();
                 }
                 else
                 {
-                    View.ButtonDisconected();
+                    View.ButtonDisconectedMeter();
                 }
             }
             catch (Exception e)
@@ -97,11 +105,17 @@ namespace ComPortSettings
 
         private void OkSettings()
         {
-            ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
+            Service<ComPorts>.Get().Supply.Close();
+            Service<ComPorts>.Get().Meter.Close();
 
+            ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
+            View.Calc();
             var serializer = new ComConfigsSerializer();
             serializer.Serialize(configs);
-            //OnShown();
+
+            Service<ComPorts>.Get().Supply.Open(configs[0]);
+            Service<ComPorts>.Get().Meter.Open(configs[1]);
+
 
             View.Close();
         }

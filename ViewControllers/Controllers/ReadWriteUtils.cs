@@ -1,4 +1,5 @@
-﻿using ComPortSettings.MVC;
+﻿using System.Windows.Forms;
+using ComPortSettings.MVC;
 
 namespace ComPortSettings
 {
@@ -46,6 +47,14 @@ namespace ComPortSettings
                 StopBits = int.Parse((string)view.StopBitsMeter.SelectedItem),
                 DTR = view.DtrMeter.Checked,
             };
+        }
+
+        public static void Calc(this ComSettings view)
+        {
+            if (view.ChannelComMeter.SelectedItem == view.ChannelComSupply.SelectedItem)
+            {
+                MessageBox.Show("SSS");
+            }
         }
     }
 }

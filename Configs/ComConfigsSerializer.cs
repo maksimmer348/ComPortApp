@@ -20,7 +20,8 @@ namespace ComPortSettings
 
             var config = JsonConvert.DeserializeObject<ComConfig[]>(File.ReadAllText("Settings.json"));
             
-            return config;
+           return config;
+           
         }
     }
 }

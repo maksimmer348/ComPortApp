@@ -8,6 +8,7 @@ namespace ComPortSettings
     public class MainFormController : Controller<Form1>
     {
         ComConfigsSerializer CCS = new ComConfigsSerializer();
+
         public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += OpenSettings;
@@ -18,7 +19,7 @@ namespace ComPortSettings
 
         private void SetVoltage()
         {
-            
+
         }
 
         protected override void OnClosed()
@@ -42,23 +43,24 @@ namespace ComPortSettings
         {
             try
             {
-               await Service<ComPorts>.Get().Supply.Write(Service<MeterLib>.Get().GetCommand(View.Output.Tag.ToString()));
-               
-                   if ((await Service<ComPorts>.Get().Supply.Read()).Contains("R"))
-                   {
-                       View.ButtonConected();
-                   }
-                   else 
-                   {
-                       View.ButtonDisconected();
-                   }
-              
+                await Service<ComPorts>.Get().Supply
+                    .Write(Service<MeterLib>.Get().GetCommand(View.Output.Tag.ToString()));
+
+                if ((await Service<ComPorts>.Get().Supply.Read()).Contains("R"))
+                {
+                    View.ButtonConected();
+                }
+                else
+                {
+                    View.ButtonDisconected();
+                }
+
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-            
+
         }
     }
 }

@@ -56,5 +56,18 @@ namespace ComPortSettings
         {
             TestCheckSup.BackColor = Color.Red;
         }
+        public void ButtonConectedMeter()
+        {
+            TestCheckMet.BackColor = Color.Green;
+        }
+        public void ButtonDisconectedMeter()
+        {
+            TestCheckMet.BackColor = Color.Red;
+        }
+
+        private void ReceivingInformation_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
