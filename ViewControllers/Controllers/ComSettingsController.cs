@@ -21,7 +21,7 @@ namespace ComPortSettings
             View.Cancel += CancelSettings;
         }
 
-        protected override void OnShown()
+         void DeserializeConfig()
         {
             var serializer = new ComConfigsSerializer();
 
@@ -33,6 +33,10 @@ namespace ComPortSettings
                 View.WriteMeter(configs[1]);
 
             }
+        }
+        protected override void OnShown()
+        {
+           DeserializeConfig(); 
         }
 
         void DefaultSettingsSupply()
@@ -60,9 +64,11 @@ namespace ComPortSettings
                         Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
                     }
 
-                    await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?", 100);
+                    const string TestCmd = ":chan1: curr ?";
 
-                    if ((await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?", 100)).Contains("."))
+                    await Service<ComPorts>.Get().Supply.Write(TestCmd, 100);
+
+                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd, 100)).Contains("."))
                     {
                         View.ButtonConected();
                     }
@@ -79,7 +85,7 @@ namespace ComPortSettings
                 }
             }
 
-            if (!View.ValidatePorts())
+            else
             {
                 MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -95,8 +101,6 @@ namespace ComPortSettings
                 {
                     Service<ComPorts>.Get().Meter.Close();
                     Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
-
-
 
                     if (!ValidateTest())
                     {
@@ -119,7 +123,7 @@ namespace ComPortSettings
                 }
             }
 
-            if (!View.ValidatePorts())
+            else
             {
                 MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -129,7 +133,7 @@ namespace ComPortSettings
 
         private void CancelSettings()
         {
-            OnShown();
+            DeserializeConfig();
             View.Close();
         }
 
@@ -141,7 +145,6 @@ namespace ComPortSettings
                 Service<ComPorts>.Get().Meter.Close();
 
                 ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
-                ReadWriteUtils.ValidatePorts(View);
 
                 var serializer = new ComConfigsSerializer();
                 serializer.Serialize(configs);
@@ -151,8 +154,7 @@ namespace ComPortSettings
 
                 View.Close();
             }
-
-            if (!View.ValidatePorts())
+            else
             {
                 MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -163,20 +165,14 @@ namespace ComPortSettings
 
         public bool ValidateTest()
         {
-            string meterPort =
-                new string(Service<ComPorts>.Get().Meter.port.PortName.Where(c => Char.IsDigit(c)).ToArray());
-            string supplyPort =
-                new string(Service<ComPorts>.Get().Meter.port.PortName.Where(c => Char.IsDigit(c)).ToArray());
+           var meterPort = Service<ComPorts>.Get().Meter.CfgChannelNum;
+           var supplyPort = Service<ComPorts>.Get().Supply.CfgChannelNum;
 
-            if (int.Parse(meterPort) == View.ReadSupply().ChannelNum)
+            if (meterPort == View.ReadSupply().ChannelNum || supplyPort == View.ReadMeter().ChannelNum)
             {
                 return false;
             }
-            else if (int.Parse(supplyPort) == View.ReadMeter().ChannelNum)
-            {
-                return false;
-            }
-
+            
             return true;
         }
     }

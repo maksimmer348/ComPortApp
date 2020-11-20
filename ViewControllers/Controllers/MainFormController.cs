@@ -33,10 +33,14 @@ namespace ComPortSettings
             comSettingsController.Show();
         }
 
-        protected override void OnShown()
+        void Deserialize()
         {
             Service<ComPorts>.Get().Supply.Open(CCS.Deserialize()[0]);
             Service<ComPorts>.Get().Meter.Open(CCS.Deserialize()[1]);
+        }
+        protected override void OnShown()
+        {
+            Deserialize();
         }
 
         public async void Output()
