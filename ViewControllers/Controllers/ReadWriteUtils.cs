@@ -5,7 +5,9 @@ namespace ComPortSettings
 {
     public static class ReadWriteUtils
     {
-
+        /// <summary>
+        /// запись из ComPort в ComboBox для блока питания
+        /// </summary>
         public static void WriteSupply(this ComSettings view,ComConfig cfg)
         {
             view.ChannelComSupply.Text = cfg.ChannelNum.ToString();
@@ -14,7 +16,9 @@ namespace ComPortSettings
             view.StopBitsSupply.Text = cfg.StopBits.ToString();
             view.DtrSupply.Checked = cfg.DTR;
         }
-
+        /// <summary>
+        /// запись из ComPort в ComboBox для измерителя
+        /// </summary>
         public static void WriteMeter(this ComSettings view, ComConfig cfg)
         {
             view.ChannelComMeter.Text = cfg.ChannelNum.ToString();
@@ -23,7 +27,9 @@ namespace ComPortSettings
             view.StopBitsMeter.Text = cfg.StopBits.ToString();
             view.DtrMeter.Checked = cfg.DTR;
         }
-
+        /// <summary>
+        /// запись из ComboBox в ComPort для блока питания
+        /// </summary>
         public static ComConfig ReadSupply(this ComSettings view)
         {
             return new ComConfig()
@@ -36,7 +42,9 @@ namespace ComPortSettings
             };
 
         }
-
+        /// <summary>
+        /// запись из ComboBox в ComPort для измерителя
+        /// </summary>
         public static ComConfig ReadMeter(this ComSettings view)
         {
             return new ComConfig()
@@ -49,12 +57,17 @@ namespace ComPortSettings
             };
         }
 
-        public static void Calc(this ComSettings view)
+        public static bool ValidatePorts(this ComSettings view)
         {
             if (view.ChannelComMeter.SelectedItem == view.ChannelComSupply.SelectedItem)
             {
-                MessageBox.Show("SSS");
+                
+                return false;
             }
+            return true;
         }
-    }
+
+       
+        
+}
 }

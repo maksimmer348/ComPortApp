@@ -11,7 +11,7 @@ namespace ComPortSettings
     public class ComCommunication
     {
    
-        private GodSerialPort port;
+        public GodSerialPort port;
 
 
         public void Open(ComConfig cfg)
@@ -36,7 +36,7 @@ namespace ComPortSettings
 
         }
 
-        public async Task<string> Write(string write)
+        public async Task<string> Write(string write, int delay = 1000)
         {
             if (port == null) return null;
 
@@ -46,17 +46,17 @@ namespace ComPortSettings
             {
                 port.WriteAsciiString(write + endOfLine);
 
-                return await Read();
+                return await Read(delay);
             }
-            throw new Exception("Port not open");
+            throw new Exception("Порт не открыт или занят");
             
         }
 
 
         
-        public async Task<string> Read()
+        public async Task<string> Read(int delay)
         {
-            await Task.Delay(1000);
+            await Task.Delay(delay);
             
             byte[] buffer = port.Read();
             if (buffer == null)

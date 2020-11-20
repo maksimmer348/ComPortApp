@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net.Security;
 using System.Windows.Forms;
 using ComPortSettings.ComPort;
@@ -27,7 +28,7 @@ namespace ComPortSettings
 
         protected override void OnShown()
         {
-            
+
             var serializer = new ComConfigsSerializer();
 
 
@@ -40,7 +41,7 @@ namespace ComPortSettings
 
             }
 
-          
+
         }
 
         void DefaultSettingsSupply()
@@ -55,69 +56,139 @@ namespace ComPortSettings
 
         public async void TestSupply()
         {
-            try
+            if (View.ValidatePorts())
             {
-                View.WriteSupply(View.ReadSupply());
-                if ((await Service<ComPorts>.Get().Supply.Write("V00")).Contains("E"))
+                try
                 {
-                    View.ButtonConected();
+                    Service<ComPorts>.Get().Supply.Close();
+                    Service<ComPorts>.Get().Supply.Open(View.ReadSupply());
+
+                    if (!ValidateTest())
+                    {
+                        Service<ComPorts>.Get().Meter.Close();
+                        Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
+                    }
+
+                    await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?", 100);
+
+                    if ((await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?", 100)).Contains("."))
+                    {
+                        View.ButtonConected();
+                    }
+                    else
+                    {
+
+                        View.ButtonDisconected();
+                    }
+
+                    //TODO сделать для Supply
+                    //string ss = await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?");
+                    // 
+                    // View.ReceivingInformation.Text += ss.Trim(MyChar);
                 }
-                else
+
+                catch (Exception e)
                 {
-                    View.ButtonDisconected();
+                    MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                //TODO сделать для Supply
-                //string ss = await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?");
-                // char MyChar = '\n';
-                // View.ReceivingInformation.Text += ss.Trim(MyChar);
             }
 
-            catch (Exception e)
+            if (!View.ValidatePorts())
             {
-                MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
             }
         }
 
         public async void TestMeter()
         {
-            try
+            if (View.ValidatePorts())
             {
-                //View.WriteMeter(View.ReadMeter());
-                if ((await Service<ComPorts>.Get().Meter.Write("V00")).Contains("E"))
+                try
                 {
-                   View.ButtonConectedMeter();
+                    Service<ComPorts>.Get().Meter.Close();
+                    Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
+
+                    
+
+                    if (!ValidateTest())
+                    {
+                        Service<ComPorts>.Get().Supply.Close();
+                        Service<ComPorts>.Get().Supply.Open(View.ReadSupply());
+                    }
+                        if ((await Service<ComPorts>.Get().Meter.Write("V00", 200)).Contains("E"))
+                    {
+                        View.ButtonConectedMeter();
+                    }
+                    else
+                    {
+                        View.ButtonDisconectedMeter();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    View.ButtonDisconectedMeter();
+                    MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception e)
+
+            if (!View.ValidatePorts())
             {
-                MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
             }
         }
 
         private void CancelSettings()
         {
+            OnShown();
             View.Close();
         }
 
         private void OkSettings()
         {
-            Service<ComPorts>.Get().Supply.Close();
-            Service<ComPorts>.Get().Meter.Close();
 
-            ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
-            View.Calc();
-            var serializer = new ComConfigsSerializer();
-            serializer.Serialize(configs);
+            if (View.ValidatePorts())
+            {
+                Service<ComPorts>.Get().Supply.Close();
+                Service<ComPorts>.Get().Meter.Close();
 
-            Service<ComPorts>.Get().Supply.Open(configs[0]);
-            Service<ComPorts>.Get().Meter.Open(configs[1]);
+                ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
+                ReadWriteUtils.ValidatePorts(View);
+                var serializer = new ComConfigsSerializer();
+                serializer.Serialize(configs);
+
+                Service<ComPorts>.Get().Supply.Open(configs[0]);
+                Service<ComPorts>.Get().Meter.Open(configs[1]);
 
 
-            View.Close();
+                View.Close();
+            }
+
+            if (!View.ValidatePorts())
+            {
+                MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+        }
+
+        public bool ValidateTest()
+        {
+            string meterPort = new string(Service<ComPorts>.Get().Meter.port.PortName.Where(c => Char.IsDigit(c)).ToArray());
+            string supplyPort = new string(Service<ComPorts>.Get().Meter.port.PortName.Where(c => Char.IsDigit(c)).ToArray());
+
+            if (int.Parse(meterPort) == View.ReadSupply().ChannelNum)
+            {
+                return false;
+            }
+            else if (int.Parse(supplyPort) == View.ReadMeter().ChannelNum)
+            {
+                return false;
+            }
+            return true;
         }
 
     }

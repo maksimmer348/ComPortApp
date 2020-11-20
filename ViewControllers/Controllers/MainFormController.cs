@@ -43,17 +43,6 @@ namespace ComPortSettings
         {
             try
             {
-                await Service<ComPorts>.Get().Supply
-                    .Write(Service<MeterLib>.Get().GetCommand(View.Output.Tag.ToString()));
-
-                if ((await Service<ComPorts>.Get().Supply.Read()).Contains("R"))
-                {
-                    View.ButtonConected();
-                }
-                else
-                {
-                    View.ButtonDisconected();
-                }
 
             }
             catch (Exception e)
