@@ -1,14 +1,11 @@
-﻿using System.Windows.Forms;
-using ComPortSettings.MVC;
-
-namespace ComPortSettings
+﻿namespace ComPortSettings
 {
     public static class ReadWriteUtils
     {
         /// <summary>
         /// запись из ComPort в ComboBox для блока питания
         /// </summary>
-        public static void WriteSupply(this ComSettings view,ComConfig cfg)
+        public static void WriteSupply(this ComSettings view, ComConfig cfg)
         {
             view.ChannelComSupply.Text = cfg.ChannelNum.ToString();
             view.BaudRateSupply.Text = cfg.BaudRate.ToString();
@@ -16,6 +13,7 @@ namespace ComPortSettings
             view.StopBitsSupply.Text = cfg.StopBits.ToString();
             view.DtrSupply.Checked = cfg.DTR;
         }
+
         /// <summary>
         /// запись из ComPort в ComboBox для измерителя
         /// </summary>
@@ -27,6 +25,7 @@ namespace ComPortSettings
             view.StopBitsMeter.Text = cfg.StopBits.ToString();
             view.DtrMeter.Checked = cfg.DTR;
         }
+
         /// <summary>
         /// запись из ComboBox в ComPort для блока питания
         /// </summary>
@@ -34,14 +33,15 @@ namespace ComPortSettings
         {
             return new ComConfig()
             {
-                ChannelNum = int.Parse((string)view.ChannelComSupply.SelectedItem),
-                BaudRate = int.Parse((string)view.BaudRateSupply.SelectedItem),
-                ParityBit = int.Parse((string)view.ParityBitSupply.SelectedItem),
-                StopBits = int.Parse((string)view.StopBitsSupply.SelectedItem),
+                ChannelNum = int.Parse((string) view.ChannelComSupply.SelectedItem),
+                BaudRate = int.Parse((string) view.BaudRateSupply.SelectedItem),
+                ParityBit = int.Parse((string) view.ParityBitSupply.SelectedItem),
+                StopBits = int.Parse((string) view.StopBitsSupply.SelectedItem),
                 DTR = view.DtrSupply.Checked,
             };
 
         }
+
         /// <summary>
         /// запись из ComboBox в ComPort для измерителя
         /// </summary>
@@ -49,10 +49,10 @@ namespace ComPortSettings
         {
             return new ComConfig()
             {
-                ChannelNum = int.Parse((string)view.ChannelComMeter.SelectedItem),
-                BaudRate = int.Parse((string)view.BaudRateMeter.SelectedItem),
-                ParityBit = int.Parse((string)view.ParityBitMeter.SelectedItem),
-                StopBits = int.Parse((string)view.StopBitsMeter.SelectedItem),
+                ChannelNum = int.Parse((string) view.ChannelComMeter.SelectedItem),
+                BaudRate = int.Parse((string) view.BaudRateMeter.SelectedItem),
+                ParityBit = int.Parse((string) view.ParityBitMeter.SelectedItem),
+                StopBits = int.Parse((string) view.StopBitsMeter.SelectedItem),
                 DTR = view.DtrMeter.Checked,
             };
         }
@@ -61,13 +61,12 @@ namespace ComPortSettings
         {
             if (view.ChannelComMeter.SelectedItem == view.ChannelComSupply.SelectedItem)
             {
-                
+
                 return false;
             }
+
             return true;
         }
 
-       
-        
-}
+    }
 }

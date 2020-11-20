@@ -11,16 +11,16 @@ namespace ComPortSettings.MVC
         {
             View = view;
             View.Shown += View_Shown;
-            View.Load  += View_Load;
+            View.Load += View_Load;
             View.FormClosed += View_Closed;
         }
 
         private void View_Closed(object sender, FormClosedEventArgs e)
         {
             View.Shown -= View_Shown;
-            View.Load  -= View_Load;
+            View.Load -= View_Load;
             View.FormClosed -= View_Closed;
-            
+
             OnClosed();
         }
 
@@ -28,7 +28,7 @@ namespace ComPortSettings.MVC
         {
             OnShown();
         }
-        
+
         private void View_Load(object sender, EventArgs e)
         {
             OnLoad();
@@ -38,21 +38,20 @@ namespace ComPortSettings.MVC
         {
 
         }
-        
+
         protected virtual void OnLoad()
         {
         }
-        
+
         protected virtual void OnClosed()
         {
         }
 
-        
         public void Show()
         {
             View.Show();
         }
-        
+
         public void ShowDialog()
         {
             View.ShowDialog();

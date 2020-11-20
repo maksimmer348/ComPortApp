@@ -61,11 +61,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.OkSettings = new System.Windows.Forms.Button();
             this.CancelSettings = new System.Windows.Forms.Button();
-            this.SendToComMet = new System.Windows.Forms.TextBox();
-            this.ReceivingInformation = new System.Windows.Forms.RichTextBox();
-            this.Recieve = new System.Windows.Forms.Button();
-            this.SendToComSup = new System.Windows.Forms.TextBox();
-            this.Clear = new System.Windows.Forms.Button();
             this.SelectSettingsCom.SuspendLayout();
             this.SupplyTab.SuspendLayout();
             this.MeterTab.SuspendLayout();
@@ -73,6 +68,7 @@
             // 
             // ChannelComSupply
             // 
+            this.ChannelComSupply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ChannelComSupply.FormattingEnabled = true;
             this.ChannelComSupply.Items.AddRange(new object[] {
             "1",
@@ -169,6 +165,7 @@
             // 
             // FlowControlSupply
             // 
+            this.FlowControlSupply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FlowControlSupply.FormattingEnabled = true;
             this.FlowControlSupply.Items.AddRange(new object[] {
             "on",
@@ -189,10 +186,11 @@
             // 
             // StopBitsSupply
             // 
+            this.StopBitsSupply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StopBitsSupply.FormattingEnabled = true;
             this.StopBitsSupply.Items.AddRange(new object[] {
-            "0",
-            "1"});
+            "1",
+            "2"});
             this.StopBitsSupply.Location = new System.Drawing.Point(6, 87);
             this.StopBitsSupply.Name = "StopBitsSupply";
             this.StopBitsSupply.Size = new System.Drawing.Size(79, 21);
@@ -209,6 +207,7 @@
             // 
             // ParityBitSupply
             // 
+            this.ParityBitSupply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ParityBitSupply.FormattingEnabled = true;
             this.ParityBitSupply.Items.AddRange(new object[] {
             "0",
@@ -229,6 +228,7 @@
             // 
             // BaudRateSupply
             // 
+            this.BaudRateSupply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BaudRateSupply.FormattingEnabled = true;
             this.BaudRateSupply.Items.AddRange(new object[] {
             "2400",
@@ -314,6 +314,7 @@
             // 
             // FlowControlMeter
             // 
+            this.FlowControlMeter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FlowControlMeter.FormattingEnabled = true;
             this.FlowControlMeter.Items.AddRange(new object[] {
             "on",
@@ -334,10 +335,11 @@
             // 
             // StopBitsMeter
             // 
+            this.StopBitsMeter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StopBitsMeter.FormattingEnabled = true;
             this.StopBitsMeter.Items.AddRange(new object[] {
-            "0",
-            "1"});
+            "1",
+            "2"});
             this.StopBitsMeter.Location = new System.Drawing.Point(6, 87);
             this.StopBitsMeter.Name = "StopBitsMeter";
             this.StopBitsMeter.Size = new System.Drawing.Size(79, 21);
@@ -354,6 +356,7 @@
             // 
             // ParityBitMeter
             // 
+            this.ParityBitMeter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ParityBitMeter.FormattingEnabled = true;
             this.ParityBitMeter.Items.AddRange(new object[] {
             "0",
@@ -374,6 +377,7 @@
             // 
             // BaudRateMeter
             // 
+            this.BaudRateMeter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BaudRateMeter.FormattingEnabled = true;
             this.BaudRateMeter.Items.AddRange(new object[] {
             "2400",
@@ -394,6 +398,7 @@
             // 
             // ChannelComMeter
             // 
+            this.ChannelComMeter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ChannelComMeter.FormattingEnabled = true;
             this.ChannelComMeter.Items.AddRange(new object[] {
             "1",
@@ -434,58 +439,11 @@
             this.CancelSettings.UseVisualStyleBackColor = true;
             this.CancelSettings.Click += new System.EventHandler(this.CancelSettings_Click);
             // 
-            // SendToComMet
-            // 
-            this.SendToComMet.Location = new System.Drawing.Point(115, 369);
-            this.SendToComMet.Name = "SendToComMet";
-            this.SendToComMet.Size = new System.Drawing.Size(63, 20);
-            this.SendToComMet.TabIndex = 16;
-            // 
-            // ReceivingInformation
-            // 
-            this.ReceivingInformation.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ReceivingInformation.Location = new System.Drawing.Point(2, 278);
-            this.ReceivingInformation.Name = "ReceivingInformation";
-            this.ReceivingInformation.Size = new System.Drawing.Size(176, 85);
-            this.ReceivingInformation.TabIndex = 17;
-            this.ReceivingInformation.Text = "";
-            this.ReceivingInformation.TextChanged += new System.EventHandler(this.ReceivingInformation_TextChanged);
-            // 
-            // Recieve
-            // 
-            this.Recieve.Location = new System.Drawing.Point(2, 395);
-            this.Recieve.Name = "Recieve";
-            this.Recieve.Size = new System.Drawing.Size(63, 23);
-            this.Recieve.TabIndex = 18;
-            this.Recieve.Text = "Recieve";
-            this.Recieve.UseVisualStyleBackColor = true;
-            // 
-            // SendToComSup
-            // 
-            this.SendToComSup.Location = new System.Drawing.Point(2, 369);
-            this.SendToComSup.Name = "SendToComSup";
-            this.SendToComSup.Size = new System.Drawing.Size(63, 20);
-            this.SendToComSup.TabIndex = 19;
-            // 
-            // Clear
-            // 
-            this.Clear.Location = new System.Drawing.Point(115, 395);
-            this.Clear.Name = "Clear";
-            this.Clear.Size = new System.Drawing.Size(63, 23);
-            this.Clear.TabIndex = 20;
-            this.Clear.Text = "Clear";
-            this.Clear.UseVisualStyleBackColor = true;
-            // 
             // ComSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 421);
-            this.Controls.Add(this.Clear);
-            this.Controls.Add(this.SendToComSup);
-            this.Controls.Add(this.Recieve);
-            this.Controls.Add(this.ReceivingInformation);
-            this.Controls.Add(this.SendToComMet);
+            this.ClientSize = new System.Drawing.Size(184, 266);
             this.Controls.Add(this.CancelSettings);
             this.Controls.Add(this.OkSettings);
             this.Controls.Add(this.SelectSettingsCom);
@@ -500,7 +458,6 @@
             this.MeterTab.ResumeLayout(false);
             this.MeterTab.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -518,10 +475,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox SendToComMet;
-        private System.Windows.Forms.Button Recieve;
-        private System.Windows.Forms.TextBox SendToComSup;
-        private System.Windows.Forms.Button Clear;
         public System.Windows.Forms.ComboBox ChannelComSupply;
         public System.Windows.Forms.CheckBox DtrSupply;
         public System.Windows.Forms.ComboBox FlowControlSupply;
@@ -542,6 +495,5 @@
         public System.Windows.Forms.Button TestComMeter;
         public System.Windows.Forms.Button TestCheckSup;
         public System.Windows.Forms.Button TestCheckMet;
-        public System.Windows.Forms.RichTextBox ReceivingInformation;
     }
 }

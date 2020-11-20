@@ -41,6 +41,10 @@ namespace ComPortSettings
 
         public async void Output()
         {
+            //TODO сделать для Supply
+            //string ss = await Service<ComPorts>.Get().Supply.Write(":chan1: curr ?");
+            // 
+            // View.ReceivingInformation.Text += ss.Trim(MyChar);
             try
             {
 
@@ -49,7 +53,6 @@ namespace ComPortSettings
             {
                 MessageBox.Show(e.Message);
             }
-
         }
     }
 }
