@@ -37,7 +37,7 @@ namespace ComPortSettings
             comSettingsController.Show();
         }
 
-        protected override void OnShown()
+        void Deserialize()
         {
             var configSupply = CCS.Deserialize()[0];
             var configMeter = CCS.Deserialize()[1];
@@ -49,6 +49,10 @@ namespace ComPortSettings
         private async Task<string> BtnStat(string cmd)
         {
              return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd), 100);
+        }
+        protected override void OnShown()
+        {
+            Deserialize();
         }
 
         public async void Output()

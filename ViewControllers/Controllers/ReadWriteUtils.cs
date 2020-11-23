@@ -61,7 +61,6 @@
         {
             if (view.ChannelComMeter.SelectedItem == view.ChannelComSupply.SelectedItem)
             {
-
                 return false;
             }
 

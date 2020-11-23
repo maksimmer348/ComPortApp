@@ -11,15 +11,16 @@ namespace ComPortSettings
 {
     public class ComCommunication
     {
-        public GodSerialPort port;
-
+        private GodSerialPort port;
+        public int CfgChannelNum;
         public void Open(ComConfig cfg)
         {
             if (port == null || port.IsOpen == false)
             {
                 port = new GodSerialPort("COM" + cfg.ChannelNum, cfg.BaudRate, cfg.ParityBit) {DtrEnable = cfg.DTR};
-                ConvertStopBits(cfg.StopBits, port);
+                port.StopBits = ConvertStopBits(cfg.StopBits);
                 port.Open();
+                CfgChannelNum = cfg.ChannelNum;
             }
         }
 
@@ -70,20 +71,14 @@ namespace ComPortSettings
             }
         }
 
-        public void ConvertStopBits(int stopBit, GodSerialPort port)
+        public StopBits ConvertStopBits(int stopBit)
         {
-            switch (stopBit)
+            return stopBit switch
             {
-                case 1:
-                    port.StopBits = StopBits.One;
-                    break;
-                case 2:
-                    port.StopBits = StopBits.Two;
-                    break;
-                default:
-                    port.StopBits = StopBits.One;
-                    break;
-            }
+                1 => StopBits.One,
+                2 => StopBits.Two,
+                _ => StopBits.One
+            };
         }
     }
 }
