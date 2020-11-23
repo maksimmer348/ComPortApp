@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ComPort\ComCommunication.cs" />
     <Compile Include="ComPort\CommandLib\CommandLib.cs" />
+    <Compile Include="ComPort\CommandLib\Libs.cs" />
     <Compile Include="ComPort\CommandLib\MeterLib.cs" />
     <Compile Include="ComPort\CommandLib\SupplyLib.cs" />
     <Compile Include="ComPort\ComPorts.cs" />

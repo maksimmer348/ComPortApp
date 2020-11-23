@@ -409,7 +409,6 @@
             // 
             // Output
             // 
-            this.Output.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.Output.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Output.Location = new System.Drawing.Point(199, 220);
             this.Output.Name = "Output";
@@ -1193,7 +1192,6 @@
             // 
             // StartMeasurements
             // 
-            this.StartMeasurements.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.StartMeasurements.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.StartMeasurements.Location = new System.Drawing.Point(7, 26);
             this.StartMeasurements.Name = "StartMeasurements";

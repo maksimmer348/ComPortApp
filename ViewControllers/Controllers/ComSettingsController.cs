@@ -29,9 +29,10 @@ namespace ComPortSettings
             {
                 var configs = serializer.Deserialize();
 
-                View.WriteSupply(configs[0]);
-                View.WriteMeter(configs[1]);
-
+                var configSupply = configs[0];
+                var configMeter = configs[1];
+                View.WriteSupply(configSupply);
+                View.WriteMeter(configMeter);
             }
         }
 
@@ -146,8 +147,10 @@ namespace ComPortSettings
                 var serializer = new ComConfigsSerializer();
                 serializer.Serialize(configs);
 
-                Service<ComPorts>.Get().Supply.Open(configs[0]);
-                Service<ComPorts>.Get().Meter.Open(configs[1]);
+                var configSupply = configs[0];
+                var configMeter = configs[1];
+                Service<ComPorts>.Get().Supply.Open(configSupply);
+                Service<ComPorts>.Get().Meter.Open(configMeter);
 
                 View.Close();
             }

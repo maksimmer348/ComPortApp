@@ -6,8 +6,8 @@ namespace ComPortSettings.ComPort
     public class CommandLib
     {
         public Dictionary<string,string> Commands = new Dictionary<string, string>();
-       
 
+        
         public CommandLib()
         {
             CreateCommands();
@@ -15,7 +15,7 @@ namespace ComPortSettings.ComPort
 
         public virtual void CreateCommands()
         {
-
+            
         }
 
         public void Add(string key, string value)
@@ -25,7 +25,8 @@ namespace ComPortSettings.ComPort
 
         public string GetCommand(string key, string param = null)
         {
-          return string.Format(Commands[key], param);
+
+            return $"{Commands[key]} {param}";
         }
     }
 }
