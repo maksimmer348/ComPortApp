@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO.Ports;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,15 +61,15 @@ namespace ComPortSettings
             }
 
             string read = Encoding.ASCII.GetString(buffer);
-
-            if (read[0] == '?')
-            {
-                return read.Substring(1);
-            }
-            else
-            {
-                return read;
-            }
+            return DelTrash(read);
+            //if (read[0] == '?')
+            //{
+            //    return read.Substring(1);
+            //}
+            //else
+            //{
+            //    return read;
+            //}
         }
 
         public StopBits ConvertStopBits(int stopBit)
@@ -79,6 +80,14 @@ namespace ComPortSettings
                 2 => StopBits.Two,
                 _ => StopBits.One
             };
+        }
+
+        public string DelTrash(string enter)
+        {
+            char[] trash = new[] {'?', '\n', '\r'};
+
+
+            return String.Join("",enter.Where((ch) => !trash.Contains(ch)));
         }
     }
 }
