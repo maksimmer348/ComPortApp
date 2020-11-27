@@ -5,6 +5,7 @@ namespace ComPortSettings.ComPort
 {
     public class CommandLib
     {
+        //todo сделать в класс или стурктуру 
         public Dictionary<string,string> Commands = new Dictionary<string, string>();
 
         
@@ -25,7 +26,6 @@ namespace ComPortSettings.ComPort
 
         public string GetCommand(string key, string param = null)
         {
-
             return $"{Commands[key]} {param}";
         }
     }

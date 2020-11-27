@@ -154,6 +154,7 @@
             this.SelectLoad.Controls.Add(this.SelectTransistor);
             this.SelectLoad.Controls.Add(this.SelectResistor);
             this.SelectLoad.Controls.Add(this.TheirValues);
+            this.SelectLoad.Enabled = false;
             this.SelectLoad.Location = new System.Drawing.Point(0, 19);
             this.SelectLoad.Name = "SelectLoad";
             this.SelectLoad.SelectedIndex = 0;
@@ -531,6 +532,7 @@
             // 
             // GraphTemperature
             // 
+            this.GraphTemperature.Enabled = false;
             this.GraphTemperature.Location = new System.Drawing.Point(189, 9);
             this.GraphTemperature.Name = "GraphTemperature";
             this.GraphTemperature.ScrollGrace = 0D;
@@ -980,6 +982,7 @@
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem});
+            this.fileToolStripMenuItem.Enabled = false;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -1013,7 +1016,7 @@
             // ComMenu
             // 
             this.ComMenu.Name = "ComMenu";
-            this.ComMenu.Size = new System.Drawing.Size(100, 22);
+            this.ComMenu.Size = new System.Drawing.Size(180, 22);
             this.ComMenu.Text = "Com";
             this.ComMenu.Click += new System.EventHandler(this.ComMenu_Click);
             // 
@@ -1032,6 +1035,7 @@
             // 
             this.SelectMeasurement.Controls.Add(this.ByTime);
             this.SelectMeasurement.Controls.Add(this.ByTemperature);
+            this.SelectMeasurement.Enabled = false;
             this.SelectMeasurement.Location = new System.Drawing.Point(99, 5);
             this.SelectMeasurement.Name = "SelectMeasurement";
             this.SelectMeasurement.SelectedIndex = 0;
