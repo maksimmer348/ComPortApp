@@ -453,6 +453,7 @@
             this.SetValue.Tag = "Output Load";
             this.SetValue.Text = "Set Value";
             this.SetValue.UseVisualStyleBackColor = false;
+            this.SetValue.Click += new System.EventHandler(this.SetValue_Click);
             // 
             // PowerValueReadings
             // 
@@ -461,6 +462,7 @@
             this.PowerValueReadings.ReadOnly = true;
             this.PowerValueReadings.Size = new System.Drawing.Size(94, 20);
             this.PowerValueReadings.TabIndex = 25;
+            this.PowerValueReadings.TextChanged += new System.EventHandler(this.PowerValueReadings_TextChanged);
             // 
             // CurrentValueReadings
             // 
@@ -469,6 +471,7 @@
             this.CurrentValueReadings.ReadOnly = true;
             this.CurrentValueReadings.Size = new System.Drawing.Size(94, 20);
             this.CurrentValueReadings.TabIndex = 24;
+            this.CurrentValueReadings.TextChanged += new System.EventHandler(this.CurrentValueReadings_TextChanged);
             // 
             // VoltageValueReadings
             // 
@@ -477,6 +480,7 @@
             this.VoltageValueReadings.ReadOnly = true;
             this.VoltageValueReadings.Size = new System.Drawing.Size(94, 20);
             this.VoltageValueReadings.TabIndex = 23;
+            this.VoltageValueReadings.TextChanged += new System.EventHandler(this.VoltageValueReadings_TextChanged);
             // 
             // PowerSupplyReadings
             // 
@@ -1016,7 +1020,7 @@
             // ComMenu
             // 
             this.ComMenu.Name = "ComMenu";
-            this.ComMenu.Size = new System.Drawing.Size(180, 22);
+            this.ComMenu.Size = new System.Drawing.Size(100, 22);
             this.ComMenu.Text = "Com";
             this.ComMenu.Click += new System.EventHandler(this.ComMenu_Click);
             // 

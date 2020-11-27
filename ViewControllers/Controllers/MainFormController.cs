@@ -18,6 +18,7 @@ namespace ComPortSettings
             View.OpenSettings += OpenSettings;
             View.OutputLoad += Output;
             View.SetVoltage += SetVoltage;
+            View.UpdateTest += UpdateValues;
             //View.SetCurrent += 
         }
 
@@ -46,9 +47,11 @@ namespace ComPortSettings
             StartSettings();
         }
 
-        private async Task<string> BtnStat(string cmd)
+        private async Task<string> 
+            BtnStat(string cmd)
         {
-             return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd), 100);
+            await CommandToFormSupply("Output");
+                 return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd), 100);
         }
         protected override void OnShown()
         {
@@ -59,24 +62,39 @@ namespace ComPortSettings
         {
             string param = String.Empty;
 
-            if (await BtnStat("Get Output") == "1\n")
+            if (await BtnStat("Get Output") == "1")
             {
                 param = "0";
                 View.ButtonDisconected();
             }
-            if (await BtnStat("Get Output") == "0\n")
+            if (await BtnStat("Get Output") == "0")
             {
                 param = "1";
                 View.ButtonConected();
                
             }
-            await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand("Output", param), 100);
+            await CommandToFormSupply("Output", param);
         }
 
         private async void StartSettings()
         {
-            await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand("Output", "0"), 100);
+            await CommandToFormSupply("Output", "0");
             View.ButtonDisconected();
+        }
+
+        async void UpdateValues()
+        {
+            View.ReadToCom(await CommandToFormSupply("Return voltage"), await CommandToFormSupply("Return current"));
+        }
+
+        public async Task<string>CommandToFormSupply(string cmd, string param = null, int delay = 200)
+        {
+            return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+        }
+
+        public async Task<string> CommandToFormMeter(string cmd, string param = null, int delay = 100)
+        {
+            return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
         }
     }
 }

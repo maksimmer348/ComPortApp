@@ -11,7 +11,7 @@ namespace ComPortSettings
         public event Action OutputLoad;
         public event Action SetVoltage;
         public event Action SetCurrent;
-
+        public event Action UpdateTest;
         public Form1()
         {
             InitializeComponent();
@@ -50,6 +50,32 @@ namespace ComPortSettings
         private void CurrentValueWrite_TextChanged(object sender, EventArgs e)
         {
             SetCurrent?.Invoke();
+        }
+
+        private void VoltageValueReadings_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CurrentValueReadings_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PowerValueReadings_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SetValue_Click(object sender, EventArgs e)
+        {
+            UpdateTest?.Invoke();
+        }
+
+        public void ReadToCom(string writeVoltage, string writeCurrent)
+        {
+            VoltageValueReadings.Text = writeVoltage;
+            CurrentValueReadings.Text = writeCurrent;
         }
     }
 }
