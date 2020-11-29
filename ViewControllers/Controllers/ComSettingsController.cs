@@ -144,7 +144,7 @@ namespace ComPortSettings
             {
                 Service<ComPorts>.Get().Supply.Close();
                 Service<ComPorts>.Get().Meter.Close();
-
+                 
                 ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
 
                 var serializer = new ComConfigsSerializer();

@@ -77,5 +77,10 @@ namespace ComPortSettings
             VoltageValueReadings.Text = writeVoltage;
             CurrentValueReadings.Text = writeCurrent;
         }
+
+        public void Extenctions(Exception e)
+        {
+            
+        }
     }
 }

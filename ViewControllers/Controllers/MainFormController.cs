@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using ComPortSettings.ComPort;
 using ComPortSettings.MVC;
@@ -12,6 +13,7 @@ namespace ComPortSettings
 
         ComConfigsSerializer CCS = new ComConfigsSerializer();
         CommandLib CLib = new CommandLib();
+        private bool CmdFail;
 
         public MainFormController(Form1 view) : base(view)
         {
@@ -47,12 +49,12 @@ namespace ComPortSettings
             StartSettings();
         }
 
-        private async Task<string> 
-            BtnStat(string cmd)
+        private async Task<string> BtnStat(string cmd)
         {
-            await CommandToFormSupply("Output");
-                 return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd), 100);
+            return await CommandToFormSupply(cmd);
+            //return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd), 100);
         }
+
         protected override void OnShown()
         {
             Deserialize();
@@ -60,21 +62,27 @@ namespace ComPortSettings
 
         public async void Output()
         {
-            string param = String.Empty;
+            if (await BtnStat("Get Output") == null)
+            {
+                return;
+            }
 
             if (await BtnStat("Get Output") == "1")
             {
-                param = "0";
+                await CommandToFormSupply("Output", "0");
                 View.ButtonDisconected();
             }
+
             if (await BtnStat("Get Output") == "0")
             {
-                param = "1";
+                await CommandToFormSupply("Output", "1");
                 View.ButtonConected();
-               
             }
-            await CommandToFormSupply("Output", param);
+
+            
+
         }
+
 
         private async void StartSettings()
         {
@@ -87,14 +95,34 @@ namespace ComPortSettings
             View.ReadToCom(await CommandToFormSupply("Return voltage"), await CommandToFormSupply("Return current"));
         }
 
-        public async Task<string>CommandToFormSupply(string cmd, string param = null, int delay = 200)
+        public async Task<string> CommandToFormSupply(string cmd, string param = null, int delay = 200)
+        {
+            try
+            {
+                CmdFail = false;
+                return await Service<ComPorts>.Get().Supply
+                    .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+            }
+            catch (Exception e)
+            {
+                ErrorMsg();
+                CmdFail = true;
+                return null;
+            }
+        }
+
+        public async Task<string> CommandToFormMeter(string cmd, string param = null, int delay = 200)
         {
             return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
         }
 
-        public async Task<string> CommandToFormMeter(string cmd, string param = null, int delay = 100)
+        void ErrorMsg()
         {
-            return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+            string inf = "Блок питания не подключен или настроен неправильно открыть настроки подключения?";
+            var dialog = MessageBox.Show(inf, "ComPort", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialog == DialogResult.Yes)
+                OpenSettings();
         }
     }
 }
+

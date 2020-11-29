@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ComPortSettings.ComPort
 {
@@ -27,7 +29,6 @@ namespace ComPortSettings.ComPort
 
         public string GetCommand(string key, string param = null)
         {
-            //return await Service<ComPorts>.Get().Supply.Write($"{Commands[key]} {param}");
             return $"{Commands[key]} {param}";
         }
     }
