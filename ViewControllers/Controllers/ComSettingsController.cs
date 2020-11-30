@@ -33,6 +33,7 @@ namespace ComPortSettings
                 var configMeter = configs[1];
                 View.WriteSupply(configSupply);
                 View.WriteMeter(configMeter);
+              
             }
         }
         protected override void OnShown()
@@ -64,18 +65,20 @@ namespace ComPortSettings
                         Service<ComPorts>.Get().Meter.Close();
                         Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
                     }
+                    await  Service<ComPorts>.Get().Supply.Write(":outp:stat 0");
+                    Service<Form1>.Get().Output.BackColor = Color.AliceBlue;
+                    const string TestCmd = ":outp:stat?";
 
-                    const string TestCmd = ":chan1: curr ?";
-
-                    await Service<ComPorts>.Get().Supply.Write(TestCmd, 100);
-
-                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd, 100)).Contains("."))
+                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd ,200)).Contains("null"))
+                    {
+                       
+                    }
+                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd,200 )).Contains("0"))
                     {
                         View.ButtonConected();
                     }
                     else
                     {
-
                         View.ButtonDisconected();
                     }
                 }
@@ -134,7 +137,18 @@ namespace ComPortSettings
 
         private void CancelSettings()
         {
-            DeserializeConfig();
+            var serializer = new ComConfigsSerializer();
+
+            if (File.Exists("Settings.json"))
+            {
+                var configs = serializer.Deserialize();
+                var configSupply = configs[0];
+                var configMeter = configs[1];
+                Service<ComPorts>.Get().Supply.Close();
+                Service<ComPorts>.Get().Meter.Close();
+                Service<ComPorts>.Get().Supply.Open(configSupply);
+                Service<ComPorts>.Get().Meter.Open(configMeter);
+            }
             View.Close();
         }
 

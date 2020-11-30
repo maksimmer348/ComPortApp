@@ -22,6 +22,7 @@ namespace ComPortSettings
                 port.StopBits = ConvertStopBits(cfg.StopBits);
                 port.Open();
                 CfgChannelNum = cfg.ChannelNum;
+                //port.Buf
             }
         }
 

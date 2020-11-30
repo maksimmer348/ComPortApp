@@ -74,7 +74,9 @@ namespace ComPortSettings
 
         public void ReadToCom(string writeVoltage, string writeCurrent)
         {
+            VoltageValueReadings.Text = String.Empty;
             VoltageValueReadings.Text = writeVoltage;
+            CurrentValueReadings.Text = String.Empty;
             CurrentValueReadings.Text = writeCurrent;
         }
 

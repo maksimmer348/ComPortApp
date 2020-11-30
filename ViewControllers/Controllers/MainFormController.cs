@@ -20,7 +20,7 @@ namespace ComPortSettings
             View.OpenSettings += OpenSettings;
             View.OutputLoad += Output;
             View.SetVoltage += SetVoltage;
-            View.UpdateTest += UpdateValues;
+               //View.UpdateTest += UpdateValues;
             //View.SetCurrent += 
         }
 
@@ -37,7 +37,7 @@ namespace ComPortSettings
         private void OpenSettings()
         {
             var comSettingsController = new ComSettingsController(new ComSettings());
-            comSettingsController.Show();
+            comSettingsController.ShowDialog();
         }
 
         void Deserialize()
@@ -57,30 +57,36 @@ namespace ComPortSettings
 
         protected override void OnShown()
         {
-            Deserialize();
+
+            Deserialize(); 
+            
         }
 
         public async void Output()
         {
+           
+            //изм6енить задержку
             if (await BtnStat("Get Output") == null)
             {
                 return;
+                //UpdateValues();
             }
-
-            if (await BtnStat("Get Output") == "1")
+              
+            else if(await BtnStat("Get Output") == "1")
             {
                 await CommandToFormSupply("Output", "0");
+                
                 View.ButtonDisconected();
+                //UpdateValues();
             }
 
-            if (await BtnStat("Get Output") == "0")
+            else if(await BtnStat("Get Output") == "0")
             {
                 await CommandToFormSupply("Output", "1");
                 View.ButtonConected();
+               
+                    //UpdateValues(true);
             }
-
-            
-
         }
 
 
@@ -88,14 +94,17 @@ namespace ComPortSettings
         {
             await CommandToFormSupply("Output", "0");
             View.ButtonDisconected();
+            UpdateValues();
         }
 
-        async void UpdateValues()
+        public async void UpdateValues(bool loop = false)
         {
-            View.ReadToCom(await CommandToFormSupply("Return voltage"), await CommandToFormSupply("Return current"));
+            View.ReadToCom(await CommandToFormSupply("Return voltage", null),
+                    await CommandToFormSupply("Return current",null));
+                    // await Task.Delay(1000);
         }
 
-        public async Task<string> CommandToFormSupply(string cmd, string param = null, int delay = 200)
+        public async Task<string> CommandToFormSupply(string cmd, string param = null, int delay = 500)
         {
             try
             {
@@ -111,7 +120,7 @@ namespace ComPortSettings
             }
         }
 
-        public async Task<string> CommandToFormMeter(string cmd, string param = null, int delay = 200)
+        public async Task<string> CommandToFormMeter(string cmd, string param = null, int delay = 100)
         {
             return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
         }
