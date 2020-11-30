@@ -64,7 +64,7 @@ namespace ComPortSettings
         {
             TestCheckMet.BackColor = Color.Red;
         }
-
+       
         private void ReceivingInformation_TextChanged(object sender, EventArgs e)
         {
 

@@ -11,7 +11,7 @@ namespace ComPortSettings
 {
     public class ComSettingsController : Controller<ComSettings>
     {
-        public ComSettingsController(ComSettings view) : base(view)
+        public ComSettingsController(ComSettings view, IController host) : base(view, host)
         {
             View.ResetSupply += DefaultSettingsSupply;
             View.ResetMeter += DefaultSettingsMeter;
@@ -66,7 +66,7 @@ namespace ComPortSettings
                         Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
                     }
                     await  Service<ComPorts>.Get().Supply.Write(":outp:stat 0");
-                    Service<Form1>.Get().Output.BackColor = Color.AliceBlue;
+                    ((MainFormController)Host).Buttondriver();
                     const string TestCmd = ":outp:stat?";
 
                     if ((await Service<ComPorts>.Get().Supply.Write(TestCmd ,200)).Contains("null"))

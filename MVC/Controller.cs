@@ -3,16 +3,27 @@ using System.Windows.Forms;
 
 namespace ComPortSettings.MVC
 {
-    public class Controller<TView> where TView : View
+    public interface IController
     {
-        public TView View { get; }
 
+    }
+    public class Controller<TView>: IController where TView : View
+    {
+        
+        public TView View { get; }
+        protected IController Host { get; }
         protected Controller(TView view)
         {
             View = view;
             View.Shown += View_Shown;
             View.Load += View_Load;
             View.FormClosed += View_Closed;
+            
+        }
+
+        protected Controller(TView view, IController host): this(view)
+        {
+            Host = host;
         }
 
         private void View_Closed(object sender, FormClosedEventArgs e)
@@ -57,4 +68,6 @@ namespace ComPortSettings.MVC
             View.ShowDialog();
         }
     }
+
+
 }
