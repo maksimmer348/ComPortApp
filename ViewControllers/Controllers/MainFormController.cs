@@ -10,16 +10,15 @@ namespace ComPortSettings
 
     public class MainFormController : Controller<Form1>
     {
-
         ComConfigsSerializer CCS = new ComConfigsSerializer();
+        private bool Error;
 
         public MainFormController(Form1 view) : base(view)
         {
-            View.OpenSettings += OpenSettings;
+            
+            View.OpenSettings += () => OpenSettings();//ттак можно избежать требований сигнатуры метода при вызове экшана
             View.OutputLoad += Output;
             View.SetVoltage += SetVoltage;
-            //View.UpdateTest += UpdateValues;
-            //View.SetCurrent += 
         }
 
         private void SetVoltage()
@@ -29,13 +28,24 @@ namespace ComPortSettings
 
         protected override void OnClosed()
         {
-            View.OpenSettings -= OpenSettings;
+            View.OutputLoad -= Output;
+            View.SetVoltage -= SetVoltage;
         }
 
-        private void OpenSettings()
+        private void OpenSettings(int startTab = 0)
         {
-            var comSettingsController = new ComSettingsController(new ComSettings(), this);
+            ComSettingsController comSettingsController = new ComSettingsController(new ComSettings(), this);
+
+            if (startTab ==0)
+            {
+                comSettingsController.SelectedTab = 0;
+            }
+            if (startTab == 1)
+            {
+                comSettingsController.SelectedTab = 1;
+            }
             comSettingsController.ShowDialog();
+
         }
 
         void Deserialize()
@@ -44,7 +54,6 @@ namespace ComPortSettings
             var configMeter = CCS.Deserialize()[1];
             Service<ComPorts>.Get().Supply.Open(configSupply);
             Service<ComPorts>.Get().Meter.Open(configMeter);
-            StartSettings();
         }
 
         private async Task<string> BtnStat(string cmd)
@@ -55,9 +64,8 @@ namespace ComPortSettings
 
         protected override void OnShown()
         {
-
             Deserialize();
-
+            StartSettings();
         }
 
         public async void Output()
@@ -80,8 +88,6 @@ namespace ComPortSettings
             {
                 await CommandToFormSupply("Output", "1");
                 View.ButtonConected();
-
-
             }
         }
 
@@ -89,8 +95,9 @@ namespace ComPortSettings
         private async void StartSettings()
         {
             await CommandToFormSupply("Output", "0");
+            await CommandToFormMeter("Output", "0");
             View.ButtonDisconected();
-            UpdateValues();
+            //UpdateValues();
         }
 
         public async void UpdateValues(bool loop = false)
@@ -105,25 +112,51 @@ namespace ComPortSettings
             {
                 return await Service<ComPorts>.Get().Supply
                     .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+                Error = false;
             }
             catch (Exception e)
             {
-                ErrorMsg();
+                ErrorMsgSupply();
+                Error = true;
                 return null;
             }
         }
 
         public async Task<string> CommandToFormMeter(string cmd, string param = null, int delay = 100)
         {
-            return await Service<ComPorts>.Get().Supply.Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+            try
+            {
+                return await Service<ComPorts>.Get().Supply
+                    .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+            }
+            catch (Exception e)
+            {
+                ErrorMsgMeter();
+                Error = true;
+                return null;
+            }
         }
 
-        void ErrorMsg()
+        void ErrorMsgSupply()
         {
             string inf = "Блок питания не подключен или настроен неправильно открыть настроки подключения?";
             var dialog = MessageBox.Show(inf, "ComPort", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialog == DialogResult.Yes)
+            {
                 OpenSettings();
+            }
+               
+        }
+
+        void ErrorMsgMeter()
+        {
+            string inf = " Измерительный прибор не подключен или настроен неправильно открыть настроки подключения?";
+            var dialog = MessageBox.Show(inf, "ComPort", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialog == DialogResult.Yes)
+            {
+                OpenSettings(1);
+            }
+                
         }
 
         public void Buttondriver()

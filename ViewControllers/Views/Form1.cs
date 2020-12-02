@@ -80,9 +80,6 @@ namespace ComPortSettings
             CurrentValueReadings.Text = writeCurrent;
         }
 
-        public void Extenctions(Exception e)
-        {
-            
-        }
+       
     }
 }

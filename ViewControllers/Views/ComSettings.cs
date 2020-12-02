@@ -55,6 +55,7 @@ namespace ComPortSettings
         public void ButtonDisconected()
         {
             TestCheckSup.BackColor = Color.Red;
+           
         }
         public void ButtonConectedMeter()
         {
@@ -64,8 +65,13 @@ namespace ComPortSettings
         {
             TestCheckMet.BackColor = Color.Red;
         }
-       
-        private void ReceivingInformation_TextChanged(object sender, EventArgs e)
+
+        public void SelectToTab(int tab)
+        {
+            SelectSettingsCom.SelectedTab = SelectSettingsCom.TabPages[tab];
+        }
+
+        public void ReceivingInformation_TextChanged(object sender, EventArgs e)
         {
 
         }

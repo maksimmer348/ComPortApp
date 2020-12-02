@@ -18,7 +18,6 @@ namespace ComPortSettings.MVC
             View.Shown += View_Shown;
             View.Load += View_Load;
             View.FormClosed += View_Closed;
-            
         }
 
         protected Controller(TView view, IController host): this(view)

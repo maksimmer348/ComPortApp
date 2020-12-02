@@ -11,6 +11,7 @@ namespace ComPortSettings
 {
     public class ComSettingsController : Controller<ComSettings>
     {
+        public int SelectedTab = 0;
         public ComSettingsController(ComSettings view, IController host) : base(view, host)
         {
             View.ResetSupply += DefaultSettingsSupply;
@@ -21,7 +22,16 @@ namespace ComPortSettings
             View.Cancel += CancelSettings;
         }
 
-         void DeserializeConfig()
+        protected override void OnClosed()
+        {
+            View.ResetSupply -= DefaultSettingsSupply;
+            View.ResetMeter -= DefaultSettingsMeter;
+            View.TestSupply -= TestSupply;
+            View.TestMeter -= TestMeter;
+            View.Ok -= OkSettings;
+            View.Cancel -= CancelSettings;
+        }
+        void DeserializeConfig()
         {
             var serializer = new ComConfigsSerializer();
 
@@ -38,7 +48,8 @@ namespace ComPortSettings
         }
         protected override void OnShown()
         {
-           DeserializeConfig(); 
+           DeserializeConfig();
+           View.SelectToTab(SelectedTab);
         }
 
         void DefaultSettingsSupply()
@@ -149,6 +160,8 @@ namespace ComPortSettings
                 Service<ComPorts>.Get().Supply.Open(configSupply);
                 Service<ComPorts>.Get().Meter.Open(configMeter);
             }
+
+            OnClosed();
             View.Close();
         }
 
@@ -169,7 +182,8 @@ namespace ComPortSettings
                 Service<ComPorts>.Get().Supply.Open(configSupply);
                 Service<ComPorts>.Get().Meter.Open(configMeter);
 
-                View.Close();
+                OnClosed();
+               View.Close();
             }
             else
             {
