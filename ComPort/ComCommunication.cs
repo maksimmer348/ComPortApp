@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using GodSharp.SerialPort;
@@ -12,8 +13,10 @@ namespace ComPortSettings
 {
     public class ComCommunication
     {
+        private CancellationTokenSource _cancellationTokenSource;
         private GodSerialPort port;
         public int CfgChannelNum;
+        private string TempVal;
         public void Open(ComConfig cfg)
         {
             if (port == null || port.IsOpen == false)
@@ -35,7 +38,7 @@ namespace ComPortSettings
             }
         }
 
-        public async Task<string> Write(string write, int delay = 100)
+        public async Task<string> Write(string write, int delay = 100, bool interruptOp = false)
         {
             if (port == null) return null;
 
@@ -43,17 +46,26 @@ namespace ComPortSettings
 
             if (port.Open())
             {
+                CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+                if (interruptOp == true)
+                {
+                   
+                    _cancellationTokenSource.Cancel();
+                    interruptOp = false;
+                    return TempVal;
+                }
+               
                 port.WriteAsciiString(write + endOfLine);
 
-                return await Read(delay);
-            }
+                return await Read(delay, _cancellationTokenSource.Token);
 
+            }
             throw new Exception("Порт не открыт или занят");
         }
 
-        public async Task<string> Read(int delay)
+        public async Task<string> Read(int delay, CancellationToken cnslRead)
         {
-            await Task.Delay(delay);
+            await Task.Delay(delay, cnslRead);
 
             byte[] buffer = port.Read();
             if (buffer == null)
@@ -62,6 +74,7 @@ namespace ComPortSettings
             }
 
             string read = Encoding.ASCII.GetString(buffer);
+            //TempVal = read;
             return DelTrash(read);
         }
 

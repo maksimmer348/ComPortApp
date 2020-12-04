@@ -71,6 +71,7 @@ namespace ComPortSettings
         public async void Output()
         {
 
+            UpdateValues(true);
             if (await BtnStat("Get Output") == null)
             {
                 return;
@@ -89,6 +90,7 @@ namespace ComPortSettings
                 await CommandToFormSupply("Output", "1");
                 View.ButtonConected();
             }
+            
         }
 
 
@@ -100,18 +102,20 @@ namespace ComPortSettings
             //UpdateValues();
         }
 
-        public async void UpdateValues(bool loop = false)
+        public async void UpdateValues(bool cancelCmd = false, bool loop = true)
         {
-            View.ReadToCom(await CommandToFormSupply("Return voltage"),
-                await CommandToFormSupply("Return current"));
+            //todo сдклать таймером
+            View.ReadToCom(await CommandToFormSupply("Return voltage", Cnclcmd: cancelCmd, delay: 500),
+                    await CommandToFormSupply("Return current", Cnclcmd: cancelCmd, delay: 500));
+                await Task.Delay(200);
         }
 
-        public async Task<string> CommandToFormSupply(string cmd, string param = null, int delay = 200)
+        public async Task<string> CommandToFormSupply(string cmd, string param = null, int delay = 200,bool Cnclcmd = false)
         {
             try
             {
                 return await Service<ComPorts>.Get().Supply
-                    .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+                    .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay, Cnclcmd);
                 Error = false;
             }
             catch (Exception e)
