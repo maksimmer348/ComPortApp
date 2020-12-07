@@ -12,6 +12,7 @@ namespace ComPortSettings
     public class ComSettingsController : Controller<ComSettings>
     {
         public int SelectedTab = 0;
+
         public ComSettingsController(ComSettings view, IController host) : base(view, host)
         {
             View.ResetSupply += DefaultSettingsSupply;
@@ -31,6 +32,7 @@ namespace ComPortSettings
             View.Ok -= OkSettings;
             View.Cancel -= CancelSettings;
         }
+
         void DeserializeConfig()
         {
             var serializer = new ComConfigsSerializer();
@@ -43,13 +45,14 @@ namespace ComPortSettings
                 var configMeter = configs[1];
                 View.WriteSupply(configSupply);
                 View.WriteMeter(configMeter);
-              
+
             }
         }
+
         protected override void OnShown()
         {
-           DeserializeConfig();
-           View.SelectToTab(SelectedTab);
+            DeserializeConfig();
+            View.SelectToTab(SelectedTab);
         }
 
         void DefaultSettingsSupply()
@@ -76,15 +79,16 @@ namespace ComPortSettings
                         Service<ComPorts>.Get().Meter.Close();
                         Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
                     }
-                    await  Service<ComPorts>.Get().Supply.Write(":outp:stat 0");
-                    ((MainFormController)Host).Buttondriver();
-                    const string TestCmd = ":outp:stat?";
 
-                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd ,200)).Contains("null"))
+                    await Service<ComPorts>.Get().Supply.Write(":outp:stat 0");
+                    ((MainFormController) Host).Buttondriver();
+                    const string TestCmd = ":outp:stat?";
+                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd, 200)).Contains("null"))
                     {
-                       
+
                     }
-                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd,200 )).Contains("0"))
+
+                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd, 200)).Contains("0"))
                     {
                         View.ButtonConected();
                     }
@@ -171,7 +175,7 @@ namespace ComPortSettings
             {
                 Service<ComPorts>.Get().Supply.Close();
                 Service<ComPorts>.Get().Meter.Close();
-                 
+
                 ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
 
                 var serializer = new ComConfigsSerializer();
@@ -183,7 +187,7 @@ namespace ComPortSettings
                 Service<ComPorts>.Get().Meter.Open(configMeter);
 
                 OnClosed();
-               View.Close();
+                View.Close();
             }
             else
             {
@@ -196,15 +200,17 @@ namespace ComPortSettings
 
         public bool ValidateTest()
         {
-           var meterPort = Service<ComPorts>.Get().Meter.CfgChannelNum;
-           var supplyPort = Service<ComPorts>.Get().Supply.CfgChannelNum;
+            var meterPort = Service<ComPorts>.Get().Meter.CfgChannelNum;
+            var supplyPort = Service<ComPorts>.Get().Supply.CfgChannelNum;
 
             if (meterPort == View.ReadSupply().ChannelNum || supplyPort == View.ReadMeter().ChannelNum)
             {
                 return false;
             }
-            
+
             return true;
         }
-    }
+
+       
+}
 }

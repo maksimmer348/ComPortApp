@@ -55,6 +55,7 @@
     <Compile Include="ComPort\CommandLib\SupplyLib.cs" />
     <Compile Include="ComPort\ComPorts.cs" />
     <Compile Include="ComPort\Service.cs" />
+    <Compile Include="ComPort\TaskEx.cs" />
     <Compile Include="Configs\ComConfigsSerializer.cs" />
     <Compile Include="Configs\ComConfig.cs" />
     <Compile Include="ViewControllers\Controllers\ComSettingsController.cs" />

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using ComPortSettings.ComPort;
 using ComPortSettings.MVC;
+using System.Timers;
+using Timer = System.Windows.Forms.Timer;
 
 namespace ComPortSettings
 {
@@ -11,39 +14,47 @@ namespace ComPortSettings
     public class MainFormController : Controller<Form1>
     {
         ComConfigsSerializer CCS = new ComConfigsSerializer();
-        private bool Error;
+
+        static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
+        static int alarmCounter = 1;
 
         public MainFormController(Form1 view) : base(view)
         {
-            
-            View.OpenSettings += () => OpenSettings();//ттак можно избежать требований сигнатуры метода при вызове экшана
+
+            View.OpenSettings += () => OpenSettings(); //ттак можно избежать требований сигнатуры метода при вызове экшана
             View.OutputLoad += Output;
-            View.SetVoltage += SetVoltage;
-        }
-
-        private void SetVoltage()
-        {
-
         }
 
         protected override void OnClosed()
         {
             View.OutputLoad -= Output;
-            View.SetVoltage -= SetVoltage;
+            View.OpenSettings -= () => OpenSettings();
+            myTimer.Tick -= new EventHandler(TimerEventProcessor);
+            myTimer.Stop();
         }
+        protected override void OnShown()
+        {
+            Deserialize();
+            StartSettings();
+            SetTimer();
+            myTimer.Start();
+        }
+
 
         private void OpenSettings(int startTab = 0)
         {
             ComSettingsController comSettingsController = new ComSettingsController(new ComSettings(), this);
 
-            if (startTab ==0)
+            if (startTab == 0)
             {
                 comSettingsController.SelectedTab = 0;
             }
+
             if (startTab == 1)
             {
                 comSettingsController.SelectedTab = 1;
             }
+
             comSettingsController.ShowDialog();
 
         }
@@ -58,70 +69,56 @@ namespace ComPortSettings
 
         private async Task<string> BtnStat(string cmd)
         {
-            return await CommandToFormSupply(cmd);
-
+            return await CommandToFormSupply(cmd,extraDelayOn: true);
         }
 
-        protected override void OnShown()
-        {
-            Deserialize();
-            StartSettings();
-        }
-
+       
         public async void Output()
         {
-
-            UpdateValues(true);
-            if (await BtnStat("Get Output") == null)
-            {
-                return;
-
-            }
-
-            else if (await BtnStat("Get Output") == "1")
+            View.Output.Enabled = false;
+            myTimer.Stop();
+            await Task.Delay(300);
+            string ss = await BtnStat("Get Output");
+            if (ss == "1")
             {
                 await CommandToFormSupply("Output", "0");
 
                 Buttondriver();
             }
-
-            else if (await BtnStat("Get Output") == "0")
+            else if (ss == "0")
             {
                 await CommandToFormSupply("Output", "1");
+
                 View.ButtonConected();
             }
-            
+             Debug.WriteLine(ss);
+             myTimer.Start();
+             View.Output.Enabled = true;
         }
 
 
         private async void StartSettings()
         {
             await CommandToFormSupply("Output", "0");
-            await CommandToFormMeter("Output", "0");
             View.ButtonDisconected();
-            //UpdateValues();
         }
 
-        public async void UpdateValues(bool cancelCmd = false, bool loop = true)
+        public async void UpdateValues()
         {
-            //todo сдклать таймером
-            View.ReadToCom(await CommandToFormSupply("Return voltage", Cnclcmd: cancelCmd, delay: 500),
-                    await CommandToFormSupply("Return current", Cnclcmd: cancelCmd, delay: 500));
-                await Task.Delay(200);
+            View.ReadToCom(await CommandToFormSupply("Return voltage",extraDelayOn: false),
+                await CommandToFormSupply("Return current", extraDelayOn: false));
         }
 
-        public async Task<string> CommandToFormSupply(string cmd, string param = null, int delay = 200,bool Cnclcmd = false)
+        public async Task<string> CommandToFormSupply(string cmd, string param = null, bool extraDelayOn = false)
         {
             try
             {
                 return await Service<ComPorts>.Get().Supply
-                    .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay, Cnclcmd);
-                Error = false;
+                    .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), extraDelayOn: extraDelayOn);
             }
             catch (Exception e)
             {
                 ErrorMsgSupply();
-                Error = true;
                 return null;
             }
         }
@@ -136,7 +133,6 @@ namespace ComPortSettings
             catch (Exception e)
             {
                 ErrorMsgMeter();
-                Error = true;
                 return null;
             }
         }
@@ -149,7 +145,7 @@ namespace ComPortSettings
             {
                 OpenSettings();
             }
-               
+
         }
 
         void ErrorMsgMeter()
@@ -160,12 +156,23 @@ namespace ComPortSettings
             {
                 OpenSettings(1);
             }
-                
+
         }
 
         public void Buttondriver()
         {
             View.ButtonDisconected();
+        }
+
+        void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
+        {
+            UpdateValues();
+        }
+
+        void SetTimer()
+        {
+            myTimer.Tick += new EventHandler(TimerEventProcessor);
+            myTimer.Interval = 500;
         }
     }
 }

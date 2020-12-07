@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using View = ComPortSettings.MVC.View;
 using System.Windows.Forms;
@@ -23,7 +24,9 @@ namespace ComPortSettings
 
         private void Output_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine("Output_Click");
             OutputLoad?.Invoke();
+
             //this.Tag.ToString();
         }
 
