@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using View = ComPortSettings.MVC.View;
 using System.Windows.Forms;
 
@@ -32,7 +33,7 @@ namespace ComPortSettings
 
         private void StartMeasurements_Click(object sender, EventArgs e)
         {
-
+            OutputLoad?.Invoke();
         }
 
         public void ButtonConected()
@@ -81,6 +82,13 @@ namespace ComPortSettings
             VoltageValueReadings.Text = writeVoltage;
             CurrentValueReadings.Text = String.Empty;
             CurrentValueReadings.Text = writeCurrent;
+            //todo перенести расчеты и формативрование в класс calculate
+            var tempV = double.Parse(writeVoltage, CultureInfo.InvariantCulture);
+            var tempC = double.Parse(writeCurrent, CultureInfo.InvariantCulture);
+            double? tempP = tempV * tempC;
+            //todo
+            PowerValueReadings.Text = String.Empty;
+            PowerValueReadings.Text = tempP.ToString();
         }
 
        

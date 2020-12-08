@@ -77,7 +77,7 @@ namespace ComPortSettings
         {
             View.Output.Enabled = false;
             myTimer.Stop();
-            await Task.Delay(300);
+            await Task.Delay(500);
             string ss = await BtnStat("Get Output");
             if (ss == "1")
             {
