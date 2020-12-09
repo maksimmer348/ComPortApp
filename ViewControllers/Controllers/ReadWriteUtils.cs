@@ -1,11 +1,15 @@
-﻿namespace ComPortSettings
+﻿using System;
+using System.Globalization;
+using System.Windows.Forms;
+
+namespace ComPortSettings
 {
     public static class ReadWriteUtils
     {
         /// <summary>
         /// запись из ComPort в ComboBox для блока питания
         /// </summary>
-        public static void WriteSupply(this ComSettings view, ComConfig cfg)
+        public static void WriteSupplySettings(this ComSettings view, ComConfig cfg)
         {
             view.ChannelComSupply.Text = cfg.ChannelNum.ToString();
             view.BaudRateSupply.Text = cfg.BaudRate.ToString();
@@ -17,7 +21,7 @@
         /// <summary>
         /// запись из ComPort в ComboBox для измерителя
         /// </summary>
-        public static void WriteMeter(this ComSettings view, ComConfig cfg)
+        public static void WriteMeterSettings(this ComSettings view, ComConfig cfg)
         {
             view.ChannelComMeter.Text = cfg.ChannelNum.ToString();
             view.BaudRateMeter.Text = cfg.BaudRate.ToString();
@@ -29,7 +33,7 @@
         /// <summary>
         /// запись из ComboBox в ComPort для блока питания
         /// </summary>
-        public static ComConfig ReadSupply(this ComSettings view)
+        public static ComConfig ReadSupplySettings(this ComSettings view)
         {
             return new ComConfig()
             {
@@ -45,7 +49,7 @@
         /// <summary>
         /// запись из ComboBox в ComPort для измерителя
         /// </summary>
-        public static ComConfig ReadMeter(this ComSettings view)
+        public static ComConfig ReadMeterSettings(this ComSettings view)
         {
             return new ComConfig()
             {
@@ -67,5 +71,17 @@
             return true;
         }
 
+        public static IndicatorDataWriteS WriteSupply(this Form1 view, double[] val)
+        {
+
+
+
+            return new IndicatorDataWriteS()
+            {
+                WriteVoltage = val[0],
+                WriteCurrent = val[1],
+                //WritePower = val[2]
+            };
+        }
     }
 }

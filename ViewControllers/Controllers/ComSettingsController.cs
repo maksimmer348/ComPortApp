@@ -43,8 +43,8 @@ namespace ComPortSettings
 
                 var configSupply = configs[0];
                 var configMeter = configs[1];
-                View.WriteSupply(configSupply);
-                View.WriteMeter(configMeter);
+                View.WriteSupplySettings(configSupply);
+                View.WriteMeterSettings(configMeter);
 
             }
         }
@@ -57,12 +57,12 @@ namespace ComPortSettings
 
         void DefaultSettingsSupply()
         {
-            View.WriteSupply(ComConfig.DefaultSupply);
+            View.WriteSupplySettings(ComConfig.DefaultSupply);
         }
 
         void DefaultSettingsMeter()
         {
-            View.WriteMeter(ComConfig.DefaultMeter);
+            View.WriteMeterSettings(ComConfig.DefaultMeter);
         }
 
         public async void TestSupply()
@@ -72,12 +72,12 @@ namespace ComPortSettings
                 try
                 {
                     Service<ComPorts>.Get().Supply.Close();
-                    Service<ComPorts>.Get().Supply.Open(View.ReadSupply());
+                    Service<ComPorts>.Get().Supply.Open(View.ReadSupplySettings());
 
                     if (!ValidateTest())
                     {
                         Service<ComPorts>.Get().Meter.Close();
-                        Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
+                        Service<ComPorts>.Get().Meter.Open(View.ReadMeterSettings());
                     }
 
                     await Service<ComPorts>.Get().Supply.Write(":outp:stat 0");
@@ -119,12 +119,12 @@ namespace ComPortSettings
                 try
                 {
                     Service<ComPorts>.Get().Meter.Close();
-                    Service<ComPorts>.Get().Meter.Open(View.ReadMeter());
+                    Service<ComPorts>.Get().Meter.Open(View.ReadMeterSettings());
 
                     if (!ValidateTest())
                     {
                         Service<ComPorts>.Get().Supply.Close();
-                        Service<ComPorts>.Get().Supply.Open(View.ReadSupply());
+                        Service<ComPorts>.Get().Supply.Open(View.ReadSupplySettings());
                     }
 
                     if ((await Service<ComPorts>.Get().Meter.Write("V00", 200)).Contains("E"))
@@ -176,7 +176,7 @@ namespace ComPortSettings
                 Service<ComPorts>.Get().Supply.Close();
                 Service<ComPorts>.Get().Meter.Close();
 
-                ComConfig[] configs = {View.ReadSupply(), View.ReadMeter()};
+                ComConfig[] configs = {View.ReadSupplySettings(), View.ReadMeterSettings()};
 
                 var serializer = new ComConfigsSerializer();
                 serializer.Serialize(configs);
@@ -203,7 +203,7 @@ namespace ComPortSettings
             var meterPort = Service<ComPorts>.Get().Meter.CfgChannelNum;
             var supplyPort = Service<ComPorts>.Get().Supply.CfgChannelNum;
 
-            if (meterPort == View.ReadSupply().ChannelNum || supplyPort == View.ReadMeter().ChannelNum)
+            if (meterPort == View.ReadSupplySettings().ChannelNum || supplyPort == View.ReadMeterSettings().ChannelNum)
             {
                 return false;
             }

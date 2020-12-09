@@ -355,6 +355,7 @@
             this.VoltageValueWrite.Name = "VoltageValueWrite";
             this.VoltageValueWrite.Size = new System.Drawing.Size(94, 20);
             this.VoltageValueWrite.TabIndex = 8;
+            this.VoltageValueWrite.Tag = "Напряжение(V)";
             this.VoltageValueWrite.TextChanged += new System.EventHandler(this.VoltageValueWrite_TextChanged);
             // 
             // PowerSupplyWrite
@@ -390,6 +391,7 @@
             this.CurrentValueWrite.Name = "CurrentValueWrite";
             this.CurrentValueWrite.Size = new System.Drawing.Size(94, 20);
             this.CurrentValueWrite.TabIndex = 18;
+            this.CurrentValueWrite.Tag = "Ток(А)";
             this.CurrentValueWrite.TextChanged += new System.EventHandler(this.CurrentValueWrite_TextChanged);
             // 
             // Power
@@ -407,6 +409,7 @@
             this.PowerValueWrite.Name = "PowerValueWrite";
             this.PowerValueWrite.Size = new System.Drawing.Size(94, 20);
             this.PowerValueWrite.TabIndex = 20;
+            this.PowerValueWrite.Tag = "Мощность(Вт)";
             // 
             // Output
             // 

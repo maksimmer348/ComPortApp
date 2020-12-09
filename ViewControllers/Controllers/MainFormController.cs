@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ namespace ComPortSettings
 
             View.OpenSettings += () => OpenSettings(); //ттак можно избежать требований сигнатуры метода при вызове экшана
             View.OutputLoad += Output;
+            View.SetValues += SetValues;
         }
 
         protected override void OnClosed()
@@ -32,6 +34,49 @@ namespace ComPortSettings
             myTimer.Tick -= new EventHandler(TimerEventProcessor);
             myTimer.Stop();
         }
+
+        private async void SetValues()
+        {
+            View.SetValue.Enabled = false;
+            if (!double.TryParse(View.WriteToCom()[0].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture,
+                out double volResult))
+            {
+                MessageBox.Show("Введите допустимое числовое значение напряжения", "Supply Values", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                View.SetValue.Enabled = true;
+                return;
+            }
+
+            if (!double.TryParse(View.WriteToCom()[1].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture,
+                out double currResult))
+            {
+                MessageBox.Show("Введите допустимое числовое значение тока", "Supply Values", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                View.SetValue.Enabled = true;
+                return;
+            }
+
+            //if (!double.TryParse(View.WriteToCom()[2].Replace(",", "."), NumberStyles.Any,
+            //    CultureInfo.InvariantCulture,
+            //    out double powResult))
+            //{
+            //    MessageBox.Show("Введите допустимое числовое значение мощности");
+            //    return;
+            //}
+            double[] val = {volResult, currResult};
+            View.WriteSupply(val);
+
+            myTimer.Stop();
+
+            await Task.Delay(500);
+            await ErrorMsgSupply(true);
+
+            await CommandToFormSupply("Return voltage", volResult.ToString(),extraDelayOn: false),
+            await CommandToFormSupply("Return current", currResult.ToString(), extraDelayOn: false));
+
+            myTimer.Start();
+
+            View.SetValue.Enabled = true;
+        }
+
         protected override void OnShown()
         {
             Deserialize();
@@ -75,30 +120,36 @@ namespace ComPortSettings
        
         public async void Output()
         {
+            //todo исправить 
             View.Output.Enabled = false;
+           
             myTimer.Stop();
             await Task.Delay(500);
-            string ss = await BtnStat("Get Output");
-            if (ss == "1")
-            {
-                await CommandToFormSupply("Output", "0");
+            var cmd = await ErrorMsgSupply(true, "Get Output");
 
-                Buttondriver();
-            }
-            else if (ss == "0")
+            switch (cmd)
             {
-                await CommandToFormSupply("Output", "1");
+                case "1":
+                    await CommandToFormSupply("Output", "0");
 
-                View.ButtonConected();
+                    View.ButtonDisconected();
+                    break;
+                case "0":
+                    await CommandToFormSupply("Output", "1");
+
+                    View.ButtonConected();
+                    break;
             }
-             Debug.WriteLine(ss);
+             Debug.WriteLine(cmd);
              myTimer.Start();
-             View.Output.Enabled = true;
+             //todo исправить 
+            View.Output.Enabled = true;
         }
 
 
         private async void StartSettings()
         {
+            await ErrorMsgSupply(true);
             await CommandToFormSupply("Output", "0");
             View.ButtonDisconected();
         }
@@ -113,12 +164,14 @@ namespace ComPortSettings
         {
             try
             {
-                return await Service<ComPorts>.Get().Supply
+                var recieveCmd = await Service<ComPorts>.Get().Supply
                     .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), extraDelayOn: extraDelayOn);
+
+                return recieveCmd;
             }
             catch (Exception e)
             {
-                ErrorMsgSupply();
+                await ErrorMsgSupply();
                 return null;
             }
         }
@@ -127,8 +180,10 @@ namespace ComPortSettings
         {
             try
             {
-                return await Service<ComPorts>.Get().Supply
+                var recieveCmd = await Service<ComPorts>.Get().Supply
                     .Write(Service<SupplyLib>.Get().GetCommand(cmd, param), delay);
+
+                return recieveCmd;
             }
             catch (Exception e)
             {
@@ -137,15 +192,29 @@ namespace ComPortSettings
             }
         }
 
-        void ErrorMsgSupply()
+        async Task<string> ErrorMsgSupply(bool sendCmd = false, string output = "Get Output")
         {
+            myTimer.Stop();
+            if (sendCmd)
+            {
+                var cmd = await BtnStat(output);
+                if (cmd != "")
+                {
+                    myTimer.Start();
+                    return cmd;
+
+                }
+            }
+
             string inf = "Блок питания не подключен или настроен неправильно открыть настроки подключения?";
+          
             var dialog = MessageBox.Show(inf, "ComPort", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialog == DialogResult.Yes)
             {
                 OpenSettings();
             }
-
+            myTimer.Start();
+            return null;
         }
 
         void ErrorMsgMeter()
@@ -156,7 +225,6 @@ namespace ComPortSettings
             {
                 OpenSettings(1);
             }
-
         }
 
         public void Buttondriver()
