@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -15,9 +16,20 @@ namespace ComPortSettings
         public event Action SetCurrent;
         public event Action SetValues;
         public event Action StartMesaure;
+
+        public Dictionary<string ,Button> Buttons = new Dictionary<string, Button>();
+
         public Form1()
         {
             InitializeComponent();
+            AddButtons();
+        }
+
+        void AddButtons()
+        {
+            Buttons.Add("Output",Output);
+            Buttons.Add("SetValue",SetValue);
+            //Buttons.Add("Output", Output);
         }
 
         private void ComMenu_Click(object sender, EventArgs e)
@@ -67,6 +79,25 @@ namespace ComPortSettings
 
         }
 
+        public void StatusButtonOn(string name, bool activate)
+        {
+            if (activate)
+            {
+                Buttons[name].BackColor = Color.Green;
+            }
+
+            if (!activate)
+            {
+                Buttons[name].BackColor = Color.Red;
+            }
+
+        }
+
+        public void StatusButtonEnable(string name, bool activate)
+        {
+            Buttons[name].Enabled = activate;
+        }
+
         public void ButtonConected()
         {
             Output.BackColor = Color.Green;
@@ -76,42 +107,39 @@ namespace ComPortSettings
         {
             Output.BackColor = Color.Red;
         }
+
+        //todo переименовать
         public void ReadToCom(string writeVoltage, string writeCurrent)
         {
             //todo перенести расчеты и формативрование в класс calculate
             if (writeVoltage != "" && writeCurrent != "")
             {
-                VoltageValueReadings.Text = String.Empty;
+                VoltageValueReadings.Text = string.Empty;
                 VoltageValueReadings.Text = writeVoltage;
-                CurrentValueReadings.Text = String.Empty;
+                CurrentValueReadings.Text = string.Empty;
                 CurrentValueReadings.Text = writeCurrent;
 
                 double tempV = double.Parse(writeVoltage, CultureInfo.InvariantCulture);
                 double tempC = double.Parse(writeCurrent, CultureInfo.InvariantCulture);
                 double tempP = tempV * tempC;
-                PowerValueReadings.Text = String.Empty;
+                PowerValueReadings.Text = string.Empty;
                 PowerValueReadings.Text = tempP.ToString();
             }
             else
             {
-                CurrentValueReadings.Text = String.Empty;
-                VoltageValueReadings.Text = String.Empty;
-                PowerValueReadings.Text = String.Empty;
+                CurrentValueReadings.Text = string.Empty;
+                VoltageValueReadings.Text = string.Empty;
+                PowerValueReadings.Text = string.Empty;
                 ButtonDisconected();
             }
             //todo
             
         }
-        public string [] WriteToCom()
+
+
+        public string [] GetParams()
         {
-            string[] ss = {VoltageValueWrite.Text, CurrentValueWrite.Text, PowerValueWrite.Text};
-            return ss;
-        }
-            public void ButtonEnabled(string sender)
-        {
-            
-          
-            
+            return new [] { VoltageValueWrite.Text, CurrentValueWrite.Text, PowerValueWrite.Text};
         }
     }
 }

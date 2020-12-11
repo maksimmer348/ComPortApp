@@ -81,7 +81,7 @@ namespace ComPortSettings
                     }
 
                     await Service<ComPorts>.Get().Supply.Write(":outp:stat 0");
-                    ((MainFormController) Host).Buttondriver();
+                    ((MainFormController) Host).View.StatusButtonOn("Output", false);
                     const string TestCmd = ":outp:stat?";
                     if ((await Service<ComPorts>.Get().Supply.Write(TestCmd, 200)).Contains("null"))
                     {

@@ -73,15 +73,45 @@ namespace ComPortSettings
 
         public static IndicatorDataWriteS WriteSupply(this Form1 view, double[] val)
         {
-
-
-
             return new IndicatorDataWriteS()
             {
                 WriteVoltage = val[0],
                 WriteCurrent = val[1],
                 //WritePower = val[2]
             };
+        }
+
+        public static void Temp()
+        {
+           
+            //todo вынести в отдельны метод  валидации
+            if (!double.TryParse(View.GetParams()[0].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture,
+                out double volResult))
+            {
+                MessageBox.Show("Введите допустимое числовое значение напряжения", "Supply Values", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                View.SetValue.Enabled = true;
+                return;
+            }
+
+            if (!double.TryParse(View.GetParams()[1].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture,
+                out double currResult))
+            {
+                MessageBox.Show("Введите допустимое числовое значение тока", "Supply Values", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                View.SetValue.Enabled = true;
+                return;
+            }
+
+            //if (!double.TryParse(View.WriteToCom()[2].Replace(",", "."), NumberStyles.Any,
+            //    CultureInfo.InvariantCulture,
+            //    out double powResult))
+            //{
+            //    MessageBox.Show("Введите допустимое числовое значение мощности");
+            //    return;
+            //}
+            double[] val = { volResult, currResult };
+            View.WriteSupply(val);
+            //await CommandToFormSupply("Return voltage", volResult.ToString(),extraDelayOn: false),
+            //await CommandToFormSupply("Return current", currResult.ToString(), extraDelayOn: false));
         }
     }
 }

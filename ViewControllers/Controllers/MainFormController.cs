@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -7,7 +8,9 @@ using System.Windows.Forms;
 using ComPortSettings.ComPort;
 using ComPortSettings.MVC;
 using System.Timers;
+using Button = System.Windows.Forms.Button;
 using Timer = System.Windows.Forms.Timer;
+using View = ComPortSettings.MVC.View;
 
 namespace ComPortSettings
 {
@@ -15,66 +18,37 @@ namespace ComPortSettings
     public class MainFormController : Controller<Form1>
     {
         ComConfigsSerializer CCS = new ComConfigsSerializer();
-
-        static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
-        static int alarmCounter = 1;
-
-        public MainFormController(Form1 view) : base(view)
+        static Timer myTimer = new Timer();
+        
+            public MainFormController(Form1 view) : base(view)
         {
-
             View.OpenSettings += () => OpenSettings(); //ттак можно избежать требований сигнатуры метода при вызове экшана
             View.OutputLoad += Output;
             View.SetValues += SetValues;
         }
 
-        protected override void OnClosed()
+            protected override void OnClosed()
         {
             View.OutputLoad -= Output;
-            View.OpenSettings -= () => OpenSettings();
+            //View.OpenSettings -= () => OpenSettings(); todo исправить на рабочее
             myTimer.Tick -= new EventHandler(TimerEventProcessor);
             myTimer.Stop();
         }
 
         private async void SetValues()
         {
-            View.SetValue.Enabled = false;
-            if (!double.TryParse(View.WriteToCom()[0].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture,
-                out double volResult))
-            {
-                MessageBox.Show("Введите допустимое числовое значение напряжения", "Supply Values", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                View.SetValue.Enabled = true;
-                return;
-            }
 
-            if (!double.TryParse(View.WriteToCom()[1].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture,
-                out double currResult))
-            {
-                MessageBox.Show("Введите допустимое числовое значение тока", "Supply Values", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                View.SetValue.Enabled = true;
-                return;
-            }
-
-            //if (!double.TryParse(View.WriteToCom()[2].Replace(",", "."), NumberStyles.Any,
-            //    CultureInfo.InvariantCulture,
-            //    out double powResult))
-            //{
-            //    MessageBox.Show("Введите допустимое числовое значение мощности");
-            //    return;
-            //}
-            double[] val = {volResult, currResult};
-            View.WriteSupply(val);
+            View.StatusButtonEnable("SetValue", false);
 
             myTimer.Stop();
 
             await Task.Delay(500);
+               
             await ErrorMsgSupply(true);
-
-            await CommandToFormSupply("Return voltage", volResult.ToString(),extraDelayOn: false),
-            await CommandToFormSupply("Return current", currResult.ToString(), extraDelayOn: false));
 
             myTimer.Start();
 
-            View.SetValue.Enabled = true;
+            View.StatusButtonEnable("SetValue", true);
         }
 
         protected override void OnShown()
@@ -132,12 +106,11 @@ namespace ComPortSettings
                 case "1":
                     await CommandToFormSupply("Output", "0");
 
-                    View.ButtonDisconected();
+                    View.StatusButtonOn("Output",false);
                     break;
                 case "0":
                     await CommandToFormSupply("Output", "1");
-
-                    View.ButtonConected();
+                    View.StatusButtonOn("Output", true);
                     break;
             }
              Debug.WriteLine(cmd);
@@ -151,7 +124,7 @@ namespace ComPortSettings
         {
             await ErrorMsgSupply(true);
             await CommandToFormSupply("Output", "0");
-            View.ButtonDisconected();
+            View.StatusButtonOn("Output", false);
         }
 
         public async void UpdateValues()
@@ -191,7 +164,7 @@ namespace ComPortSettings
                 return null;
             }
         }
-
+        //todo сделать один метод error сообщений обеденит и вынести какието части 
         async Task<string> ErrorMsgSupply(bool sendCmd = false, string output = "Get Output")
         {
             myTimer.Stop();
@@ -216,7 +189,7 @@ namespace ComPortSettings
             myTimer.Start();
             return null;
         }
-
+        //todo сделать один метод error сообщений обеденит и вынести какието части 
         void ErrorMsgMeter()
         {
             string inf = " Измерительный прибор не подключен или настроен неправильно открыть настроки подключения?";
