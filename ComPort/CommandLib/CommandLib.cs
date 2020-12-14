@@ -29,7 +29,7 @@ namespace ComPortSettings.ComPort
 
         public string GetCommand(string key, string param = null)
         {
-            return $"{Commands[key]} {param}";
+            return $"{Commands[key]} {param}".Replace(",", ".");
         }
     }
 }

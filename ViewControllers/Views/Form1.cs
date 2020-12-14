@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -17,19 +18,13 @@ namespace ComPortSettings
         public event Action SetValues;
         public event Action StartMesaure;
 
-        public Dictionary<string ,Button> Buttons = new Dictionary<string, Button>();
+        private Dictionary<string, object> Elements = new Dictionary<string, object>();
 
         public Form1()
         {
             InitializeComponent();
-            AddButtons();
-        }
+            AddElements();
 
-        void AddButtons()
-        {
-            Buttons.Add("Output",Output);
-            Buttons.Add("SetValue",SetValue);
-            //Buttons.Add("Output", Output);
         }
 
         private void ComMenu_Click(object sender, EventArgs e)
@@ -79,34 +74,47 @@ namespace ComPortSettings
 
         }
 
+        void AddElements()
+        {
+            var type1 = typeof(Form1);
+            var type2 = type1.GetFields();
+
+            foreach (var types in type2)
+            {
+
+                if (types.FieldType.Name == "Button" || types.FieldType.Name == "TextBox")
+                {
+                    Elements.Add(types.Name, types.GetValue(this));
+                }
+
+            }
+        }
+
+        public T SafeGetComponent<T>(string name) where T : Component
+        {
+            return Elements[name] as T;
+        }
+
         public void StatusButtonOn(string name, bool activate)
         {
             if (activate)
             {
-                Buttons[name].BackColor = Color.Green;
+                SafeGetComponent<Button>(name).BackColor = Color.Green;
             }
 
             if (!activate)
             {
-                Buttons[name].BackColor = Color.Red;
+                SafeGetComponent<Button>(name).BackColor = Color.Red;
             }
 
         }
 
         public void StatusButtonEnable(string name, bool activate)
         {
-            Buttons[name].Enabled = activate;
+            SafeGetComponent<Button>(name).Enabled = activate;
         }
 
-        public void ButtonConected()
-        {
-            Output.BackColor = Color.Green;
-        }
-
-        public void ButtonDisconected()
-        {
-            Output.BackColor = Color.Red;
-        }
+        
 
         //todo переименовать
         public void ReadToCom(string writeVoltage, string writeCurrent)
@@ -123,23 +131,18 @@ namespace ComPortSettings
                 double tempC = double.Parse(writeCurrent, CultureInfo.InvariantCulture);
                 double tempP = tempV * tempC;
                 PowerValueReadings.Text = string.Empty;
-                PowerValueReadings.Text = tempP.ToString();
+                PowerValueReadings.Text = tempP.ToString().Replace(",",".");
             }
             else
             {
                 CurrentValueReadings.Text = string.Empty;
                 VoltageValueReadings.Text = string.Empty;
                 PowerValueReadings.Text = string.Empty;
-                ButtonDisconected();
+                StatusButtonOn("Output", false);
             }
             //todo
-            
-        }
 
-
-        public string [] GetParams()
-        {
-            return new [] { VoltageValueWrite.Text, CurrentValueWrite.Text, PowerValueWrite.Text};
         }
     }
 }
+

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -9,6 +10,7 @@ using ComPortSettings.ComPort;
 using ComPortSettings.MVC;
 using System.Timers;
 using Button = System.Windows.Forms.Button;
+using TextBox = System.Windows.Forms.TextBox;
 using Timer = System.Windows.Forms.Timer;
 using View = ComPortSettings.MVC.View;
 
@@ -19,21 +21,78 @@ namespace ComPortSettings
     {
         ComConfigsSerializer CCS = new ComConfigsSerializer();
         static Timer myTimer = new Timer();
-        
-            public MainFormController(Form1 view) : base(view)
+        static Timer TimerMesaure = new Timer();
+        public bool SetValue;
+
+        public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += () => OpenSettings(); //ттак можно избежать требований сигнатуры метода при вызове экшана
             View.OutputLoad += Output;
             View.SetValues += SetValues;
+            View.StartMesaure += StartMesauring;
         }
 
-            protected override void OnClosed()
+        void TimerCalculate(int hour, int minute, int second)
+        {
+            //var ss = new TimeSpan(hour, minute, second);
+                //var ff = ss.TotalSeconds;
+            TimerMesaure.Tick += new EventHandler(TimesMesauring);
+            TimerMesaure.Interval = 1000;
+            TimerMesaure.Start();
+
+               
+        }
+
+        void TimesMesauring(Object myObject, EventArgs myEventArgs)
+        {
+            View.SafeGetComponent<TextBox>("VoltageValueWrite").Text += "1";
+        }
+
+
+        private void StartMesauring()
+        {
+            TimerCalculate(0, 0, 10);
+        }
+
+        protected override void OnClosed()
         {
             View.OutputLoad -= Output;
             //View.OpenSettings -= () => OpenSettings(); todo исправить на рабочее
             myTimer.Tick -= new EventHandler(TimerEventProcessor);
             myTimer.Stop();
+            View.StartMesaure += StartMesauring;
         }
+
+
+            async Task ValidateValue()
+            {
+                if (!double.TryParse(View.SafeGetComponent<TextBox>("VoltageValueWrite").Text.Replace(",", "."),
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out double volResult))
+                {
+                    MessageBox.Show(
+                        $"Введите допустимое числовое значение {(string)View.SafeGetComponent<TextBox>("VoltageValueWrite").Tag}",
+                        "Error Value Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!double.TryParse(View.SafeGetComponent<TextBox>("CurrentValueWrite").Text.Replace(",", "."),
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out double currResult))
+                {
+                    MessageBox.Show(
+                        $"Введите допустимое числовое значение {(string)View.SafeGetComponent<TextBox>("CurrentValueWrite").Tag}",
+                        "Error Value Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                await CommandToFormSupply("Output", "0");
+                View.StatusButtonOn("Output", false);
+                CommandToFormSupply("Set voltage", volResult.ToString());
+                CommandToFormSupply("Set current", currResult.ToString());
+            }
+
 
         private async void SetValues()
         {
@@ -46,6 +105,10 @@ namespace ComPortSettings
                
             await ErrorMsgSupply(true);
 
+            await ValidateValue();
+
+            SetValue = true;
+
             myTimer.Start();
 
             View.StatusButtonEnable("SetValue", true);
@@ -55,10 +118,17 @@ namespace ComPortSettings
         {
             Deserialize();
             StartSettings();
+            SetValue = true;
             SetTimer();
             myTimer.Start();
         }
 
+        private async void StartSettings()
+        {
+            await ErrorMsgSupply(true);
+            await CommandToFormSupply("Output", "0");
+            View.StatusButtonOn("Output", false);
+        }
 
         private void OpenSettings(int startTab = 0)
         {
@@ -105,12 +175,13 @@ namespace ComPortSettings
             {
                 case "1":
                     await CommandToFormSupply("Output", "0");
-
                     View.StatusButtonOn("Output",false);
+                    SetValue = true;
                     break;
                 case "0":
                     await CommandToFormSupply("Output", "1");
                     View.StatusButtonOn("Output", true);
+                    SetValue = false;
                     break;
             }
              Debug.WriteLine(cmd);
@@ -120,18 +191,23 @@ namespace ComPortSettings
         }
 
 
-        private async void StartSettings()
+      
+
+        public async void UpdateValues(bool set = false)
         {
-            await ErrorMsgSupply(true);
-            await CommandToFormSupply("Output", "0");
-            View.StatusButtonOn("Output", false);
+            if (!set)
+            {
+                View.ReadToCom(await CommandToFormSupply("Return voltage", extraDelayOn: false),
+                    await CommandToFormSupply("Return current", extraDelayOn: false));
+            }
+
+            if (set)
+            {
+                View.ReadToCom(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
+                    await CommandToFormSupply("Return set current", extraDelayOn: false));
+            }
         }
 
-        public async void UpdateValues()
-        {
-            View.ReadToCom(await CommandToFormSupply("Return voltage",extraDelayOn: false),
-                await CommandToFormSupply("Return current", extraDelayOn: false));
-        }
 
         public async Task<string> CommandToFormSupply(string cmd, string param = null, bool extraDelayOn = false)
         {
@@ -175,7 +251,6 @@ namespace ComPortSettings
                 {
                     myTimer.Start();
                     return cmd;
-
                 }
             }
 
@@ -200,15 +275,12 @@ namespace ComPortSettings
             }
         }
 
-        public void Buttondriver()
-        {
-            View.ButtonDisconected();
-        }
-
         void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
         {
-            UpdateValues();
+            UpdateValues(SetValue);
         }
+
+     
 
         void SetTimer()
         {

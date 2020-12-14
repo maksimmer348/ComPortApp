@@ -14,10 +14,8 @@ namespace ComPortSettings
 {
     public class ComCommunication
     {
-        private CancellationTokenSource _cancellationTokenSource;
         private GodSerialPort port;
         public int CfgChannelNum;
-        private string TempVal;
         public void Open(ComConfig cfg)
         {
             if (port == null || port.IsOpen == false)
