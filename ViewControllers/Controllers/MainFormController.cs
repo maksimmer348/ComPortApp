@@ -1,70 +1,69 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using ComPortSettings.ComPort;
 using ComPortSettings.MVC;
-using System.Timers;
-using Button = System.Windows.Forms.Button;
 using TextBox = System.Windows.Forms.TextBox;
 using Timer = System.Windows.Forms.Timer;
-using View = ComPortSettings.MVC.View;
 
 namespace ComPortSettings
 {
 
     public class MainFormController : Controller<Form1>
     {
-        ComConfigsSerializer CCS = new ComConfigsSerializer();
-        static Timer myTimer = new Timer();
-        static Timer TimerMesaure = new Timer();
+        private ComConfigsSerializer CCS = new ComConfigsSerializer();
+        private static Timer MyTimer = new Timer();
+        private static Timer TimerMeasuring = new Timer();
         public bool SetValue;
-
+        Stopwatch stopWatch = new Stopwatch();
         public MainFormController(Form1 view) : base(view)
         {
-            View.OpenSettings += () => OpenSettings(); //ттак можно избежать требований сигнатуры метода при вызове экшана
+            View.OpenSettings += () => OpenSettings(); //так можно избежать требований сигнатуры метода при вызове экшена
             View.OutputLoad += Output;
             View.SetValues += SetValues;
             View.StartMesaure += StartMesauring;
         }
 
-        void TimerCalculate(int hour, int minute, int second)
-        {
-            //var ss = new TimeSpan(hour, minute, second);
-                //var ff = ss.TotalSeconds;
-            TimerMesaure.Tick += new EventHandler(TimesMesauring);
-            TimerMesaure.Interval = 1000;
-            TimerMesaure.Start();
-
-               
-        }
-
-        void TimesMesauring(Object myObject, EventArgs myEventArgs)
-        {
-            View.SafeGetComponent<TextBox>("VoltageValueWrite").Text += "1";
-        }
-
-
-        private void StartMesauring()
-        {
-            TimerCalculate(0, 0, 10);
-        }
-
+     
         protected override void OnClosed()
         {
             View.OutputLoad -= Output;
             //View.OpenSettings -= () => OpenSettings(); todo исправить на рабочее
-            myTimer.Tick -= new EventHandler(TimerEventProcessor);
-            myTimer.Stop();
+            MyTimer.Tick -= new EventHandler(TimerEventProcessor);
+            MyTimer.Stop();
             View.StartMesaure += StartMesauring;
         }
 
+        protected override void OnShown()
+        {
+            Deserialize();
+            StartSettings();
+            SetValue = true;
+            SetTimer();
+            MyTimer.Start();
+        }
 
-            async Task ValidateValue()
+       
+        
+
+        string StopWatch()
+        {
+            stopWatch.Start();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            return elapsedTime;
+        }
+
+
+
+        private async Task ValidateValue()
             {
                 if (!double.TryParse(View.SafeGetComponent<TextBox>("VoltageValueWrite").Text.Replace(",", "."),
                     NumberStyles.Any,
@@ -89,8 +88,8 @@ namespace ComPortSettings
                 }
                 await CommandToFormSupply("Output", "0");
                 View.StatusButtonOn("Output", false);
-                CommandToFormSupply("Set voltage", volResult.ToString());
-                CommandToFormSupply("Set current", currResult.ToString());
+                await CommandToFormSupply("Set voltage", volResult.ToString());
+                await CommandToFormSupply("Set current", currResult.ToString());
             }
 
 
@@ -99,7 +98,7 @@ namespace ComPortSettings
 
             View.StatusButtonEnable("SetValue", false);
 
-            myTimer.Stop();
+            MyTimer.Stop();
 
             await Task.Delay(500);
                
@@ -109,20 +108,12 @@ namespace ComPortSettings
 
             SetValue = true;
 
-            myTimer.Start();
+            MyTimer.Start();
 
             View.StatusButtonEnable("SetValue", true);
         }
 
-        protected override void OnShown()
-        {
-            Deserialize();
-            StartSettings();
-            SetValue = true;
-            SetTimer();
-            myTimer.Start();
-        }
-
+      
         private async void StartSettings()
         {
             await ErrorMsgSupply(true);
@@ -148,7 +139,7 @@ namespace ComPortSettings
 
         }
 
-        void Deserialize()
+        private void Deserialize()
         {
             var configSupply = CCS.Deserialize()[0];
             var configMeter = CCS.Deserialize()[1];
@@ -167,7 +158,7 @@ namespace ComPortSettings
             //todo исправить 
             View.Output.Enabled = false;
            
-            myTimer.Stop();
+            MyTimer.Stop();
             await Task.Delay(500);
             var cmd = await ErrorMsgSupply(true, "Get Output");
 
@@ -185,13 +176,10 @@ namespace ComPortSettings
                     break;
             }
              Debug.WriteLine(cmd);
-             myTimer.Start();
+             MyTimer.Start();
              //todo исправить 
             View.Output.Enabled = true;
         }
-
-
-      
 
         public async void UpdateValues(bool set = false)
         {
@@ -218,7 +206,7 @@ namespace ComPortSettings
 
                 return recieveCmd;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await ErrorMsgSupply();
                 return null;
@@ -234,22 +222,22 @@ namespace ComPortSettings
 
                 return recieveCmd;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ErrorMsgMeter();
                 return null;
             }
         }
         //todo сделать один метод error сообщений обеденит и вынести какието части 
-        async Task<string> ErrorMsgSupply(bool sendCmd = false, string output = "Get Output")
+        private async Task<string> ErrorMsgSupply(bool sendCmd = false, string output = "Get Output")
         {
-            myTimer.Stop();
+            MyTimer.Stop();
             if (sendCmd)
             {
                 var cmd = await BtnStat(output);
                 if (cmd != "")
                 {
-                    myTimer.Start();
+                    MyTimer.Start();
                     return cmd;
                 }
             }
@@ -261,11 +249,11 @@ namespace ComPortSettings
             {
                 OpenSettings();
             }
-            myTimer.Start();
+            MyTimer.Start();
             return null;
         }
         //todo сделать один метод error сообщений обеденит и вынести какието части 
-        void ErrorMsgMeter()
+        private void ErrorMsgMeter()
         {
             string inf = " Измерительный прибор не подключен или настроен неправильно открыть настроки подключения?";
             var dialog = MessageBox.Show(inf, "ComPort", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -275,18 +263,41 @@ namespace ComPortSettings
             }
         }
 
-        void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
+        private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
         {
             UpdateValues(SetValue);
         }
 
-     
 
-        void SetTimer()
+        private void SetTimer()
         {
-            myTimer.Tick += new EventHandler(TimerEventProcessor);
-            myTimer.Interval = 500;
+            MyTimer.Tick += new EventHandler(TimerEventProcessor);
+            MyTimer.Interval = 500;
         }
+
+
+        private void TimerCalculate(int hour, int minute, int second)
+        {
+            //var ss = new TimeSpan(hour, minute, second);
+            //var ff = ss.TotalSeconds;
+            TimerMeasuring.Tick += new EventHandler(TimesMesauring);
+            TimerMeasuring.Interval = 1000;
+            TimerMeasuring.Start();
+
+
+        }
+
+        private void TimesMesauring(Object myObject, EventArgs myEventArgs)
+        {
+            View.SafeGetComponent<TextBox>("VoltageValueWrite").Text += "1";
+        }
+
+
+        private void StartMesauring()
+        {
+            TimerCalculate(0, 0, 10);
+        }
+
     }
 }
 

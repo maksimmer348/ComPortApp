@@ -78,19 +78,6 @@ namespace ComPortSettings
             };
         }
 
-        bool CheckedEndString(byte[] read)
-        {
-            foreach (var bytes in read)
-            {
-                if (bytes == '\n')
-                {
-                    return true;
-                    break;
-                }
-            }
-            return false;
-        }
-
         public string DelTrash(string enter)
         {
             char[] trash = new[] {'?', '\n', '\r'};
