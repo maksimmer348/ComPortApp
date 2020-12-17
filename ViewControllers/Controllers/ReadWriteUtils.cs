@@ -73,9 +73,31 @@ namespace ComPortSettings
 
             return true;
         }
+
         /// <summary>
         /// запись из ComboBox в ComPort для измерителя
         /// </summary>
-        
+        public static bool ValidateText(this Form1 view, string name, out double result)
+        {
+            if (!double.TryParse(view.GetComponent<TextBox>(name).Text.Replace(",", "."),
+                NumberStyles.Any,
+                CultureInfo.InvariantCulture,
+                out result))
+            {
+                MessageBox.Show(
+                    $"Введите допустимое числовое значение {(string) view.GetComponent<TextBox>(name).Tag}",
+                    "Error Value Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
+            }
+
+            return true;
+
+        }
+
+        public static void WriteMeterValues(this Form1 view, string name, string value )
+        {
+            view.GetComponent<TextBox>(name).Text = value;
+        }
     }
 }

@@ -120,9 +120,9 @@
             this.ByTime = new System.Windows.Forms.TabPage();
             this.label24 = new System.Windows.Forms.Label();
             this.TestTimer = new System.Windows.Forms.CheckBox();
-            this.Hours = new System.Windows.Forms.TextBox();
-            this.Minutes = new System.Windows.Forms.TextBox();
-            this.Seconds = new System.Windows.Forms.TextBox();
+            this.SetHours = new System.Windows.Forms.TextBox();
+            this.SetMinutes = new System.Windows.Forms.TextBox();
+            this.SetSeconds = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.ByTemperature = new System.Windows.Forms.TabPage();
@@ -134,6 +134,12 @@
             this.MinTemperature = new System.Windows.Forms.TextBox();
             this.TestTemperature = new System.Windows.Forms.CheckBox();
             this.StartMeasurements = new System.Windows.Forms.Button();
+            this.label29 = new System.Windows.Forms.Label();
+            this.GetHours = new System.Windows.Forms.TextBox();
+            this.GetMinutes = new System.Windows.Forms.TextBox();
+            this.GetSeconds = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.SelectLoad.SuspendLayout();
             this.SelectTransistor.SuspendLayout();
             this.SelectResistor.SuspendLayout();
@@ -154,12 +160,12 @@
             this.SelectLoad.Controls.Add(this.SelectTransistor);
             this.SelectLoad.Controls.Add(this.SelectResistor);
             this.SelectLoad.Controls.Add(this.TheirValues);
-            this.SelectLoad.Enabled = false;
             this.SelectLoad.Location = new System.Drawing.Point(0, 19);
             this.SelectLoad.Name = "SelectLoad";
             this.SelectLoad.SelectedIndex = 0;
             this.SelectLoad.Size = new System.Drawing.Size(350, 78);
             this.SelectLoad.TabIndex = 11;
+            this.SelectLoad.SelectedIndexChanged += new System.EventHandler(SelectLoadSelecting);
             // 
             // SelectTransistor
             // 
@@ -1042,7 +1048,6 @@
             // 
             this.SelectMeasurement.Controls.Add(this.ByTime);
             this.SelectMeasurement.Controls.Add(this.ByTemperature);
-            this.SelectMeasurement.Enabled = false;
             this.SelectMeasurement.Location = new System.Drawing.Point(99, 5);
             this.SelectMeasurement.Name = "SelectMeasurement";
             this.SelectMeasurement.SelectedIndex = 0;
@@ -1051,11 +1056,17 @@
             // 
             // ByTime
             // 
+            this.ByTime.Controls.Add(this.label29);
+            this.ByTime.Controls.Add(this.GetHours);
+            this.ByTime.Controls.Add(this.GetMinutes);
+            this.ByTime.Controls.Add(this.GetSeconds);
+            this.ByTime.Controls.Add(this.label30);
+            this.ByTime.Controls.Add(this.label31);
             this.ByTime.Controls.Add(this.label24);
             this.ByTime.Controls.Add(this.TestTimer);
-            this.ByTime.Controls.Add(this.Hours);
-            this.ByTime.Controls.Add(this.Minutes);
-            this.ByTime.Controls.Add(this.Seconds);
+            this.ByTime.Controls.Add(this.SetHours);
+            this.ByTime.Controls.Add(this.SetMinutes);
+            this.ByTime.Controls.Add(this.SetSeconds);
             this.ByTime.Controls.Add(this.label22);
             this.ByTime.Controls.Add(this.label23);
             this.ByTime.Location = new System.Drawing.Point(4, 22);
@@ -1069,7 +1080,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(224, 22);
+            this.label24.Location = new System.Drawing.Point(224, 38);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(14, 13);
             this.label24.TabIndex = 30;
@@ -1078,38 +1089,40 @@
             // TestTimer
             // 
             this.TestTimer.AutoSize = true;
-            this.TestTimer.Location = new System.Drawing.Point(6, 9);
+            this.TestTimer.Location = new System.Drawing.Point(6, 37);
             this.TestTimer.Name = "TestTimer";
             this.TestTimer.Size = new System.Drawing.Size(72, 17);
             this.TestTimer.TabIndex = 14;
             this.TestTimer.Text = "Test timer";
             this.TestTimer.UseVisualStyleBackColor = true;
+            this.TestTimer.CheckedChanged += new System.EventHandler(this.TestTimer_CheckedChanged);
             // 
-            // Hours
+            // SetHours
             // 
-            this.Hours.Location = new System.Drawing.Point(84, 19);
-            this.Hours.Name = "Hours";
-            this.Hours.Size = new System.Drawing.Size(33, 20);
-            this.Hours.TabIndex = 26;
+            this.SetHours.Location = new System.Drawing.Point(84, 35);
+            this.SetHours.Name = "SetHours";
+            this.SetHours.Size = new System.Drawing.Size(33, 20);
+            this.SetHours.TabIndex = 26;
+            this.SetHours.TextChanged += new System.EventHandler(this.Hours_TextChanged);
             // 
-            // Minutes
+            // SetMinutes
             // 
-            this.Minutes.Location = new System.Drawing.Point(136, 19);
-            this.Minutes.Name = "Minutes";
-            this.Minutes.Size = new System.Drawing.Size(33, 20);
-            this.Minutes.TabIndex = 27;
+            this.SetMinutes.Location = new System.Drawing.Point(136, 35);
+            this.SetMinutes.Name = "SetMinutes";
+            this.SetMinutes.Size = new System.Drawing.Size(33, 20);
+            this.SetMinutes.TabIndex = 27;
             // 
-            // Seconds
+            // SetSeconds
             // 
-            this.Seconds.Location = new System.Drawing.Point(188, 19);
-            this.Seconds.Name = "Seconds";
-            this.Seconds.Size = new System.Drawing.Size(33, 20);
-            this.Seconds.TabIndex = 28;
+            this.SetSeconds.Location = new System.Drawing.Point(188, 35);
+            this.SetSeconds.Name = "SetSeconds";
+            this.SetSeconds.Size = new System.Drawing.Size(33, 20);
+            this.SetSeconds.TabIndex = 28;
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(119, 22);
+            this.label22.Location = new System.Drawing.Point(119, 38);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(15, 13);
             this.label22.TabIndex = 26;
@@ -1118,7 +1131,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(171, 22);
+            this.label23.Location = new System.Drawing.Point(171, 38);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(16, 13);
             this.label23.TabIndex = 29;
@@ -1212,6 +1225,57 @@
             this.StartMeasurements.UseVisualStyleBackColor = false;
             this.StartMeasurements.Click += new System.EventHandler(this.StartMeasurements_Click);
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(224, 12);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(14, 13);
+            this.label29.TabIndex = 36;
+            this.label29.Text = "S";
+            // 
+            // GetHours
+            // 
+            this.GetHours.Enabled = false;
+            this.GetHours.Location = new System.Drawing.Point(84, 9);
+            this.GetHours.Name = "GetHours";
+            this.GetHours.Size = new System.Drawing.Size(33, 20);
+            this.GetHours.TabIndex = 31;
+            // 
+            // GetMinutes
+            // 
+            this.GetMinutes.Enabled = false;
+            this.GetMinutes.Location = new System.Drawing.Point(136, 9);
+            this.GetMinutes.Name = "GetMinutes";
+            this.GetMinutes.Size = new System.Drawing.Size(33, 20);
+            this.GetMinutes.TabIndex = 33;
+            // 
+            // GetSeconds
+            // 
+            this.GetSeconds.Enabled = false;
+            this.GetSeconds.Location = new System.Drawing.Point(188, 9);
+            this.GetSeconds.Name = "GetSeconds";
+            this.GetSeconds.Size = new System.Drawing.Size(33, 20);
+            this.GetSeconds.TabIndex = 34;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(119, 12);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(15, 13);
+            this.label30.TabIndex = 32;
+            this.label30.Text = "H";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(171, 12);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(16, 13);
+            this.label31.TabIndex = 35;
+            this.label31.Text = "M";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1253,8 +1317,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl SelectLoad;
         private System.Windows.Forms.TabPage SelectTransistor;
         private System.Windows.Forms.ComboBox SelectTransistorСonnection;
         private System.Windows.Forms.CheckBox OnePiece;
@@ -1312,13 +1374,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox Seconds;
-        private System.Windows.Forms.TextBox Minutes;
-        private System.Windows.Forms.TextBox Hours;
-        private System.Windows.Forms.CheckBox TestTimer;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TabControl SelectMeasurement;
         private System.Windows.Forms.TabPage ByTime;
         private System.Windows.Forms.TabPage ByTemperature;
         private System.Windows.Forms.Label label26;
@@ -1358,6 +1415,18 @@
         public System.Windows.Forms.TextBox Delta;
         public System.Windows.Forms.Button StartMeasurements;
         public System.Windows.Forms.Button SetValue;
+        public System.Windows.Forms.TextBox SetSeconds;
+        public System.Windows.Forms.TextBox SetMinutes;
+        public System.Windows.Forms.TextBox SetHours;
+        public System.Windows.Forms.CheckBox TestTimer;
+        private System.Windows.Forms.Label label29;
+        public System.Windows.Forms.TextBox GetHours;
+        public System.Windows.Forms.TextBox GetMinutes;
+        public System.Windows.Forms.TextBox GetSeconds;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        public System.Windows.Forms.TabControl SelectLoad;
+        public System.Windows.Forms.TabControl SelectMeasurement;
     }
 }
 

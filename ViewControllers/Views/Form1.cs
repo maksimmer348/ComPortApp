@@ -17,14 +17,21 @@ namespace ComPortSettings
         public event Action SetCurrent;
         public event Action SetValues;
         public event Action StartMesaure;
-
+        public event Action SelectTabLoad;
+            //public event Action SetTimer;
+        
         private Dictionary<string, object> Elements = new Dictionary<string, object>();
 
         public Form1()
         {
             InitializeComponent();
             AddElements();
+           // SelectLoad.SelectedIndexChanged += new EventHandler();
+        }
 
+        public void SelectLoadSelecting(object sender, EventArgs e)
+        {
+            SelectTabLoad?.Invoke();
         }
 
         private void ComMenu_Click(object sender, EventArgs e)
@@ -74,6 +81,7 @@ namespace ComPortSettings
 
         }
 
+
         void AddElements()
         {
             var type1 = typeof(Form1);
@@ -82,15 +90,23 @@ namespace ComPortSettings
             foreach (var types in type2)
             {
 
-                if (types.FieldType.Name == "Button" || types.FieldType.Name == "TextBox")
+                if (types.FieldType.Name == "Button" || types.FieldType.Name == "TextBox" ||
+                    types.FieldType.Name == "CheckBox" || types.FieldType.Name == "TabControl")
                 {
                     Elements.Add(types.Name, types.GetValue(this));
+
                 }
 
             }
         }
 
-        public T SafeGetComponent<T>(string name) where T : Component
+
+        public string GetTabsPage()
+        {
+            return SelectLoad.SelectedTab.Name;
+        }
+
+    public T GetComponent<T>(string name) where T : Component
         {
             return Elements[name] as T;
         }
@@ -99,21 +115,29 @@ namespace ComPortSettings
         {
             if (activate)
             {
-                SafeGetComponent<Button>(name).BackColor = Color.Green;
+                GetComponent<Button>(name).BackColor = Color.Green;
             }
 
             if (!activate)
             {
-                SafeGetComponent<Button>(name).BackColor = Color.Red;
+                GetComponent<Button>(name).BackColor = Color.Red;
             }
 
         }
 
         public void StatusButtonEnable(string name, bool activate)
         {
-            SafeGetComponent<Button>(name).Enabled = activate;
+            GetComponent<Button>(name).Enabled = activate;
         }
 
+        void SetTimerValue()
+        {
+           
+        }
+        void GetTime()
+        {
+            GetComponent<TextBox>("Hours").Text = "1";
+        }
         
 
         //todo переименовать
@@ -127,11 +151,11 @@ namespace ComPortSettings
                 CurrentValueReadings.Text = string.Empty;
                 CurrentValueReadings.Text = writeCurrent;
 
-                double tempV = double.Parse(writeVoltage, CultureInfo.InvariantCulture);
-                double tempC = double.Parse(writeCurrent, CultureInfo.InvariantCulture);
-                double tempP = tempV * tempC;
-                PowerValueReadings.Text = string.Empty;
-                PowerValueReadings.Text = tempP.ToString().Replace(",",".");
+                //double tempV = double.Parse(writeVoltage, CultureInfo.InvariantCulture);
+                //double tempC = double.Parse(writeCurrent, CultureInfo.InvariantCulture);
+                //double tempP = tempV * tempC;
+                //PowerValueReadings.Text = string.Empty;
+                //PowerValueReadings.Text = tempP.ToString().Replace(",",".");
             }
             else
             {
@@ -141,6 +165,16 @@ namespace ComPortSettings
                 StatusButtonOn("Output", false);
             }
             //todo
+
+        }
+
+        private void TestTimer_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Hours_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

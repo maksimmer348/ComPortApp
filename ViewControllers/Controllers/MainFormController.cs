@@ -25,6 +25,7 @@ namespace ComPortSettings
             View.OutputLoad += Output;
             View.SetValues += SetValues;
             View.StartMesaure += StartMesauring;
+            View.SelectTabLoad += SetValuesLoad;
         }
 
      
@@ -46,51 +47,53 @@ namespace ComPortSettings
             MyTimer.Start();
         }
 
-       
-        
+       void SetValuesLoad()
+       {
+           var ss = View.GetTabsPage();
+           switch (ss)
+           {
+               case "SelectTransistor"
+                   :
+                    //WriteMeterValues()
 
-        string StopWatch()
+                    break;
+               case "SelectResistor"
+                   :
+                    //WriteMeterValues()
+                    break;
+                case "TheirValues"
+                   :
+                    //WriteMeterValues()
+                    Debug.WriteLine("Their values");
+                    break;
+           }
+          
+       }
+
+
+        private async Task SetSupplyValues()
         {
-            stopWatch.Start();
-            // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
-            // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
-            return elapsedTime;
-        }
 
-
-
-        private async Task ValidateValue()
+            if (View.ValidateText("VoltageValueWrite", out var result))
             {
-                if (!double.TryParse(View.SafeGetComponent<TextBox>("VoltageValueWrite").Text.Replace(",", "."),
-                    NumberStyles.Any,
-                    CultureInfo.InvariantCulture,
-                    out double volResult))
-                {
-                    MessageBox.Show(
-                        $"Введите допустимое числовое значение {(string)View.SafeGetComponent<TextBox>("VoltageValueWrite").Tag}",
-                        "Error Value Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (!double.TryParse(View.SafeGetComponent<TextBox>("CurrentValueWrite").Text.Replace(",", "."),
-                    NumberStyles.Any,
-                    CultureInfo.InvariantCulture,
-                    out double currResult))
-                {
-                    MessageBox.Show(
-                        $"Введите допустимое числовое значение {(string)View.SafeGetComponent<TextBox>("CurrentValueWrite").Tag}",
-                        "Error Value Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                await CommandToFormSupply("Output", "0");
-                View.StatusButtonOn("Output", false);
-                await CommandToFormSupply("Set voltage", volResult.ToString());
-                await CommandToFormSupply("Set current", currResult.ToString());
+                await CommandToFormSupply("Set voltage", result.ToString());
             }
+            else
+            {
+                return;
+            }
+            if (View.ValidateText("CurrentValueWrite", out result))
+            {
+                await CommandToFormSupply("Set current", result.ToString());
+            }
+            else
+            {
+                return;
+            }
+            await CommandToFormSupply("Output", "0");
+            View.StatusButtonOn("Output", false);
+
+        }
 
 
         private async void SetValues()
@@ -101,10 +104,10 @@ namespace ComPortSettings
             MyTimer.Stop();
 
             await Task.Delay(500);
-               
+
             await ErrorMsgSupply(true);
 
-            await ValidateValue();
+            await SetSupplyValues();
 
             SetValue = true;
 
@@ -113,7 +116,7 @@ namespace ComPortSettings
             View.StatusButtonEnable("SetValue", true);
         }
 
-      
+
         private async void StartSettings()
         {
             await ErrorMsgSupply(true);
@@ -289,13 +292,22 @@ namespace ComPortSettings
 
         private void TimesMesauring(Object myObject, EventArgs myEventArgs)
         {
-            View.SafeGetComponent<TextBox>("VoltageValueWrite").Text += "1";
+            View.GetComponent<TextBox>("VoltageValueWrite").Text += "1";
         }
 
 
         private void StartMesauring()
         {
             TimerCalculate(0, 0, 10);
+        }
+
+
+
+        private void SetTimerMes()
+        {
+            MyTimer.Tick += new EventHandler(TimerEventProcessor);
+            MyTimer.Interval = 1000;
+            MyTimer.Start();
         }
 
     }
