@@ -19,7 +19,6 @@ namespace ComPortSettings
         private static Timer TimerMeasuring = new Timer();
         public bool SetValue;
         Stopwatch stopWatch = new Stopwatch();
-        static readonly DescriptionСalculations Calc = new DescriptionСalculations();
         public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += () => OpenSettings(); //так можно избежать требований сигнатуры метода при вызове экшена
@@ -135,9 +134,11 @@ namespace ComPortSettings
 
         private async void StartSettings()
         {
-            await ErrorMsgSupply(true);
-            await CommandToFormSupply("Output", "0");
-            View.StatusButtonOn("Output", false);
+            if (!string.IsNullOrEmpty(await ErrorMsgSupply(true)))
+            {
+                await CommandToFormSupply("Output", "0");
+                View.StatusButtonOn("Output", false);
+            }
         }
 
         private void OpenSettings(int startTab = 0)
@@ -203,13 +204,13 @@ namespace ComPortSettings
         {
             if (!set)
             {
-                View.GetSupplyValues(await CommandToFormSupply("Return voltage", extraDelayOn: false),
+                View.GetSupplyReadings(await CommandToFormSupply("Return voltage", extraDelayOn: false),
                     await CommandToFormSupply("Return current", extraDelayOn: false));
             }
 
             if (set)
             {
-                View.GetSupplyValues(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
+                View.GetSupplyReadings(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
                     await CommandToFormSupply("Return set current", extraDelayOn: false));
             }
         }
@@ -226,10 +227,16 @@ namespace ComPortSettings
             }
             catch (Exception)
             {
-                await ErrorMsgSupply();
+                if (!ErrCheck)
+                {
+                    await ErrorMsgSupply();
+                    return null;
+                }
                 return null;
             }
         }
+
+        public bool ErrCheck;
 
         public async Task<string> CommandToFormMeter(string cmd, string param = null, int delay = 100)
         {
@@ -252,12 +259,14 @@ namespace ComPortSettings
             MyTimer.Stop();
             if (sendCmd)
             {
+                ErrCheck = true;
                 var cmd = await BtnStat(output);
-                if (cmd != "")
+                if (!string.IsNullOrEmpty(cmd))
                 {
                     MyTimer.Start();
                     return cmd;
                 }
+                ErrCheck = false;
             }
 
             string inf = "Блок питания не подключен или настроен неправильно открыть настроки подключения?";
@@ -270,6 +279,9 @@ namespace ComPortSettings
             MyTimer.Start();
             return null;
         }
+
+
+
         //todo сделать один метод error сообщений обеденит и вынести какието части 
         private void ErrorMsgMeter()
         {
