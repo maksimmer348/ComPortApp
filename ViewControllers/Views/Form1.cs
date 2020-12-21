@@ -26,12 +26,6 @@ namespace ComPortSettings
         {
             InitializeComponent();
             AddElements();
-           // SelectLoad.SelectedIndexChanged += new EventHandler();
-        }
-
-        public void SelectLoadSelecting(object sender, EventArgs e)
-        {
-            SelectTabLoad?.Invoke();
         }
 
         private void ComMenu_Click(object sender, EventArgs e)
@@ -81,6 +75,11 @@ namespace ComPortSettings
 
         }
 
+        public void SelectLoadSelecting(object sender, EventArgs e)
+        {
+            SelectTabLoad?.Invoke();
+        }
+
 
         void AddElements()
         {
@@ -100,15 +99,14 @@ namespace ComPortSettings
             }
         }
 
+        public T GetComponent<T>(string name) where T : Component
+        {
+            return Elements[name] as T;
+        }
 
         public string GetTabsPage()
         {
             return SelectLoad.SelectedTab.Name;
-        }
-
-    public T GetComponent<T>(string name) where T : Component
-        {
-            return Elements[name] as T;
         }
 
         public void StatusButtonOn(string name, bool activate)
@@ -129,45 +127,10 @@ namespace ComPortSettings
         {
             GetComponent<Button>(name).Enabled = activate;
         }
-
-        void SetTimerValue()
+        public void StatusTextBoxEnable(string name, bool activate)
         {
-           
+            GetComponent<TextBox>(name).Enabled = activate;
         }
-        void GetTime()
-        {
-            GetComponent<TextBox>("Hours").Text = "1";
-        }
-        
-
-        //todo переименовать
-        public void ReadToCom(string writeVoltage, string writeCurrent)
-        {
-            //todo перенести расчеты и формативрование в класс calculate
-            if (writeVoltage != "" && writeCurrent != "")
-            {
-                VoltageValueReadings.Text = string.Empty;
-                VoltageValueReadings.Text = writeVoltage;
-                CurrentValueReadings.Text = string.Empty;
-                CurrentValueReadings.Text = writeCurrent;
-
-                //double tempV = double.Parse(writeVoltage, CultureInfo.InvariantCulture);
-                //double tempC = double.Parse(writeCurrent, CultureInfo.InvariantCulture);
-                //double tempP = tempV * tempC;
-                //PowerValueReadings.Text = string.Empty;
-                //PowerValueReadings.Text = tempP.ToString().Replace(",",".");
-            }
-            else
-            {
-                CurrentValueReadings.Text = string.Empty;
-                VoltageValueReadings.Text = string.Empty;
-                PowerValueReadings.Text = string.Empty;
-                StatusButtonOn("Output", false);
-            }
-            //todo
-
-        }
-
         private void TestTimer_CheckedChanged(object sender, EventArgs e)
         {
 

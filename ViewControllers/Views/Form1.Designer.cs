@@ -118,6 +118,12 @@
             this.TestParameter = new System.Windows.Forms.GroupBox();
             this.SelectMeasurement = new System.Windows.Forms.TabControl();
             this.ByTime = new System.Windows.Forms.TabPage();
+            this.label29 = new System.Windows.Forms.Label();
+            this.GetHours = new System.Windows.Forms.TextBox();
+            this.GetMinutes = new System.Windows.Forms.TextBox();
+            this.GetSeconds = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.TestTimer = new System.Windows.Forms.CheckBox();
             this.SetHours = new System.Windows.Forms.TextBox();
@@ -134,12 +140,9 @@
             this.MinTemperature = new System.Windows.Forms.TextBox();
             this.TestTemperature = new System.Windows.Forms.CheckBox();
             this.StartMeasurements = new System.Windows.Forms.Button();
-            this.label29 = new System.Windows.Forms.Label();
-            this.GetHours = new System.Windows.Forms.TextBox();
-            this.GetMinutes = new System.Windows.Forms.TextBox();
-            this.GetSeconds = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
+            this.HoldVoltage = new System.Windows.Forms.CheckBox();
+            this.HoldCurrent = new System.Windows.Forms.CheckBox();
+            this.HoldPower = new System.Windows.Forms.CheckBox();
             this.SelectLoad.SuspendLayout();
             this.SelectTransistor.SuspendLayout();
             this.SelectResistor.SuspendLayout();
@@ -165,7 +168,7 @@
             this.SelectLoad.SelectedIndex = 0;
             this.SelectLoad.Size = new System.Drawing.Size(350, 78);
             this.SelectLoad.TabIndex = 11;
-            this.SelectLoad.SelectedIndexChanged += new System.EventHandler(SelectLoadSelecting);
+            this.SelectLoad.SelectedIndexChanged += new System.EventHandler(this.SelectLoadSelecting);
             // 
             // SelectTransistor
             // 
@@ -301,9 +304,9 @@
             // SelectTheirValue
             // 
             this.SelectTheirValue.FormattingEnabled = true;
-            this.SelectTheirValue.Location = new System.Drawing.Point(14, 16);
+            this.SelectTheirValue.Location = new System.Drawing.Point(63, 16);
             this.SelectTheirValue.Name = "SelectTheirValue";
-            this.SelectTheirValue.Size = new System.Drawing.Size(190, 21);
+            this.SelectTheirValue.Size = new System.Drawing.Size(149, 21);
             this.SelectTheirValue.TabIndex = 38;
             this.SelectTheirValue.Text = "Select their value";
             // 
@@ -357,9 +360,9 @@
             // 
             // VoltageValueWrite
             // 
-            this.VoltageValueWrite.Location = new System.Drawing.Point(6, 126);
+            this.VoltageValueWrite.Location = new System.Drawing.Point(81, 126);
             this.VoltageValueWrite.Name = "VoltageValueWrite";
-            this.VoltageValueWrite.Size = new System.Drawing.Size(94, 20);
+            this.VoltageValueWrite.Size = new System.Drawing.Size(70, 20);
             this.VoltageValueWrite.TabIndex = 8;
             this.VoltageValueWrite.Tag = "Напряжение(V)";
             this.VoltageValueWrite.TextChanged += new System.EventHandler(this.VoltageValueWrite_TextChanged);
@@ -376,7 +379,7 @@
             // Voltage
             // 
             this.Voltage.AutoSize = true;
-            this.Voltage.Location = new System.Drawing.Point(135, 129);
+            this.Voltage.Location = new System.Drawing.Point(168, 129);
             this.Voltage.Name = "Voltage";
             this.Voltage.Size = new System.Drawing.Size(59, 13);
             this.Voltage.TabIndex = 16;
@@ -385,7 +388,7 @@
             // Current
             // 
             this.Current.AutoSize = true;
-            this.Current.Location = new System.Drawing.Point(135, 163);
+            this.Current.Location = new System.Drawing.Point(168, 163);
             this.Current.Name = "Current";
             this.Current.Size = new System.Drawing.Size(57, 13);
             this.Current.TabIndex = 17;
@@ -393,9 +396,9 @@
             // 
             // CurrentValueWrite
             // 
-            this.CurrentValueWrite.Location = new System.Drawing.Point(6, 160);
+            this.CurrentValueWrite.Location = new System.Drawing.Point(81, 160);
             this.CurrentValueWrite.Name = "CurrentValueWrite";
-            this.CurrentValueWrite.Size = new System.Drawing.Size(94, 20);
+            this.CurrentValueWrite.Size = new System.Drawing.Size(70, 20);
             this.CurrentValueWrite.TabIndex = 18;
             this.CurrentValueWrite.Tag = "Ток(А)";
             this.CurrentValueWrite.TextChanged += new System.EventHandler(this.CurrentValueWrite_TextChanged);
@@ -403,7 +406,7 @@
             // Power
             // 
             this.Power.AutoSize = true;
-            this.Power.Location = new System.Drawing.Point(135, 197);
+            this.Power.Location = new System.Drawing.Point(168, 197);
             this.Power.Name = "Power";
             this.Power.Size = new System.Drawing.Size(57, 13);
             this.Power.TabIndex = 19;
@@ -411,18 +414,18 @@
             // 
             // PowerValueWrite
             // 
-            this.PowerValueWrite.Location = new System.Drawing.Point(6, 194);
+            this.PowerValueWrite.Location = new System.Drawing.Point(81, 194);
             this.PowerValueWrite.Name = "PowerValueWrite";
-            this.PowerValueWrite.Size = new System.Drawing.Size(94, 20);
+            this.PowerValueWrite.Size = new System.Drawing.Size(70, 20);
             this.PowerValueWrite.TabIndex = 20;
             this.PowerValueWrite.Tag = "Мощность(Вт)";
             // 
             // Output
             // 
             this.Output.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Output.Location = new System.Drawing.Point(199, 220);
+            this.Output.Location = new System.Drawing.Point(244, 220);
             this.Output.Name = "Output";
-            this.Output.Size = new System.Drawing.Size(135, 27);
+            this.Output.Size = new System.Drawing.Size(70, 27);
             this.Output.TabIndex = 21;
             this.Output.Tag = "Output Load";
             this.Output.Text = "Output";
@@ -431,6 +434,9 @@
             // 
             // PowerSupplyControl
             // 
+            this.PowerSupplyControl.Controls.Add(this.HoldPower);
+            this.PowerSupplyControl.Controls.Add(this.HoldCurrent);
+            this.PowerSupplyControl.Controls.Add(this.HoldVoltage);
             this.PowerSupplyControl.Controls.Add(this.SetValue);
             this.PowerSupplyControl.Controls.Add(this.PowerValueReadings);
             this.PowerSupplyControl.Controls.Add(this.CurrentValueReadings);
@@ -455,9 +461,9 @@
             // SetValue
             // 
             this.SetValue.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.SetValue.Location = new System.Drawing.Point(6, 220);
+            this.SetValue.Location = new System.Drawing.Point(81, 220);
             this.SetValue.Name = "SetValue";
-            this.SetValue.Size = new System.Drawing.Size(95, 27);
+            this.SetValue.Size = new System.Drawing.Size(70, 27);
             this.SetValue.TabIndex = 26;
             this.SetValue.Tag = "Output Load";
             this.SetValue.Text = "Set Value";
@@ -466,28 +472,28 @@
             // 
             // PowerValueReadings
             // 
-            this.PowerValueReadings.Location = new System.Drawing.Point(223, 194);
+            this.PowerValueReadings.Location = new System.Drawing.Point(244, 194);
             this.PowerValueReadings.Name = "PowerValueReadings";
             this.PowerValueReadings.ReadOnly = true;
-            this.PowerValueReadings.Size = new System.Drawing.Size(94, 20);
+            this.PowerValueReadings.Size = new System.Drawing.Size(70, 20);
             this.PowerValueReadings.TabIndex = 25;
             this.PowerValueReadings.TextChanged += new System.EventHandler(this.PowerValueReadings_TextChanged);
             // 
             // CurrentValueReadings
             // 
-            this.CurrentValueReadings.Location = new System.Drawing.Point(223, 160);
+            this.CurrentValueReadings.Location = new System.Drawing.Point(244, 160);
             this.CurrentValueReadings.Name = "CurrentValueReadings";
             this.CurrentValueReadings.ReadOnly = true;
-            this.CurrentValueReadings.Size = new System.Drawing.Size(94, 20);
+            this.CurrentValueReadings.Size = new System.Drawing.Size(70, 20);
             this.CurrentValueReadings.TabIndex = 24;
             this.CurrentValueReadings.TextChanged += new System.EventHandler(this.CurrentValueReadings_TextChanged);
             // 
             // VoltageValueReadings
             // 
-            this.VoltageValueReadings.Location = new System.Drawing.Point(223, 126);
+            this.VoltageValueReadings.Location = new System.Drawing.Point(244, 126);
             this.VoltageValueReadings.Name = "VoltageValueReadings";
             this.VoltageValueReadings.ReadOnly = true;
-            this.VoltageValueReadings.Size = new System.Drawing.Size(94, 20);
+            this.VoltageValueReadings.Size = new System.Drawing.Size(70, 20);
             this.VoltageValueReadings.TabIndex = 23;
             this.VoltageValueReadings.TextChanged += new System.EventHandler(this.VoltageValueReadings_TextChanged);
             // 
@@ -1077,6 +1083,57 @@
             this.ByTime.Text = "By time";
             this.ByTime.UseVisualStyleBackColor = true;
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(224, 12);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(14, 13);
+            this.label29.TabIndex = 36;
+            this.label29.Text = "S";
+            // 
+            // GetHours
+            // 
+            this.GetHours.Enabled = false;
+            this.GetHours.Location = new System.Drawing.Point(84, 9);
+            this.GetHours.Name = "GetHours";
+            this.GetHours.Size = new System.Drawing.Size(33, 20);
+            this.GetHours.TabIndex = 31;
+            // 
+            // GetMinutes
+            // 
+            this.GetMinutes.Enabled = false;
+            this.GetMinutes.Location = new System.Drawing.Point(136, 9);
+            this.GetMinutes.Name = "GetMinutes";
+            this.GetMinutes.Size = new System.Drawing.Size(33, 20);
+            this.GetMinutes.TabIndex = 33;
+            // 
+            // GetSeconds
+            // 
+            this.GetSeconds.Enabled = false;
+            this.GetSeconds.Location = new System.Drawing.Point(188, 9);
+            this.GetSeconds.Name = "GetSeconds";
+            this.GetSeconds.Size = new System.Drawing.Size(33, 20);
+            this.GetSeconds.TabIndex = 34;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(119, 12);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(15, 13);
+            this.label30.TabIndex = 32;
+            this.label30.Text = "H";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(171, 12);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(16, 13);
+            this.label31.TabIndex = 35;
+            this.label31.Text = "M";
+            // 
             // label24
             // 
             this.label24.AutoSize = true;
@@ -1225,56 +1282,35 @@
             this.StartMeasurements.UseVisualStyleBackColor = false;
             this.StartMeasurements.Click += new System.EventHandler(this.StartMeasurements_Click);
             // 
-            // label29
+            // HoldVoltage
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(224, 12);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(14, 13);
-            this.label29.TabIndex = 36;
-            this.label29.Text = "S";
+            this.HoldVoltage.AutoSize = true;
+            this.HoldVoltage.Location = new System.Drawing.Point(9, 128);
+            this.HoldVoltage.Name = "HoldVoltage";
+            this.HoldVoltage.Size = new System.Drawing.Size(48, 17);
+            this.HoldVoltage.TabIndex = 39;
+            this.HoldVoltage.Text = "Hold";
+            this.HoldVoltage.UseVisualStyleBackColor = true;
             // 
-            // GetHours
+            // HoldCurrent
             // 
-            this.GetHours.Enabled = false;
-            this.GetHours.Location = new System.Drawing.Point(84, 9);
-            this.GetHours.Name = "GetHours";
-            this.GetHours.Size = new System.Drawing.Size(33, 20);
-            this.GetHours.TabIndex = 31;
+            this.HoldCurrent.AutoSize = true;
+            this.HoldCurrent.Location = new System.Drawing.Point(9, 163);
+            this.HoldCurrent.Name = "HoldCurrent";
+            this.HoldCurrent.Size = new System.Drawing.Size(48, 17);
+            this.HoldCurrent.TabIndex = 40;
+            this.HoldCurrent.Text = "Hold";
+            this.HoldCurrent.UseVisualStyleBackColor = true;
             // 
-            // GetMinutes
+            // HoldPower
             // 
-            this.GetMinutes.Enabled = false;
-            this.GetMinutes.Location = new System.Drawing.Point(136, 9);
-            this.GetMinutes.Name = "GetMinutes";
-            this.GetMinutes.Size = new System.Drawing.Size(33, 20);
-            this.GetMinutes.TabIndex = 33;
-            // 
-            // GetSeconds
-            // 
-            this.GetSeconds.Enabled = false;
-            this.GetSeconds.Location = new System.Drawing.Point(188, 9);
-            this.GetSeconds.Name = "GetSeconds";
-            this.GetSeconds.Size = new System.Drawing.Size(33, 20);
-            this.GetSeconds.TabIndex = 34;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(119, 12);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(15, 13);
-            this.label30.TabIndex = 32;
-            this.label30.Text = "H";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(171, 12);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(16, 13);
-            this.label31.TabIndex = 35;
-            this.label31.Text = "M";
+            this.HoldPower.AutoSize = true;
+            this.HoldPower.Location = new System.Drawing.Point(9, 197);
+            this.HoldPower.Name = "HoldPower";
+            this.HoldPower.Size = new System.Drawing.Size(48, 17);
+            this.HoldPower.TabIndex = 41;
+            this.HoldPower.Text = "Hold";
+            this.HoldPower.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1427,6 +1463,9 @@
         private System.Windows.Forms.Label label31;
         public System.Windows.Forms.TabControl SelectLoad;
         public System.Windows.Forms.TabControl SelectMeasurement;
+        public System.Windows.Forms.CheckBox HoldPower;
+        public System.Windows.Forms.CheckBox HoldCurrent;
+        public System.Windows.Forms.CheckBox HoldVoltage;
     }
 }
 

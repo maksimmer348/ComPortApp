@@ -8,7 +8,7 @@ namespace ComPortSettings
     public static class ReadWriteUtils
     {
         public static double TempResult;
-
+        static readonly DescriptionСalculations Calc = new DescriptionСalculations();
         /// <summary>
         /// запись из ComPort в ComboBox для блока питания
         /// </summary>
@@ -93,6 +93,86 @@ namespace ComPortSettings
 
             return true;
 
+        }
+
+
+        //private async SetSupplyValues()
+        //{
+        //    //if (View.ValidateText("PowerValueWrite", out var result))
+        //    //{
+        //    //    Calc.GetPower()
+        //    //}
+        //    if (ValidateText(VoltageValueWrite, out result))
+        //    {
+        //        await CommandToFormSupply("Set voltage", result.ToString());
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
+        //    if (View.ValidateText("CurrentValueWrite", out result))
+        //    {
+        //        await CommandToFormSupply("Set current", result.ToString());
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
+        //    await CommandToFormSupply("Output", "0");
+        //    View.StatusButtonOn("Output", false);
+
+        //}
+
+        public static bool GetSupplyCheckValues(this Form1 view, string name)
+        {
+            return view.GetComponent<CheckBox>(name).Checked;
+        }
+
+
+        public static void GetSupplyReadings(this Form1 view, string writeVoltage, string writeCurrent)
+        {
+
+            if (writeVoltage != "" && writeCurrent != "")
+            {
+                view.VoltageValueReadings.Text = string.Empty;
+                view.VoltageValueReadings.Text = writeVoltage;
+                view.CurrentValueReadings.Text = string.Empty;
+                view.CurrentValueReadings.Text = writeCurrent;
+                if (ValidateLoad(writeVoltage, writeCurrent, out double[] result))
+                {
+                    var voltage = result[0];
+                    var current = result[1];
+                    view.PowerValueReadings.Text = Calc.GetPower(voltage, current);
+
+                }
+            }
+            else
+            {
+                view.CurrentValueReadings.Text = string.Empty;
+                view.VoltageValueReadings.Text = string.Empty;
+                view.PowerValueReadings.Text = string.Empty;
+                view.StatusButtonOn("Output", false);
+            }
+        }
+
+        static bool ValidateLoad(string valueVoltage, string valueCurrent, out double[] result)
+        {
+            result = new double[2];
+            if (!double.TryParse(valueVoltage.Replace(",", "."),
+                NumberStyles.Any,
+                CultureInfo.InvariantCulture,
+                out result[0]))
+            {
+                return false;
+            }
+            if (!double.TryParse(valueCurrent.Replace(",", "."),
+                NumberStyles.Any,
+                CultureInfo.InvariantCulture,
+                out result[1]))
+            {
+                return false;
+            }
+            return true;
         }
 
         public static void WriteMeterValues(this Form1 view, string name, string value )

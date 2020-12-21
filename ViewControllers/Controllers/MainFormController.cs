@@ -19,6 +19,7 @@ namespace ComPortSettings
         private static Timer TimerMeasuring = new Timer();
         public bool SetValue;
         Stopwatch stopWatch = new Stopwatch();
+        static readonly DescriptionСalculations Calc = new DescriptionСalculations();
         public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += () => OpenSettings(); //так можно избежать требований сигнатуры метода при вызове экшена
@@ -70,11 +71,26 @@ namespace ComPortSettings
           
        }
 
-
         private async Task SetSupplyValues()
         {
+            //View.HoldVoltage
+            //View.HoldCurrent
+            //View.HoldPower
 
-            if (View.ValidateText("VoltageValueWrite", out var result))
+            if (View.GetSupplyCheckValues("HoldVoltage"))
+            {
+
+            }
+            else if (View.GetSupplyCheckValues("HoldCurrent"))
+            {
+
+            }
+
+            if (View.ValidateText("PowerValueWrite", out var result))
+            {
+                
+            }
+            if (View.ValidateText("VoltageValueWrite", out  result))
             {
                 await CommandToFormSupply("Set voltage", result.ToString());
             }
@@ -158,9 +174,9 @@ namespace ComPortSettings
        
         public async void Output()
         {
-            //todo исправить 
-            View.Output.Enabled = false;
-           
+            View.StatusButtonEnable("Output", false);
+
+
             MyTimer.Stop();
             await Task.Delay(500);
             var cmd = await ErrorMsgSupply(true, "Get Output");
@@ -180,21 +196,20 @@ namespace ComPortSettings
             }
              Debug.WriteLine(cmd);
              MyTimer.Start();
-             //todo исправить 
-            View.Output.Enabled = true;
+             View.StatusButtonEnable("Output", true);
         }
 
         public async void UpdateValues(bool set = false)
         {
             if (!set)
             {
-                View.ReadToCom(await CommandToFormSupply("Return voltage", extraDelayOn: false),
+                View.GetSupplyValues(await CommandToFormSupply("Return voltage", extraDelayOn: false),
                     await CommandToFormSupply("Return current", extraDelayOn: false));
             }
 
             if (set)
             {
-                View.ReadToCom(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
+                View.GetSupplyValues(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
                     await CommandToFormSupply("Return set current", extraDelayOn: false));
             }
         }

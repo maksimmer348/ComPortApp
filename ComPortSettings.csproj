@@ -58,6 +58,7 @@
     <Compile Include="ComPort\TaskEx.cs" />
     <Compile Include="Configs\ComConfigsSerializer.cs" />
     <Compile Include="Configs\ComConfig.cs" />
+    <Compile Include="Configs\LoadTabConfig.cs" />
     <Compile Include="ViewControllers\Controllers\ComSettingsController.cs" />
     <Compile Include="MVC\Controller.cs" />
     <Compile Include="MVC\View.cs">
