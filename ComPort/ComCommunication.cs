@@ -51,7 +51,7 @@ namespace ComPortSettings
         
         public async Task<string> Read(int delay, bool extraDelayOn)
         {
-            await Task.Delay(200);
+            await Task.Delay(delay);
             byte[] buffer = port.Read();
 
             if (buffer == null)

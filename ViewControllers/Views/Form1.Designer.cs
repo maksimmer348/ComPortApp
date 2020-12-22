@@ -57,6 +57,9 @@
             this.PowerValueWrite = new System.Windows.Forms.TextBox();
             this.Output = new System.Windows.Forms.Button();
             this.PowerSupplyControl = new System.Windows.Forms.GroupBox();
+            this.HoldPower = new System.Windows.Forms.CheckBox();
+            this.HoldCurrent = new System.Windows.Forms.CheckBox();
+            this.HoldVoltage = new System.Windows.Forms.CheckBox();
             this.SetValue = new System.Windows.Forms.Button();
             this.PowerValueReadings = new System.Windows.Forms.TextBox();
             this.CurrentValueReadings = new System.Windows.Forms.TextBox();
@@ -140,9 +143,6 @@
             this.MinTemperature = new System.Windows.Forms.TextBox();
             this.TestTemperature = new System.Windows.Forms.CheckBox();
             this.StartMeasurements = new System.Windows.Forms.Button();
-            this.HoldVoltage = new System.Windows.Forms.CheckBox();
-            this.HoldCurrent = new System.Windows.Forms.CheckBox();
-            this.HoldPower = new System.Windows.Forms.CheckBox();
             this.SelectLoad.SuspendLayout();
             this.SelectTransistor.SuspendLayout();
             this.SelectResistor.SuspendLayout();
@@ -457,6 +457,39 @@
             this.PowerSupplyControl.TabIndex = 4;
             this.PowerSupplyControl.TabStop = false;
             this.PowerSupplyControl.Text = "Power supply control";
+            // 
+            // HoldPower
+            // 
+            this.HoldPower.AutoSize = true;
+            this.HoldPower.Location = new System.Drawing.Point(9, 197);
+            this.HoldPower.Name = "HoldPower";
+            this.HoldPower.Size = new System.Drawing.Size(48, 17);
+            this.HoldPower.TabIndex = 41;
+            this.HoldPower.Text = "Hold";
+            this.HoldPower.UseVisualStyleBackColor = true;
+            this.HoldPower.CheckedChanged += new System.EventHandler(this.HoldPower_CheckedChanged);
+            // 
+            // HoldCurrent
+            // 
+            this.HoldCurrent.AutoSize = true;
+            this.HoldCurrent.Location = new System.Drawing.Point(9, 163);
+            this.HoldCurrent.Name = "HoldCurrent";
+            this.HoldCurrent.Size = new System.Drawing.Size(48, 17);
+            this.HoldCurrent.TabIndex = 40;
+            this.HoldCurrent.Text = "Hold";
+            this.HoldCurrent.UseVisualStyleBackColor = true;
+            this.HoldCurrent.CheckedChanged += new System.EventHandler(this.HoldCurrent_CheckedChanged);
+            // 
+            // HoldVoltage
+            // 
+            this.HoldVoltage.AutoSize = true;
+            this.HoldVoltage.Location = new System.Drawing.Point(9, 128);
+            this.HoldVoltage.Name = "HoldVoltage";
+            this.HoldVoltage.Size = new System.Drawing.Size(48, 17);
+            this.HoldVoltage.TabIndex = 39;
+            this.HoldVoltage.Text = "Hold";
+            this.HoldVoltage.UseVisualStyleBackColor = true;
+            this.HoldVoltage.CheckedChanged += new System.EventHandler(this.HoldVoltage_CheckedChanged);
             // 
             // SetValue
             // 
@@ -1281,36 +1314,6 @@
             this.StartMeasurements.Text = "Start measurements";
             this.StartMeasurements.UseVisualStyleBackColor = false;
             this.StartMeasurements.Click += new System.EventHandler(this.StartMeasurements_Click);
-            // 
-            // HoldVoltage
-            // 
-            this.HoldVoltage.AutoSize = true;
-            this.HoldVoltage.Location = new System.Drawing.Point(9, 128);
-            this.HoldVoltage.Name = "HoldVoltage";
-            this.HoldVoltage.Size = new System.Drawing.Size(48, 17);
-            this.HoldVoltage.TabIndex = 39;
-            this.HoldVoltage.Text = "Hold";
-            this.HoldVoltage.UseVisualStyleBackColor = true;
-            // 
-            // HoldCurrent
-            // 
-            this.HoldCurrent.AutoSize = true;
-            this.HoldCurrent.Location = new System.Drawing.Point(9, 163);
-            this.HoldCurrent.Name = "HoldCurrent";
-            this.HoldCurrent.Size = new System.Drawing.Size(48, 17);
-            this.HoldCurrent.TabIndex = 40;
-            this.HoldCurrent.Text = "Hold";
-            this.HoldCurrent.UseVisualStyleBackColor = true;
-            // 
-            // HoldPower
-            // 
-            this.HoldPower.AutoSize = true;
-            this.HoldPower.Location = new System.Drawing.Point(9, 197);
-            this.HoldPower.Name = "HoldPower";
-            this.HoldPower.Size = new System.Drawing.Size(48, 17);
-            this.HoldPower.TabIndex = 41;
-            this.HoldPower.Text = "Hold";
-            this.HoldPower.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

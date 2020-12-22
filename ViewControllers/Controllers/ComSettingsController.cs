@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Security;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ComPortSettings.ComPort;
 using ComPortSettings.MVC;
@@ -71,6 +72,8 @@ namespace ComPortSettings
             {
                 try
                 {
+                    MainFormController.MyTimer.Stop();
+                    View.StatusButtonEnable("TestComSupply", false);
                     Service<ComPorts>.Get().Supply.Close();
                     Service<ComPorts>.Get().Supply.Open(View.ReadSupplySettings());
 
@@ -79,37 +82,39 @@ namespace ComPortSettings
                         Service<ComPorts>.Get().Meter.Close();
                         Service<ComPorts>.Get().Meter.Open(View.ReadMeterSettings());
                     }
-
-                    await Service<ComPorts>.Get().Supply.Write(":outp:stat 0");
+                    await Service<ComPorts>.Get().Supply.Write(":outp:stat 0",300);
                     ((MainFormController) Host).View.StatusButtonOn("Output", false);
-                    const string TestCmd = ":outp:stat?";
-                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd, 200)).Contains("null"))
-                    {
+                   
+                    var ss =  await Service<ComPorts>.Get().Supply.Write(":syst:vers?", 300);
 
-                    }
-
-                    if ((await Service<ComPorts>.Get().Supply.Write(TestCmd, 200)).Contains("0"))
+                    if (ss.Contains("."))
                     {
-                        View.ButtonConected();
+                        View.StatusButtonOn("TestCheckSup", true);
+                        View.StatusButtonEnable("TestComSupply", true);
                     }
-                    else
+                    else if (string.IsNullOrEmpty(ss))
                     {
-                        View.ButtonDisconected();
+                        View.StatusButtonOn("TestCheckSup", false);
+                        View.StatusButtonEnable("TestComSupply", true);
                     }
+                    MainFormController.SetValue = true;
+                    MainFormController.MyTimer.Start();
                 }
 
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
 
+                }
+                
+            }
             else
             {
                 MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
             }
+
         }
 
         public async void TestMeter()
@@ -126,14 +131,16 @@ namespace ComPortSettings
                         Service<ComPorts>.Get().Supply.Close();
                         Service<ComPorts>.Get().Supply.Open(View.ReadSupplySettings());
                     }
-
-                    if ((await Service<ComPorts>.Get().Meter.Write("V00", 200)).Contains("E"))
+                    await Task.Delay(200);
+                    if ((await Service<ComPorts>.Get().Meter.Write("V00")).Contains("E"))
                     {
-                        View.ButtonConectedMeter();
+                        View.StatusButtonOn("TestCheckMet", true);
+                       // View.ButtonConectedMeter();
                     }
                     else
                     {
-                        View.ButtonDisconectedMeter();
+                        View.StatusButtonOn("TestCheckMet", false);
+                        //View.ButtonDisconectedMeter();
                     }
                 }
                 catch (Exception e)

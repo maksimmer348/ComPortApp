@@ -18,8 +18,9 @@ namespace ComPortSettings
         public event Action SetValues;
         public event Action StartMesaure;
         public event Action SelectTabLoad;
-            //public event Action SetTimer;
-        
+        public event Action ControlLoad;
+        //public event Action SetTimer;
+
         private Dictionary<string, object> Elements = new Dictionary<string, object>();
 
         public Form1()
@@ -127,10 +128,20 @@ namespace ComPortSettings
         {
             GetComponent<Button>(name).Enabled = activate;
         }
+       
+        public bool CheckedBox(string name)
+        {
+            return GetComponent<CheckBox>(name).Checked;
+        }
         public void StatusTextBoxEnable(string name, bool activate)
         {
             GetComponent<TextBox>(name).Enabled = activate;
         }
+        public void CheckedBox(string cbName, string tbName)
+        {
+            StatusTextBoxEnable(tbName, !CheckedBox(cbName));
+        }
+
         private void TestTimer_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -140,6 +151,22 @@ namespace ComPortSettings
         {
 
         }
+        private void HoldVoltage_CheckedChanged(object sender, EventArgs e)
+        {
+            ControlLoad?.Invoke();
+        }
+
+        private void HoldCurrent_CheckedChanged(object sender, EventArgs e)
+        {
+            ControlLoad?.Invoke();
+        }
+
+        private void HoldPower_CheckedChanged(object sender, EventArgs e)
+        {
+            ControlLoad?.Invoke();
+        }
+
+       
     }
 }
 

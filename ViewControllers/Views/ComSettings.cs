@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Windows.Forms;
 using View = ComPortSettings.MVC.View;
 
 namespace ComPortSettings
@@ -13,9 +16,12 @@ namespace ComPortSettings
         public event Action Ok;
         public event Action Cancel;
 
+        private Dictionary<string, object> Elements = new Dictionary<string, object>();
+
         public ComSettings()
         {
             InitializeComponent();
+            AddElements();
         }
 
         private void ResetSettingsSupply_Click(object sender, EventArgs e)
@@ -48,23 +54,64 @@ namespace ComPortSettings
             Cancel?.Invoke();
         }
 
-        public void ButtonConected()
+        void AddElements()
         {
-            TestCheckSup.BackColor = Color.Green;
+            var type1 = typeof(ComSettings);
+            var type2 = type1.GetFields();
+
+            foreach (var types in type2)
+            {
+
+                if (types.FieldType.Name == "Button")
+                {
+                    Elements.Add(types.Name, types.GetValue(this));
+
+                }
+
+            }
         }
-        public void ButtonDisconected()
+
+        public T GetComponent<T>(string name) where T : Component
         {
-            TestCheckSup.BackColor = Color.Red;
+            return Elements[name] as T;
+        }
+
+        public void StatusButtonOn(string name, bool activate)
+        {
+            if (activate)
+            {
+                GetComponent<Button>(name).BackColor = Color.Green;
+            }
+
+            if (!activate)
+            {
+                GetComponent<Button>(name).BackColor = Color.Red;
+            }
+
+        }
+
+        public void StatusButtonEnable(string name, bool activate)
+        {
+            GetComponent<Button>(name).Enabled = activate;
+        }
+
+        //public void ButtonConected()
+        //{
+        //    TestCheckSup.BackColor = Color.Green;
+        //}
+        //public void ButtonDisconected()
+        //{
+        //    TestCheckSup.BackColor = Color.Red;
            
-        }
-        public void ButtonConectedMeter()
-        {
-            TestCheckMet.BackColor = Color.Green;
-        }
-        public void ButtonDisconectedMeter()
-        {
-            TestCheckMet.BackColor = Color.Red;
-        }
+        //}
+        //public void ButtonConectedMeter()
+        //{
+        //    TestCheckMet.BackColor = Color.Green;
+        //}
+        //public void ButtonDisconectedMeter()
+        //{
+        //    TestCheckMet.BackColor = Color.Red;
+        //}
 
         public void SelectToTab(int tab)
         {

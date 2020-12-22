@@ -71,6 +71,7 @@
     <Compile Include="ViewControllers\Controllers\MainFormController.cs" />
     <Compile Include="ViewControllers\Controllers\ReadWriteUtils.cs" />
     <Compile Include="ViewControllers\Controllers\DescriptionСalculations.cs" />
+    <Compile Include="ViewControllers\Controllers\SettingsValuesSupply.cs" />
     <Compile Include="ViewControllers\Views\ComSettings.cs">
       <SubType>Form</SubType>
     </Compile>

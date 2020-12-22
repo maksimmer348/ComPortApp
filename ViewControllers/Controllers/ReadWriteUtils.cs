@@ -81,7 +81,7 @@ namespace ComPortSettings
             if (!double.TryParse(view.GetComponent<TextBox>(name).Text.Replace(",", "."),
                 NumberStyles.Any,
                 CultureInfo.InvariantCulture,
-                out result))
+                out result) || result <= 0)
             {
                 MessageBox.Show(
                     $"Введите допустимое числовое значение {(string) view.GetComponent<TextBox>(name).Tag}",
@@ -171,6 +171,11 @@ namespace ComPortSettings
                 return false;
             }
             return true;
+        }
+
+        public static void CheckHold(this Form1 view)
+        {
+            
         }
 
         public static void WriteMeterValues(this Form1 view, string name, string value )

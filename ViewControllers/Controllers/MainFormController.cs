@@ -15,10 +15,11 @@ namespace ComPortSettings
     public class MainFormController : Controller<Form1>
     {
         private ComConfigsSerializer CCS = new ComConfigsSerializer();
-        private static Timer MyTimer = new Timer();
+        public static Timer MyTimer = new Timer();
         private static Timer TimerMeasuring = new Timer();
-        public bool SetValue;
+        public static bool SetValue;
         Stopwatch stopWatch = new Stopwatch();
+
         public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += () => OpenSettings(); //так можно избежать требований сигнатуры метода при вызове экшена
@@ -26,17 +27,16 @@ namespace ComPortSettings
             View.SetValues += SetValues;
             View.StartMesaure += StartMesauring;
             View.SelectTabLoad += SetValuesLoad;
+            View.ControlLoad += ControlLoads;
         }
 
-     
-        protected override void OnClosed()
+        public void ControlLoads()
         {
-            View.OutputLoad -= Output;
-            //View.OpenSettings -= () => OpenSettings(); todo исправить на рабочее
-            MyTimer.Tick -= new EventHandler(TimerEventProcessor);
-            MyTimer.Stop();
-            View.StartMesaure += StartMesauring;
+            View.CheckedBox("HoldVoltage", "VoltageValueWrite");
+            View.CheckedBox("HoldCurrent", "CurrentValueWrite");
+            View.CheckedBox("HoldPower", "PowerValueWrite");
         }
+
 
         protected override void OnShown()
         {
@@ -45,9 +45,24 @@ namespace ComPortSettings
             SetValue = true;
             SetTimer();
             MyTimer.Start();
+            //View.HoldVoltage
+            //View.HoldCurrent
+            //View.HoldPower
+            
         }
 
-       void SetValuesLoad()
+        protected override void OnClosed()
+        {
+            View.OutputLoad -= Output;
+            //View.OpenSettings -= () => OpenSettings(); todo исправить на рабочее
+            MyTimer.Tick -= new EventHandler(TimerEventProcessor);
+            MyTimer.Stop();
+            View.StartMesaure += StartMesauring;
+            CommandToFormSupply("Output", "0");
+        }
+
+
+        void SetValuesLoad()
        {
            var ss = View.GetTabsPage();
            switch (ss)
@@ -75,20 +90,20 @@ namespace ComPortSettings
             //View.HoldCurrent
             //View.HoldPower
 
-            if (View.GetSupplyCheckValues("HoldVoltage"))
-            {
+            //if (View.GetSupplyCheckValues("HoldVoltage"))
+            //{
 
-            }
-            else if (View.GetSupplyCheckValues("HoldCurrent"))
-            {
+            //}
+            //else if (View.GetSupplyCheckValues("HoldCurrent"))
+            //{
 
-            }
+            //}
 
-            if (View.ValidateText("PowerValueWrite", out var result))
-            {
+            //if (View.ValidateText("PowerValueWrite", out var result))
+            //{
                 
-            }
-            if (View.ValidateText("VoltageValueWrite", out  result))
+            //}
+            if (View.ValidateText("VoltageValueWrite", out var result))
             {
                 await CommandToFormSupply("Set voltage", result.ToString());
             }
@@ -122,8 +137,6 @@ namespace ComPortSettings
             await ErrorMsgSupply(true);
 
             await SetSupplyValues();
-
-            SetValue = true;
 
             MyTimer.Start();
 
@@ -185,6 +198,7 @@ namespace ComPortSettings
                     await CommandToFormSupply("Output", "0");
                     View.StatusButtonOn("Output",false);
                     SetValue = true;
+                    
                     break;
                 case "0":
                     await CommandToFormSupply("Output", "1");
