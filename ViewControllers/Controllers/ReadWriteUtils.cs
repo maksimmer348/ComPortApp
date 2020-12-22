@@ -8,7 +8,6 @@ namespace ComPortSettings
     public static class ReadWriteUtils
     {
         public static double TempResult;
-        static readonly DescriptionСalculations Calc = new DescriptionСalculations();
         /// <summary>
         /// запись из ComPort в ComboBox для блока питания
         /// </summary>
@@ -132,7 +131,7 @@ namespace ComPortSettings
         public static void GetSupplyReadings(this Form1 view, string writeVoltage, string writeCurrent)
         {
 
-            if (writeVoltage != "" && writeCurrent != "")
+            if (!string.IsNullOrEmpty(writeVoltage) && !string.IsNullOrEmpty(writeCurrent))
             {
                 view.VoltageValueReadings.Text = string.Empty;
                 view.VoltageValueReadings.Text = writeVoltage;
@@ -142,8 +141,7 @@ namespace ComPortSettings
                 {
                     var voltage = result[0];
                     var current = result[1];
-                    view.PowerValueReadings.Text = Calc.GetPower(voltage, current);
-
+                    view.PowerValueReadings.Text = DescriptionСalculations.GetPower(voltage, current);
                 }
             }
             else

@@ -19,7 +19,6 @@ namespace ComPortSettings
         private static Timer TimerMeasuring = new Timer();
         public bool SetValue;
         Stopwatch stopWatch = new Stopwatch();
-        static readonly DescriptionСalculations Calc = new DescriptionСalculations();
         public MainFormController(Form1 view) : base(view)
         {
             View.OpenSettings += () => OpenSettings(); //так можно избежать требований сигнатуры метода при вызове экшена
@@ -68,7 +67,6 @@ namespace ComPortSettings
                     Debug.WriteLine("Their values");
                     break;
            }
-          
        }
 
         private async Task SetSupplyValues()
@@ -106,8 +104,8 @@ namespace ComPortSettings
             {
                 return;
             }
-            await CommandToFormSupply("Output", "0");
-            View.StatusButtonOn("Output", false);
+            // await CommandToFormSupply("Output", "0");
+           // View.StatusButtonOn("Output", false);
 
         }
 
@@ -203,13 +201,13 @@ namespace ComPortSettings
         {
             if (!set)
             {
-                View.GetSupplyValues(await CommandToFormSupply("Return voltage", extraDelayOn: false),
+                View.GetSupplyReadings(await CommandToFormSupply("Return voltage", extraDelayOn: false),
                     await CommandToFormSupply("Return current", extraDelayOn: false));
             }
 
             if (set)
             {
-                View.GetSupplyValues(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
+                View.GetSupplyReadings(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
                     await CommandToFormSupply("Return set current", extraDelayOn: false));
             }
         }
@@ -226,7 +224,6 @@ namespace ComPortSettings
             }
             catch (Exception)
             {
-                await ErrorMsgSupply();
                 return null;
             }
         }
@@ -253,7 +250,7 @@ namespace ComPortSettings
             if (sendCmd)
             {
                 var cmd = await BtnStat(output);
-                if (cmd != "")
+                if (!string.IsNullOrEmpty(cmd))
                 {
                     MyTimer.Start();
                     return cmd;
