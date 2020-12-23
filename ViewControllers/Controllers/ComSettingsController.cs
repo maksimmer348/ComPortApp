@@ -50,6 +50,7 @@ namespace ComPortSettings
             }
         }
 
+
         protected override void OnShown()
         {
             DeserializeConfig();
@@ -68,24 +69,27 @@ namespace ComPortSettings
 
         public async void TestSupply()
         {
+            ComPorts com = Service<ComPorts>.Get();
+
             if (View.ValidatePorts())
             {
                 try
                 {
                     MainFormController.MyTimer.Stop();
                     View.StatusButtonEnable("TestComSupply", false);
-                    Service<ComPorts>.Get().Supply.Close();
-                    Service<ComPorts>.Get().Supply.Open(View.ReadSupplySettings());
+                    
+                    com.Supply.Close();
+                    com.Supply.Open(View.ReadSupplySettings());
 
                     if (!ValidateTest())
                     {
-                        Service<ComPorts>.Get().Meter.Close();
-                        Service<ComPorts>.Get().Meter.Open(View.ReadMeterSettings());
+                        com.Meter.Close();
+                        com.Meter.Open(View.ReadMeterSettings());
                     }
-                    await Service<ComPorts>.Get().Supply.Write(":outp:stat 0",300);
+                    await com.Supply.Write(":outp:stat 0",300);
                     ((MainFormController) Host).View.StatusButtonOn("Output", false);
                    
-                    var ss =  await Service<ComPorts>.Get().Supply.Write(":syst:vers?", 300);
+                    var ss =  await com.Supply.Write(":syst:vers?", 300);
 
                     if (ss.Contains("."))
                     {
@@ -104,14 +108,14 @@ namespace ComPortSettings
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "ComPort", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-                
+               
             }
             else
             {
                 MessageBox.Show("Номера портов не должны совпадать", "ComPort", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+
                 return;
             }
 
@@ -119,20 +123,22 @@ namespace ComPortSettings
 
         public async void TestMeter()
         {
+            ComPorts com = Service<ComPorts>.Get();
+            
             if (View.ValidatePorts())
             {
                 try
                 {
-                    Service<ComPorts>.Get().Meter.Close();
-                    Service<ComPorts>.Get().Meter.Open(View.ReadMeterSettings());
+                    com.Meter.Close();
+                    com.Meter.Open(View.ReadMeterSettings());
 
                     if (!ValidateTest())
                     {
-                        Service<ComPorts>.Get().Supply.Close();
-                        Service<ComPorts>.Get().Supply.Open(View.ReadSupplySettings());
+                        com.Supply.Close();
+                        com.Supply.Open(View.ReadSupplySettings());
                     }
                     await Task.Delay(200);
-                    if ((await Service<ComPorts>.Get().Meter.Write("V00")).Contains("E"))
+                    if ((await com.Meter.Write("V00")).Contains("E"))
                     {
                         View.StatusButtonOn("TestCheckMet", true);
                        // View.ButtonConectedMeter();
@@ -166,10 +172,12 @@ namespace ComPortSettings
                 var configs = serializer.Deserialize();
                 var configSupply = configs[0];
                 var configMeter = configs[1];
-                Service<ComPorts>.Get().Supply.Close();
-                Service<ComPorts>.Get().Meter.Close();
-                Service<ComPorts>.Get().Supply.Open(configSupply);
-                Service<ComPorts>.Get().Meter.Open(configMeter);
+              
+                ComPorts com = Service<ComPorts>.Get();
+                com.Supply.Close();
+                com.Meter.Close();
+                com.Supply.Open(configSupply);
+                com.Meter.Open(configMeter);
             }
 
             OnClosed();
@@ -178,10 +186,12 @@ namespace ComPortSettings
 
         private void OkSettings()
         {
+            ComPorts com = Service<ComPorts>.Get();
+            
             if (View.ValidatePorts())
             {
-                Service<ComPorts>.Get().Supply.Close();
-                Service<ComPorts>.Get().Meter.Close();
+                com.Supply.Close();
+                com.Meter.Close();
 
                 ComConfig[] configs = {View.ReadSupplySettings(), View.ReadMeterSettings()};
 
@@ -190,8 +200,8 @@ namespace ComPortSettings
 
                 var configSupply = configs[0];
                 var configMeter = configs[1];
-                Service<ComPorts>.Get().Supply.Open(configSupply);
-                Service<ComPorts>.Get().Meter.Open(configMeter);
+                com.Supply.Open(configSupply);
+                com.Meter.Open(configMeter);
 
                 OnClosed();
                 View.Close();
@@ -207,8 +217,10 @@ namespace ComPortSettings
 
         public bool ValidateTest()
         {
-            var meterPort = Service<ComPorts>.Get().Meter.CfgChannelNum;
-            var supplyPort = Service<ComPorts>.Get().Supply.CfgChannelNum;
+            ComPorts com = Service<ComPorts>.Get();
+
+            var meterPort = com.Meter.CfgChannelNum;
+            var supplyPort = com.Supply.CfgChannelNum;
 
             if (meterPort == View.ReadSupplySettings().ChannelNum || supplyPort == View.ReadMeterSettings().ChannelNum)
             {

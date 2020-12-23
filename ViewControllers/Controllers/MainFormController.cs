@@ -22,7 +22,7 @@ namespace ComPortSettings
 
         public MainFormController(Form1 view) : base(view)
         {
-            View.OpenSettings += () => OpenSettings(); //так можно избежать требований сигнатуры метода при вызове экшена
+            View.OpenSettings += OpenSettings; //так можно избежать требований сигнатуры метода при вызове экшена
             View.OutputLoad += Output;
             View.SetValues += SetValues;
             View.StartMesaure += StartMesauring;
@@ -38,8 +38,19 @@ namespace ComPortSettings
         }
 
 
+        void SerializeConfig()
+        {
+          
+            if (!System.IO.File.Exists("Settings.json"))
+            {
+                var serializer = new ComConfigsSerializer();
+                serializer.Serialize(ComConfig.Default);
+            }
+        }
+
         protected override void OnShown()
         {
+            SerializeConfig();
             Deserialize();
             StartSettings();
             SetValue = true;
@@ -54,7 +65,7 @@ namespace ComPortSettings
         protected override void OnClosed()
         {
             View.OutputLoad -= Output;
-            //View.OpenSettings -= () => OpenSettings(); todo исправить на рабочее
+            View.OpenSettings -= OpenSettings;
             MyTimer.Tick -= new EventHandler(TimerEventProcessor);
             MyTimer.Stop();
             View.StartMesaure += StartMesauring;
@@ -151,19 +162,13 @@ namespace ComPortSettings
             View.StatusButtonOn("Output", false);
         }
 
-        private void OpenSettings(int startTab = 0)
+        private void OpenSettings() => OpenSettings(0);
+
+        private void OpenSettings(int startTab)
         {
             ComSettingsController comSettingsController = new ComSettingsController(new ComSettings(), this);
 
-            if (startTab == 0)
-            {
-                comSettingsController.SelectedTab = 0;
-            }
-
-            if (startTab == 1)
-            {
-                comSettingsController.SelectedTab = 1;
-            }
+            comSettingsController.SelectedTab = startTab;
 
             comSettingsController.ShowDialog();
 
@@ -213,17 +218,10 @@ namespace ComPortSettings
 
         public async void UpdateValues(bool set = false)
         {
-            if (!set)
-            {
-                View.GetSupplyReadings(await CommandToFormSupply("Return voltage", extraDelayOn: false),
-                    await CommandToFormSupply("Return current", extraDelayOn: false));
-            }
-
-            if (set)
-            {
-                View.GetSupplyReadings(await CommandToFormSupply("Return set voltage", extraDelayOn: false),
-                    await CommandToFormSupply("Return set current", extraDelayOn: false));
-            }
+            var cmd1 = await CommandToFormSupply(set ? "Return set voltage" : "Return voltage", extraDelayOn: false);
+            var cmd2 = await CommandToFormSupply(set ? "Return set current" : "Return current", extraDelayOn: false);
+            
+            View.GetSupplyReadings(cmd1, cmd2);
         }
 
 
@@ -257,7 +255,7 @@ namespace ComPortSettings
                 return null;
             }
         }
-        //todo сделать один метод error сообщений обеденит и вынести какието части 
+        
         private async Task<string> ErrorMsgSupply(bool sendCmd = false, string output = "Get Output")
         {
             MyTimer.Stop();
@@ -281,10 +279,11 @@ namespace ComPortSettings
             MyTimer.Start();
             return null;
         }
+       
         //todo сделать один метод error сообщений обеденит и вынести какието части 
         private void ErrorMsgMeter()
         {
-            string inf = " Измерительный прибор не подключен или настроен неправильно открыть настроки подключения?";
+            string inf = "Измерительный прибор не подключен или настроен неправильно открыть настроки подключения?";
             var dialog = MessageBox.Show(inf, "ComPort", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialog == DialogResult.Yes)
             {
@@ -296,7 +295,6 @@ namespace ComPortSettings
         {
             UpdateValues(SetValue);
         }
-
 
         private void SetTimer()
         {
