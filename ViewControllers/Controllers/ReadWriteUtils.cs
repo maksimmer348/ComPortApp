@@ -63,6 +63,26 @@ namespace ComPortSettings
             };
         }
 
+
+        public static void GetControlLoads(this Form1 view)
+        {
+            if (view.ControlTextBox("HoldVoltage", "VoltageValueWrite"))
+            {
+               
+            }
+
+            if (view.ControlTextBox("HoldCurrent", "CurrentValueWrite"))
+            {
+
+            }
+
+            if (view.ControlTextBox("HoldPower", "PowerValueWrite"))
+            {
+               
+            }
+           
+        }
+
         public static bool ValidatePorts(this ComSettings view)
         {
             if (view.ChannelComMeter.SelectedItem == view.ChannelComSupply.SelectedItem)
@@ -73,9 +93,7 @@ namespace ComPortSettings
             return true;
         }
 
-        /// <summary>
-        /// запись из ComboBox в ComPort для измерителя
-        /// </summary>
+
         public static bool ValidateText(this Form1 view, string name, out double result)
         {
             if (!double.TryParse(view.GetComponent<TextBox>(name).Text.Replace(",", "."),
@@ -130,7 +148,6 @@ namespace ComPortSettings
 
         public static void GetSupplyReadings(this Form1 view, string writeVoltage, string writeCurrent)
         {
-
             if (!string.IsNullOrEmpty(writeVoltage) && !string.IsNullOrEmpty(writeCurrent))
             {
                 view.VoltageValueReadings.Text = string.Empty;
@@ -173,9 +190,18 @@ namespace ComPortSettings
             return true;
         }
 
-        public static void CheckHold(this Form1 view)
+        public static void CheckSetsBoxes(this Form1 view)
         {
-            
+           
+            //"HoldCurrent"
+                //"HoldPower",
+                if (view.GetStatusCheckedBox("HoldVoltage"))
+                {
+                    
+                }
+               
+
+
         }
 
         public static void WriteMeterValues(this Form1 view, string name, string value )

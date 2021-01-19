@@ -22,21 +22,20 @@ namespace ComPortSettings
 
         public MainFormController(Form1 view) : base(view)
         {
-            View.OpenSettings += OpenSettings; //так можно избежать требований сигнатуры метода при вызове экшена
+            View.OpenSettings += OpenSettings; 
             View.OutputLoad += Output;
             View.SetValues += SetValues;
             View.StartMesaure += StartMesauring;
             View.SelectTabLoad += SetValuesLoad;
-            View.ControlLoad += ControlLoads;
+            View.ControlLoad += SelectedSettingsValues;
         }
 
-        public void ControlLoads()
+        private void SelectedSettingsValues()
         {
-            View.CheckedBox("HoldVoltage", "VoltageValueWrite");
-            View.CheckedBox("HoldCurrent", "CurrentValueWrite");
-            View.CheckedBox("HoldPower", "PowerValueWrite");
+            View.GetControlLoads();
         }
 
+        
 
         void SerializeConfig()
         {
@@ -56,10 +55,6 @@ namespace ComPortSettings
             SetValue = true;
             SetTimer();
             MyTimer.Start();
-            //View.HoldVoltage
-            //View.HoldCurrent
-            //View.HoldPower
-            
         }
 
         protected override void OnClosed()

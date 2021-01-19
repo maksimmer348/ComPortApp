@@ -129,17 +129,19 @@ namespace ComPortSettings
             GetComponent<Button>(name).Enabled = activate;
         }
        
-        public bool CheckedBox(string name)
-        {
-            return GetComponent<CheckBox>(name).Checked;
-        }
-        public void StatusTextBoxEnable(string name, bool activate)
+       
+        public void SetStatusTextBox(string name, bool activate)
         {
             GetComponent<TextBox>(name).Enabled = activate;
         }
-        public void CheckedBox(string cbName, string tbName)
+        public bool GetStatusCheckedBox(string name)
         {
-            StatusTextBoxEnable(tbName, !CheckedBox(cbName));
+            return GetComponent<CheckBox>(name).Checked;
+        }
+        public bool ControlTextBox(string cbName, string tbName)
+        {
+            SetStatusTextBox(tbName, !GetStatusCheckedBox(cbName));
+            return GetStatusCheckedBox(cbName);
         }
 
         private void TestTimer_CheckedChanged(object sender, EventArgs e)

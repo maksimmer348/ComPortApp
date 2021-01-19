@@ -84,6 +84,12 @@
     <Compile Include="ViewControllers\Views\Form1.designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Views\MeasurementSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewControllers\Views\MeasurementSettings.Designer.cs">
+      <DependentUpon>MeasurementSettings.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

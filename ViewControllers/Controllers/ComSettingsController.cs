@@ -50,7 +50,6 @@ namespace ComPortSettings
             }
         }
 
-
         protected override void OnShown()
         {
             DeserializeConfig();
