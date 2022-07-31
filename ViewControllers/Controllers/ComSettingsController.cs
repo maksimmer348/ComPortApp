@@ -16,6 +16,9 @@ namespace ComPortSettings
 
         public ComSettingsController(ComSettings view, IController host) : base(view, host)
         {
+
+
+
             View.ResetSupply += DefaultSettingsSupply;
             View.ResetMeter += DefaultSettingsMeter;
             View.TestSupply += TestSupply;
